@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkDataGenerator.App", "NetworkDataGenerator.App\NetworkDataGenerator.App.csproj", "{CBEBA9FB-B98B-44B5-AEC8-1B8FC4F3F230}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkDataGenerator.Tests", "NetworkDataGenerator.Tests\NetworkDataGenerator.Tests.csproj", "{0753852D-EECD-44C5-B1FB-56C4FE5D168D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CBEBA9FB-B98B-44B5-AEC8-1B8FC4F3F230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBEBA9FB-B98B-44B5-AEC8-1B8FC4F3F230}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBEBA9FB-B98B-44B5-AEC8-1B8FC4F3F230}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBEBA9FB-B98B-44B5-AEC8-1B8FC4F3F230}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0753852D-EECD-44C5-B1FB-56C4FE5D168D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0753852D-EECD-44C5-B1FB-56C4FE5D168D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0753852D-EECD-44C5-B1FB-56C4FE5D168D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0753852D-EECD-44C5-B1FB-56C4FE5D168D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

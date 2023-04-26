@@ -1,0 +1,34 @@
+default:
+  image: registry.risc-software.at/common/dotnet-template/builder
+  before_script:
+    - chmod u+x ./build.sh
+  tags:
+    - docker-linux
+
+stages:
+  - build
+  - test
+
+build:
+  stage: build
+  needs: []
+  script:
+    - ./build.sh -t Build
+  interruptible: true
+
+test:
+  stage: test
+  needs: []
+  script:
+    - ./build.sh -t Test
+  interruptible: true
+  artifacts:
+    when: always
+    paths:
+      - ./build/out/test/
+    reports:
+      junit:
+        - ./build/out/test/*results.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: ./build/out/test/**/coverage.cobertura.xml
