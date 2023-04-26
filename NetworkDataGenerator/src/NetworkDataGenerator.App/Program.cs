@@ -57,4 +57,11 @@ matpowerDecoder.Decode(encodedSolution, opf);
 MatCaseDataWriter mcdw = encoder.GetDataWriter();
 mcdw.WriteSolution(opf, @"..\..\..\..\..\Resources\Data\solution_test.mat");
 
+for (int i = 0; i < 500; i += 10)
+{
+    encodedSolution.NetworkData.Buses[1].Loads[0].RealPowerDemand = i;
+    matpowerDecoder.Decode(encodedSolution, opf);
+    mcdw.WriteSolution(opf, $@"..\..\..\..\..\Resources\Data\solution_test_{i}.mat");
+}
+
 
