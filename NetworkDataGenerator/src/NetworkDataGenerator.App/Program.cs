@@ -29,7 +29,7 @@ MatpowerDecoderConfigurationContext matpowerDecodingConfigurationContext = new M
     MaxConcurrency = 1
 };
 
-string pathLoadProfile = @"..\..\..\..\..\Resources\LoadProfiles\loadprofile_industrial1_3.2.2016_max.csv";
+string pathLoadProfile = @"..\..\..\..\..\Resources\LoadProfiles\identity_loadprofile.csv";
 
 IDictionary<string, string> encoderArguments = new Dictionary<string, string>();
 encoderArguments.Add("NumberOfTimeSteps", "1");
@@ -60,8 +60,28 @@ mcdw.WriteSolution(opf, @"..\..\..\..\..\Resources\Data\solution_test.mat");
 for (int i = 0; i < 500; i += 10)
 {
     encodedSolution.NetworkData.Buses[1].Loads[0].RealPowerDemand = i;
+    var stateList = encodedSolution.StatesPerTimeStep.First();
+    stateList.StateList[5].State = i;
+
+    encodedSolution.PrintComponentTable();
     matpowerDecoder.Decode(encodedSolution, opf);
-    mcdw.WriteSolution(opf, $@"..\..\..\..\..\Resources\Data\solution_test_{i}.mat");
+
+    StringBuilder output = new StringBuilder();
+    output.Append(String.Format("{0,5}", i));
+
+    for (int k = 0; k < opf.OpfPerTimeStep[0].RealPowerGeneration.Count; k++)
+    {
+        output.Append(' ');
+        output.Append(String.Format("{0:N2}", opf.OpfPerTimeStep[0].RealPowerGeneration[k].Item2));
+    }
+    output.AppendLine();
+
+    Console.WriteLine(output.ToString());
+
+
+    // solved case would be the correct solution
+    // the following statement would not work, because the problem data is not updated
+    //mcdw.WriteSolution(opf, $@"..\..\..\..\..\Resources\Data\solution_test_{i}.mat");
 }
 
 
