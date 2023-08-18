@@ -1,0 +1,17 @@
+args = argv();
+mpopt = mpoption('out.all', 0, 'verbose', 0);
+path = args{1};
+casefile = args{2};
+solvedcasefile = args{3};
+filewithpath = strcat(path, casefile);
+prettyprint = strcat(path, "prettyprint.mat");
+solvedcase = strcat(path, solvedcasefile);
+results = runopf(filewithpath, mpopt);
+objval = results.f;
+baseMVA = results.baseMVA;
+bus = results.bus;
+gen = results.gen;
+branch = results.branch;
+gencost = results.gencost;
+success = results.success;
+save(solvedcase, 'baseMVA', 'bus', 'gen', 'branch', 'gencost', 'objval', 'success');

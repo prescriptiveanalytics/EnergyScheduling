@@ -1,0 +1,12 @@
+# name: genauxdata
+# type: matrix
+# rows: 5
+# columns: 4
+ 1 1 138 12 
+ 2 2 150 51
+ 3 3 300 156
+ 3 3 360 60
+ 3 3 90 180
+
+
+
