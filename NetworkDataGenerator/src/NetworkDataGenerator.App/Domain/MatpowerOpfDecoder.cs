@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using NetworkDataGenerator.App.Domain.Data;
 
@@ -152,7 +153,14 @@ namespace NetworkDataGenerator.App.Domain
             CaseProblemData problemData = _configurationContext.ImportCaseFile(reader, null, null, null, null);
             powerFlow.OpfPerTimeStep[timeStep.Period].OpfObjectiveFunctionValue = problemData.ObjVal;
             powerFlow.OpfPerTimeStep[timeStep.Period].RealPowerGeneration = new List<Tuple<Generator, double>>();
+            powerFlow.OpfPerTimeStep[timeStep.Period].ReactivePowerGeneration = new List<Tuple<Generator, double>>();
+            powerFlow.OpfPerTimeStep[timeStep.Period].RealPowerInjectedAtFromBus = new List<Tuple<Branch, double>>();
+            powerFlow.OpfPerTimeStep[timeStep.Period].RealPowerInjectedAtToBus = new List<Tuple<Branch, double>>();
+            powerFlow.OpfPerTimeStep[timeStep.Period].ReactivePowerInjectedAtFromBus = new List<Tuple<Branch, double>>();
+            powerFlow.OpfPerTimeStep[timeStep.Period].ReactivePowerInjectedAtToBus = new List<Tuple<Branch, double>>();
+
             IDictionary<int, Bus> idToBus = powerFlow.EnergyNet.NetworkData.Buses.ToDictionary(x => x.Id, x => x);
+            IDictionary<int, Branch> idToBranch = powerFlow.EnergyNet.NetworkData.Branches.ToDictionary(x => x.Id, x => x);
             int genUnitId = 0;
             foreach (var genEntry in problemData.Gen)
             {
@@ -163,7 +171,25 @@ namespace NetworkDataGenerator.App.Domain
                     ++genUnitId;
                     Generator g = bus.Generators.First(x => x.Id == genUnitId);
                     powerFlow.OpfPerTimeStep[timeStep.Period].RealPowerGeneration.Add(new Tuple<Generator, double>(g, problemData.Gen[genUnitId - 1][1]));
+                    powerFlow.OpfPerTimeStep[timeStep.Period].ReactivePowerGeneration.Add(new Tuple<Generator, double>(g, problemData.Gen[genUnitId - 1][2]));
                 }
+            }
+            int branchUnitId = 0;
+            foreach (var branch in problemData.Branch)
+            {
+                int branchId = (int)branch[0];
+                if (idToBranch.ContainsKey(branchId))
+                {
+                    Branch br = idToBranch[branchId];
+                    ++branchUnitId;
+                    //Branch b = br.First(x => x.Id == branchUnitId);
+                    powerFlow.OpfPerTimeStep[timeStep.Period].RealPowerInjectedAtFromBus.Add(new Tuple<Branch, double>(br, problemData.Branch[branchUnitId - 1][13]));
+                    powerFlow.OpfPerTimeStep[timeStep.Period].ReactivePowerInjectedAtFromBus.Add(new Tuple<Branch, double>(br, problemData.Branch[branchUnitId - 1][14]));
+                    powerFlow.OpfPerTimeStep[timeStep.Period].RealPowerInjectedAtToBus.Add(new Tuple<Branch, double>(br, problemData.Branch[branchUnitId - 1][15]));
+                    powerFlow.OpfPerTimeStep[timeStep.Period].ReactivePowerInjectedAtToBus.Add(new Tuple<Branch, double>(br, problemData.Branch[branchUnitId - 1][16]));
+
+                }
+
             }
             powerFlow.OpfPerTimeStep[timeStep.Period].IsFeasible = powerFlow.IsFeasible && problemData.Converged;
             if (!problemData.Converged)

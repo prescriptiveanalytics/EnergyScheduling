@@ -15,6 +15,12 @@ namespace NetworkDataGenerator.App.Domain
         public IList<Tuple<Generator, double>> RealPowerGeneration { get; set; }
         public IList<Tuple<Generator, double>> RealPowerReserve { get; set; }
         public IList<Tuple<EnergyStorageSystem, double>> RealPowerDispatch { get; set; } // for energy storage systems
+        public IList<Tuple<Generator, double>> ReactivePowerGeneration { get; set; }
+        public IList<Tuple<Branch, double>> RealPowerInjectedAtFromBus { get; set; }
+        public IList<Tuple<Branch, double>> RealPowerInjectedAtToBus { get; set; }
+        public IList<Tuple<Branch, double>> ReactivePowerInjectedAtFromBus { get; set; }
+        public IList<Tuple<Branch, double>> ReactivePowerInjectedAtToBus { get; set; }
+
         public double ExtGridImportExport { get; set; }
 
         public TimeStepOpf(int period, IList<NetComponentState> stateList)
@@ -48,6 +54,21 @@ namespace NetworkDataGenerator.App.Domain
             return power;
         }
 
+        public double GetReactivePower(Generator g)
+        {
+            double reactivePower = 0;
+            if (ReactivePowerGeneration != null)
+            {
+                foreach(var t in ReactivePowerGeneration)
+                {
+                    if (g.Id == t.Item1.Id)
+                    {
+                        reactivePower = t.Item2;
+                    }
+                }
+            }
+            return reactivePower;
+        }
 
         public double GetPowerReserve(Generator g)
         {

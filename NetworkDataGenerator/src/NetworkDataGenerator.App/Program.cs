@@ -44,7 +44,7 @@ encoderArguments.Add("PVProfile", "");
 encoderArguments.Add("SeamlessIndex", "1.0");
 encoderArguments.Add("ReserveFactor", "0.0");
 
-string _caseFileAux = @"..\..\..\..\..\Resources\Data\case5.mat";
+string _caseFileAux = @"..\..\..\..\..\Resources\Data\case2_spa1.mat";
 StreamReader reader = new StreamReader(_caseFileAux);
 PowerGridProblemEncoder encoder = new PowerGridProblemEncoder(reader, encoderArguments);
 
@@ -57,11 +57,13 @@ matpowerDecoder.Decode(encodedSolution, opf);
 MatCaseDataWriter mcdw = encoder.GetDataWriter();
 mcdw.WriteSolution(opf, @"..\..\..\..\..\Resources\Data\solution_test.mat");
 
-for (int i = 0; i < 500; i += 10)
+//Console.WriteLine("Demand;Generator;PG;QG;Branch;PF;QF;PT;QT");
+
+for (int i = 0; i < 1000; i += 10)
 {
     encodedSolution.NetworkData.Buses[1].Loads[0].RealPowerDemand = i;
     var stateList = encodedSolution.StatesPerTimeStep.First();
-    stateList.StateList[5].State = i;
+    stateList.StateList[1].State = i;
 
     encodedSolution.PrintComponentTable();
     matpowerDecoder.Decode(encodedSolution, opf);
@@ -71,12 +73,33 @@ for (int i = 0; i < 500; i += 10)
 
     for (int k = 0; k < opf.OpfPerTimeStep[0].RealPowerGeneration.Count; k++)
     {
-        output.Append(' ');
+        output.Append(';');
+        output.Append((k+1).ToString());
+        output.Append(';');
         output.Append(String.Format("{0:N2}", opf.OpfPerTimeStep[0].RealPowerGeneration[k].Item2));
+        output.Append(';');
+        output.Append(String.Format("{0:N2}", opf.OpfPerTimeStep[0].ReactivePowerGeneration[k].Item2));
+    }
+    for (int k = 0; k < opf.OpfPerTimeStep[0].RealPowerInjectedAtFromBus.Count; k++)
+    {
+        output.Append(';');
+        output.Append((k+1).ToString());
+        output.Append(';');
+        output.Append(String.Format("{0:N2}", opf.OpfPerTimeStep[0].RealPowerInjectedAtFromBus[k].Item2));
+        output.Append(';');
+        output.Append(String.Format("{0:N2}", opf.OpfPerTimeStep[0].ReactivePowerInjectedAtFromBus[k].Item2));
+    }
+    for (int k = 0; k < opf.OpfPerTimeStep[0].RealPowerInjectedAtToBus.Count; k++)
+    {
+        output.Append((k + 1).ToString());
+        output.Append(';');
+        output.Append(String.Format("{0:N2}", opf.OpfPerTimeStep[0].RealPowerInjectedAtToBus[k].Item2));
+        output.Append(';');
+        output.Append(String.Format("{0:N2}", opf.OpfPerTimeStep[0].ReactivePowerInjectedAtToBus[k].Item2));
     }
     output.AppendLine();
 
-    Console.WriteLine(output.ToString());
+    Console.Write(output.ToString());
 
 
     // solved case would be the correct solution
