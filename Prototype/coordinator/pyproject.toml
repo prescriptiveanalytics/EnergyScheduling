@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "coordinator"
+version = "0.1.0"
+description = ""
+authors = ["Michael Boegl <michael.boegl@risc-software.at>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+jupyter = "^1.0.0"
+pandas = "^2.0.3"
+plotly = "^5.16.1"
+requests = "^2.31.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
