@@ -7,9 +7,8 @@
         "latitude": 48.3744, 
         "longitude": 14.5123,
         "address": "none",
-        "type": "consumer",
+        "type": "load",
         "category": "household",
-        "network_entity": "load",
         "profile_identifier": "none"
     },
     {
@@ -19,9 +18,8 @@
         "latitude": 48.3744, 
         "longitude": 14.5115,
         "address": "none",
-        "type": "consumer",
+        "type": "load",
         "category": "household",
-        "network_entity": "load",
         "profile_identifier": "none"        
     },
     {
@@ -31,9 +29,8 @@
         "latitude": 48.374, 
         "longitude": 14.5111,
         "address": "none",
-        "type": "consumer",
+        "type": "load",
         "category": "household",
-        "network_entity": "load",
         "profile_identifier": "none"        
     }]
 }
