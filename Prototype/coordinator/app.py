@@ -1,0 +1,132 @@
+import requests
+import json
+import pandas as pd
+import plotly.graph_objects as go
+import plotly.express as px
+import datetime
+from dash import Dash, html, dcc, Input, Output, State
+import logging
+import coordinator
+
+logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
+
+config_file = "config.json"
+with open(config_file, "r") as input_file:
+    config = json.load(input_file)
+
+mapbox_token = open("token").read()
+logging.debug(f"read config file: {config}")
+
+external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
+
+app = Dash(__name__, external_stylesheets=external_stylesheets)
+
+app.layout = html.Div([
+    html.Header(children='spa - energy network demo application', style={"fontSize": "20px", "textAlign": "center"}),
+    html.Div("Date (yyyy-mm-dd)", style={"fontSize": "15px"}),
+    dcc.Input(id="input-date", value="2023-08-01", type="text"),
+    html.Button('Calculate', id='submit-date', n_clicks=0),
+    html.Div(id="input-date-result", children=""),
+    html.Div("Network"),
+    dcc.Graph(id="map"),
+    html.Div("Load"),
+    dcc.Graph(id="load")
+])
+
+@app.callback(
+    Output("input-date-result", "children"),
+    Output("map", "figure"),
+    Output("load", "figure"),
+    Input("submit-date", "n_clicks"),
+    State("input-date", "value")
+)
+def input_date(n_clicks, value):
+    fig_map = go.Figure()
+    fig_load = go.Figure()
+    if n_clicks == 0:
+        return [f"", fig_map, fig_load]
+    try:
+        dt = datetime.datetime.strptime(value, '%Y-%m-%d')
+    except:
+        return ["Error while parsing " + value, fig_map, fig_load]
+    
+    start_timestamp = int(dt.timestamp())
+    interval = 900
+    number_intervals = 96
+    query_times = [start_timestamp + i*interval for i in range(0, number_intervals)]
+
+    try:
+        logging.debug(f"query consumers")
+        consumers = coordinator.query_consumers(config['consumer_api'])
+        logging.debug(f"got {len(consumers)} results")
+        logging.debug(f"query network")
+        network = coordinator.query_network(config['network_api'])
+        logging.debug(f"query opf")
+        opfs = coordinator.query_range(query_times, config['network_api'])
+        logging.debug(f"got {len(opfs)} results")
+       
+        logging.debug(f"extract nodes information")
+        nodes_df = coordinator.get_nodes(consumers, network)
+
+        opf_keys = [k for k in sorted(opfs.keys())]
+        logging.debug(f"extract lines information")
+        lines_df = coordinator.get_line_connections(consumers, network)
+        logging.debug("lines_df.head()=", lines_df.head())
+        logging.debug(f"extract load information")
+        load_df = coordinator.create_load_dataframe(consumers, network, opfs[opf_keys[0]])
+
+        load_map_df = load_df.join(nodes_df.set_index('identifier'), on='identifier')
+        logging.debug(f"load_map_df.head()=", load_map_df)
+        logging.debug(f"create map information")
+
+        # add lines
+        fig_map.add_trace(go.Scattermapbox(
+            mode = 'lines',
+            lon = lines_df['longitude'],
+            lat = lines_df['latitude']
+        ))
+
+        # nodes
+        fig_map.add_trace(go.Scattermapbox(
+            mode = "markers",
+            lon = load_map_df['longitude'],
+            lat = load_map_df['latitude'],
+            marker = go.scattermapbox.Marker(
+                color="blue"
+            ),
+            hoverinfo = 'text',
+            text = load_map_df['name'] + '<br>' + 'load: ' + load_map_df['load'].astype(str) + " MW"
+        ))
+
+        fig_map.update_layout(    
+            margin ={'l':0,'t':0,'b':0,'r':0},
+            mapbox_style = "dark",
+            mapbox = {
+                'center': { 'lon': nodes_df['longitude'].mean(), 'lat': nodes_df['latitude'].mean() },
+                'zoom': 15,
+                'style': "open-street-map"},
+            mapbox_accesstoken=mapbox_token)
+
+        #res_bus_ts = bus_ts(nodes_df, opfs)
+        #res_load_ts = load_ts(nodes_df, opfs)
+        res_load_ts = coordinator.load_ts(nodes_df, opfs)
+
+        load_nodes = set(res_load_ts['identifier'])
+        inm = coordinator.create_identifier_name_mapping(nodes_df)
+        #print(load_nodes)
+        for ln in load_nodes:
+            data = res_load_ts[res_load_ts['identifier']==ln]
+            #print(data.head())
+            fig_load.add_trace(go.Scatter(x=data['time'], y=data['p_mw'],
+                            mode='markers+lines',
+                            name=inm[ln]))
+
+        #load_nodes = set(res_load_ts['identifier'])
+        #fig_load.add_trace(go.Scatter(x=res_load_ts['time'], y=res_load_ts['p_mw'],mode='lines',name='lines'))
+
+        return [f"Solved {len(opfs)} intervals", fig_map, fig_load]
+    except:
+        return [f"Error during requests", fig_map, fig_load]
+
+if __name__ == '__main__':
+    app.run(debug=True)
