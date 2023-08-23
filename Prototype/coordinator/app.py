@@ -2,7 +2,6 @@ import requests
 import json
 import pandas as pd
 import plotly.graph_objects as go
-import plotly.express as px
 import datetime
 from dash import Dash, html, dcc, Input, Output, State
 import logging
@@ -30,6 +29,7 @@ app.layout = html.Div([
     html.Div("Network"),
     dcc.Graph(id="map"),
     html.Div("Load"),
+    html.Div(id='result-sum-values'),
     dcc.Graph(id="load")
 ])
 
@@ -37,18 +37,20 @@ app.layout = html.Div([
     Output("input-date-result", "children"),
     Output("map", "figure"),
     Output("load", "figure"),
+    Output("result-sum-values", "children"),
     Input("submit-date", "n_clicks"),
     State("input-date", "value")
 )
 def input_date(n_clicks, value):
     fig_map = go.Figure()
     fig_load = go.Figure()
+
     if n_clicks == 0:
-        return [f"", fig_map, fig_load]
+        return [f"", fig_map, fig_load, f"grid load={0}, consumer load={0}"]
     try:
         dt = datetime.datetime.strptime(value, '%Y-%m-%d')
     except:
-        return ["Error while parsing " + value, fig_map, fig_load]
+        return ["Error while parsing " + value, fig_map, fig_load, f"grid load={0}, consumer load={0}"]
     
     start_timestamp = int(dt.timestamp())
     interval = 900
@@ -59,6 +61,9 @@ def input_date(n_clicks, value):
         logging.debug(f"query consumers")
         consumers = coordinator.query_consumers(config['consumer_api'])
         logging.debug(f"got {len(consumers)} results")
+        logging.debug(f"query generators")
+        generators = coordinator.query_generators(config['generator_api'])
+        logging.debug(f"got {len(generators)} results")
         logging.debug(f"query network")
         network = coordinator.query_network(config['network_api'])
         logging.debug(f"query opf")
@@ -66,18 +71,19 @@ def input_date(n_clicks, value):
         logging.debug(f"got {len(opfs)} results")
        
         logging.debug(f"extract nodes information")
-        nodes_df = coordinator.get_nodes(consumers, network)
+        nodes_df = coordinator.get_nodes(consumers, generators, network)
+        logging.debug(f"got {len(nodes_df)} nodes")
 
         opf_keys = [k for k in sorted(opfs.keys())]
-        logging.debug(f"extract lines information")
-        lines_df = coordinator.get_line_connections(consumers, network)
-        logging.debug("lines_df.head()=", lines_df.head())
-        logging.debug(f"extract load information")
+        logging.debug(f"extract lines")
+        lines_df = coordinator.get_line_connections(consumers, generators, network)
+        logging.debug(f"got {len(lines_df)} lines")
+       
+        logging.debug(f"extract load")
         load_df = coordinator.create_load_dataframe(consumers, network, opfs[opf_keys[0]])
-
-        load_map_df = load_df.join(nodes_df.set_index('identifier'), on='identifier')
-        logging.debug(f"load_map_df.head()=", load_map_df)
-        logging.debug(f"create map information")
+        load_map_df = nodes_df[nodes_df['type'] == "load"]
+        generator_map_df = nodes_df[nodes_df['type'] == "generator"]
+        network_map_df = nodes_df[nodes_df['type'] == "network"]
 
         # add lines
         fig_map.add_trace(go.Scattermapbox(
@@ -92,10 +98,32 @@ def input_date(n_clicks, value):
             lon = load_map_df['longitude'],
             lat = load_map_df['latitude'],
             marker = go.scattermapbox.Marker(
+                color="red"
+            ),
+            hoverinfo = 'text',
+            text = load_map_df['name'] # + '<br>' + 'load: ' + load_map_df['load'].astype(str) + " MW"
+        ))
+
+        fig_map.add_trace(go.Scattermapbox(
+            mode = "markers",
+            lon = network_map_df['longitude'],
+            lat = network_map_df['latitude'],
+            marker = go.scattermapbox.Marker(
                 color="blue"
             ),
             hoverinfo = 'text',
-            text = load_map_df['name'] + '<br>' + 'load: ' + load_map_df['load'].astype(str) + " MW"
+            text = network_map_df['name'] # + '<br>' + 'load: ' + load_map_df['load'].astype(str) + " MW"
+        ))
+
+        fig_map.add_trace(go.Scattermapbox(
+            mode = "markers",
+            lon = generator_map_df['longitude'],
+            lat = generator_map_df['latitude'],
+            marker = go.scattermapbox.Marker(
+                color="green"
+            ),
+            hoverinfo = 'text',
+            text = generator_map_df['name'] # + '<br>' + 'load: ' + load_map_df['load'].astype(str) + " MW"
         ))
 
         fig_map.update_layout(    
@@ -107,26 +135,46 @@ def input_date(n_clicks, value):
                 'style': "open-street-map"},
             mapbox_accesstoken=mapbox_token)
 
-        #res_bus_ts = bus_ts(nodes_df, opfs)
-        #res_load_ts = load_ts(nodes_df, opfs)
         res_load_ts = coordinator.load_ts(nodes_df, opfs)
 
         load_nodes = set(res_load_ts['identifier'])
         inm = coordinator.create_identifier_name_mapping(nodes_df)
-        #print(load_nodes)
+
         for ln in load_nodes:
             data = res_load_ts[res_load_ts['identifier']==ln]
-            #print(data.head())
             fig_load.add_trace(go.Scatter(x=data['time'], y=data['p_mw'],
                             mode='markers+lines',
                             name=inm[ln]))
 
-        #load_nodes = set(res_load_ts['identifier'])
-        #fig_load.add_trace(go.Scatter(x=res_load_ts['time'], y=res_load_ts['p_mw'],mode='lines',name='lines'))
+        res_load_ts = coordinator.load_ts(nodes_df, opfs)
+        res_sum_load_ts = res_load_ts[['time', 'p_mw', 'q_mvar']].groupby(by=['time']).sum().reset_index().sort_values(by=['time'])
+        fig_sum_load = go.Figure()
 
-        return [f"Solved {len(opfs)} intervals", fig_map, fig_load]
+        res_ext_grid_ts = coordinator.ext_grid_ts(nodes_df, opfs)
+        res_gen_ts = coordinator.gen_ts(nodes_df, opfs)
+
+        fig_sum_load.add_trace(go.Scatter(x=res_sum_load_ts['time'], y=res_sum_load_ts['p_mw'],
+                        mode='markers+lines',
+                        name='consumer load'))
+
+        fig_sum_load.add_trace(go.Scatter(x=res_ext_grid_ts['time'], y=res_ext_grid_ts['p_mw'],
+                        mode='markers+lines',
+                        name='grid load'))
+        
+        fig_sum_load.add_trace(go.Scatter(x=res_gen_ts['time'], y=res_gen_ts['p_mw'],
+                mode='markers+lines',
+                name='production'))
+        
+        fig_sum_load.update_xaxes(title_text="Date")
+        fig_sum_load.update_yaxes(title_text="Energie [MWh]")
+
+        sum_grid = res_ext_grid_ts['p_mw'].sum()
+        sum_load = res_sum_load_ts['p_mw'].sum()
+        sum_generation = res_gen_ts['p_mw'].sum()
+
+        return [f"Solved {len(opfs)} intervals", fig_map, fig_sum_load, f"grid load={sum_grid}, consumer load={sum_load}, generation={sum_generation}"]
     except:
-        return [f"Error during requests", fig_map, fig_load]
+        return [f"Error during requests", fig_map, fig_load, f"grid load={0}, consumer load={0}"]
 
 if __name__ == '__main__':
     app.run(debug=True)

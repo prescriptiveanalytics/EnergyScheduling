@@ -1,0 +1,14 @@
+{
+    "generators":
+    [{
+        "name": "generator 1",
+        "identifier": "8bee677b-b929-4d52-ba2d-d8619b86e199",
+        "level": 7,
+        "latitude": 48.3744, 
+        "longitude": 14.5125,
+        "address": "none",
+        "type": "generator",
+        "category": "household",
+        "profile_identifier": "none"
+    }]
+}

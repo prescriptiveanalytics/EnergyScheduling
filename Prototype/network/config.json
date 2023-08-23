@@ -1,6 +1,6 @@
 {
     "consumer_api": "http://localhost:8000",
-
+    "generator_api": "http://localhost:8010",
     "network": {
         "entities": [{
             "identifier": "d3ae8923-d4cd-46fb-ae6c-e4a20c7e5dab",
@@ -35,6 +35,12 @@
             "voltage": 400,
             "category": "grid_connection",
             "type": "grid_connection"            
+        },
+        {
+            "identifier": "8bee677b-b929-4d52-ba2d-d8619b86e199",
+            "voltage": 400,
+            "category": "generator",
+            "type": "generation"
         }],
         "lines": [{
             "from_bus": "ec28306c-772c-4d65-9916-55c03ce61566",
@@ -50,9 +56,15 @@
         },
         {
             "from_bus": "e6c8200f-d84b-499b-ad13-4313eec39ca2",
-            "to_bus": "d3ae8923-d4cd-46fb-ae6c-e4a20c7e5dab",
+            "to_bus": "8bee677b-b929-4d52-ba2d-d8619b86e199",
             "std_type": "NAYY 4x50 SE",
             "length_km": 0.1
+        },
+        {
+            "from_bus": "8bee677b-b929-4d52-ba2d-d8619b86e199",
+            "to_bus": "d3ae8923-d4cd-46fb-ae6c-e4a20c7e5dab",
+            "std_type": "NAYY 4x50 SE",
+            "length_km": 0.1           
         }]
     }
 }

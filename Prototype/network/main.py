@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from models.NetworkModel import NetworkModel
 from models.PowerConsumptionModel import PowerConsumptionModel
 from models.ConsumerModel import ConsumerModel
+from models.GeneratorModel import GeneratorModel
+from models.PowerGenerationModel import PowerGenerationModel
 import pandapower as pp
 import json
 import requests
@@ -15,6 +17,7 @@ config = None
 
 initialized: bool = False
 consumers: List[ConsumerModel] = None
+generators: List[GeneratorModel] = None
 network: NetworkModel = None
 
 def load_config():
@@ -34,7 +37,19 @@ def fetch_loads(consumers, unix_timestamp_seconds):
     logging.debug(f"fetched consumer loads: {consumer_loads}")
     return consumer_loads
 
-def initialize_network(network_config, consumers, loads):
+def fetch_generations(generators, unix_timestamp_seconds):
+    generators_power = {}
+    for g in generators:
+        logging.debug(f"request generation for {g}")
+        request_generators = f"{config['generator_api']}/generator/{g.identifier}/generation/{unix_timestamp_seconds}"
+        logging.debug(f"request generator url {request_generators}")
+        result = requests.get(request_generators)
+        logging.debug(f"got generator {g.identifier}={result.json()}")
+        generators_power[g.identifier] = PowerGenerationModel(**result.json())
+    logging.debug(f"fetched generators: {generators_power}")
+    return generators_power
+
+def initialize_network(network_config, consumers, generations, loads):
     # create network
     logging.debug(f"initialize_network={network_config}")
     net = pp.create_empty_network()
@@ -63,6 +78,11 @@ def initialize_network(network_config, consumers, loads):
         logging.debug(f"consumer load for {identifier}: {load}")
         pp.create_load(net, bus=buses[identifier], p_mw=load.usage/1000000, q_mvar=0.05, name=identifier)
 
+    logging.debug(f"create generations")
+    for identifier, generation in generations.items():
+        logging.debug(f"generation power for {identifier}: {generation}")
+        pp.create_sgen(net, bus=buses[identifier], p_mw=generation.generation/1000000, name=identifier)
+
     logging.debug(f"create lines")
     for line in network_config.lines:
         logging.debug(f"create line from {line.from_bus} to {line.to_bus}")
@@ -73,15 +93,19 @@ def initialize_network(network_config, consumers, loads):
 
     logging.debug("run opf")
     pp.runpp(net)
+    logging.debug(f"keys in net={net.keys()}")
+    logging.debug(f"calculated net={net}")
 
     result = {}
     result['bus'] = json.loads(net.bus.to_json())
     result['load'] = json.loads(net.load.to_json())
     result['line'] = json.loads(net.line.to_json())
+    result['sgen'] = json.loads(net.sgen.to_json())
     result['res_bus'] = json.loads(net.res_bus.to_json())
     result['res_line'] = json.loads(net.res_line.to_json())
     result['res_load'] = json.loads(net.res_load.to_json())
     result['res_ext_grid'] = json.loads(net.res_ext_grid.to_json())
+    result['res_sgen'] = json.loads(net.res_sgen.to_json())
     return result
 
 app = FastAPI()
@@ -101,6 +125,7 @@ def read_network():
 def read_initialize():
     global initialized
     global consumers
+    global generators
     global config
     global network
     logging.debug("/initialize")
@@ -112,16 +137,22 @@ def read_initialize():
     logging.debug(f"result.text={result.text}")
     consumers = [ConsumerModel(**consumer) for consumer in json.loads(result.text)]
     logging.debug(f"consumers loaded: {consumers}")
+    request_generators = f"{config['generator_api']}/generator/all"
+    result = requests.get(request_generators)
+    generators = [GeneratorModel(**generator) for generator in json.loads(result.text)]
+    logging.debug(f"generators loaded: {generators}")
     initialized = True
     return { "Action": "initialize" }
 
 @app.get("/opf/{unix_timestamp_seconds}")
 def read_opf(unix_timestamp_seconds:int):
     global consumers
+    global generators
     global config
     global network
     if not initialized:
         return { "Result": "Network not initialized, please call /initialize"}
     loads: PowerConsumptionModel = fetch_loads(consumers, unix_timestamp_seconds)
-    opf = initialize_network(network, consumers, loads)
+    generations: PowerGenerationModel = fetch_generations(generators, unix_timestamp_seconds)
+    opf = initialize_network(network, consumers, generations, loads)
     return opf

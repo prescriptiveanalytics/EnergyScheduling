@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "generator"
+version = "0.1.0"
+description = ""
+authors = ["Michael Boegl <michael.boegl@risc-software.at>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic = "^2.2.1"
+uvicorn = "^0.23.2"
+fastapi = "^0.101.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
