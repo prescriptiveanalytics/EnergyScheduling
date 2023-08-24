@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 import json
-import random
 import dill as pickle
 from pathlib import Path
 from datetime import datetime
