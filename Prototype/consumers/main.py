@@ -1,24 +1,30 @@
 from fastapi import FastAPI
 import json
 import random
+import dill as pickle
+from pathlib import Path
 from datetime import datetime
-import pydantic
-from models.ConsumerModel import ConsumerModel
-from models.PowerConsumptionModel import PowerConsumptionModel
+from data_models.ConsumerModel import ConsumerModel
+from data_models.PowerConsumptionModel import PowerConsumptionModel
 from typing import List
 
-config_file = "config.json"
+config_file = Path("configurations/ex1_three_consumer/config.json")
 config = None
 
-# usage in Wh
-load_min = 100
-load_max = 3000
-category_unit = "Wh"
-
+# read consumer nodes and initialize models
 with open(config_file, "r") as input_file:
     config = json.load(input_file)
 
 consumers: List[ConsumerModel] = [ConsumerModel(**consumer) for consumer in config['consumers']]
+
+def create_model_map(consumers, model_path):
+    model_map = {}
+    for c in consumers:
+        with open(Path(model_path) / c.profile_identifier, "rb") as inf:
+            model_map[c.identifier] =  pickle.load(inf)
+    return model_map
+
+model_map = create_model_map(consumers, "consumption_models")
 
 app = FastAPI()
 
@@ -35,6 +41,7 @@ def read_single_consumer(identifier: str) -> ConsumerModel:
     return [x for x in consumers if x.identifier == identifier][0]
 
 @app.get("/consumer/{identifier}/consumption/{unix_timestamp_seconds}")
-def read_consumption(identifier: str, unix_timestamp_seconds: int):
-    power_consumption = PowerConsumptionModel(**{"datetime": unix_timestamp_seconds, "identifier": identifier, "usage": random.randint(load_min, load_max), "category": "load", "category_unit": category_unit, "interval": 15, "interval_unit": "minutes"})
-    return power_consumption
+def read_consumption(identifier: str, unix_timestamp_seconds: int) -> PowerConsumptionModel:
+    consumption = int(model_map[identifier].get_consumption(unix_timestamp_seconds)*1000)
+    print(consumption)
+    return PowerConsumptionModel(**{"datetime": unix_timestamp_seconds, "identifier": identifier, "usage":consumption, "category": "load", "category_unit": "Wh", "interval": 15, "interval_unit": "minutes"})

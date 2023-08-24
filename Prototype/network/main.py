@@ -84,12 +84,15 @@ def initialize_network(network_config, consumers, generations, loads):
         pp.create_sgen(net, bus=buses[identifier], p_mw=generation.generation/1000000, name=identifier)
 
     logging.debug(f"create lines")
+    x = 1
     for line in network_config.lines:
         logging.debug(f"create line from {line.from_bus} to {line.to_bus}")
         frombus = buses[line.from_bus]
         tobus = buses[line.to_bus]
         name = f"{line.from_bus}-{line.to_bus}"
-        pp.create_line(net, from_bus=frombus, to_bus=tobus, length_km=line.length_km, std_type=line.std_type)
+        #pp.create_line(net, from_bus=frombus, to_bus=tobus, length_km=line.length_km, std_type=line.std_type)
+        pp.create_line_from_parameters(net, from_bus=frombus, to_bus=tobus, length_km=line.length_km, r_ohm_per_km=0.001, x_ohm_per_km=0, c_nf_per_km=0, r0_ohm_per_km=0, x0_ohm_per_km=0, c0_nf_per_km=0, max_i_ka=100)
+        x += 1
 
     logging.debug("run opf")
     pp.runpp(net)

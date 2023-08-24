@@ -9,7 +9,7 @@
         "address": "none",
         "type": "load",
         "category": "household",
-        "profile_identifier": "none"
+        "profile_identifier": "ex1_london2011-2014_cluster0"
     },
     {
         "name": "location 2",
@@ -20,7 +20,7 @@
         "address": "none",
         "type": "load",
         "category": "household",
-        "profile_identifier": "none"        
+        "profile_identifier": "ex1_london2011-2014_cluster0"        
     },
     {
         "name": "location 3",
@@ -31,6 +31,6 @@
         "address": "none",
         "type": "load",
         "category": "household",
-        "profile_identifier": "none"        
+        "profile_identifier": "ex1_london2011-2014_cluster0"        
     }]
 }
