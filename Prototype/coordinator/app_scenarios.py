@@ -24,11 +24,12 @@ logging.debug(f"read config file: {config}")
 external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 
 app = Dash(__name__, external_stylesheets=external_stylesheets)
+app.title = "spa - power network scenario analyzer"
 
 # rewrite from here onwards
 
 app.layout = html.Div([
-    html.Header(children='spa - energy network demo application - scenario analyzer', style={"fontSize": "20px", "textAlign": "center"}),
+    html.Header(children='spa - power network demo application - scenario analyzer', style={"fontSize": "20px", "textAlign": "center"}),
     html.Div("Date (yyyy-mm-dd)", style={"fontSize": "15px"}),
     dcc.Input(id="input-date", value="2023-08-01", type="text"),
     html.Button('Calculate scenarios', id='submit-date', n_clicks=0),
