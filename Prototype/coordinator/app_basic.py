@@ -21,7 +21,7 @@ external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 
 app.layout = html.Div([
-    html.Header(children='spa - energy network demo application', style={"fontSize": "20px", "textAlign": "center"}),
+    html.Header(children='spa - energy network demo application - network simulator', style={"fontSize": "20px", "textAlign": "center"}),
     html.Div("Date (yyyy-mm-dd)", style={"fontSize": "15px"}),
     dcc.Input(id="input-date", value="2023-08-01", type="text"),
     html.Button('Calculate', id='submit-date', n_clicks=0),
@@ -177,4 +177,4 @@ def input_date(n_clicks, value):
         return [f"Error during requests", fig_map, fig_load, f"grid load={0}, consumer load={0}"]
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port='8050')

@@ -3,8 +3,8 @@ import json
 import dill as pickle
 from pathlib import Path
 from datetime import datetime
-from data_models.ConsumerModel import ConsumerModel
-from data_models.PowerConsumptionModel import PowerConsumptionModel
+from domain_models.ConsumerModel import ConsumerModel
+from domain_models.PowerConsumptionModel import PowerConsumptionModel
 from typing import List
 
 config_file = Path("configurations/ex1_three_consumer/config.json")

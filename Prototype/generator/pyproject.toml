@@ -13,6 +13,7 @@ fastapi = "^0.101.1"
 dill = "^0.3.7"
 pandas = "^2.0.3"
 jupyter = "^1.0.0"
+python-multipart = "^0.0.6"
 
 
 [build-system]

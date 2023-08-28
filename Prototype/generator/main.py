@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
 import json
 import dill as pickle
 from pathlib import Path
@@ -6,6 +6,9 @@ from datetime import datetime
 from domain_models.GeneratorModel import GeneratorModel
 from domain_models.PowerGenerationModel import PowerGenerationModel
 from typing import List
+import logging
+
+logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
 
 config_file = Path("configurations/ex1_three_consumer/config.json")
 config = None
@@ -40,7 +43,14 @@ def read_single_generator(identifier: str) -> GeneratorModel:
 
 @app.get("/generator/{identifier}/generation/{unix_timestamp_seconds}")
 def read_consumption(identifier: str, unix_timestamp_seconds: int):
-    #power_generation = PowerGenerationModel(**{"datetime": unix_timestamp_seconds, "identifier": identifier, "generation": int(random.randint(generation_min, generation_max)/4), "category": "generation", "category_unit": category_unit, "interval": 15, "interval_unit": "minutes"})
     current_generation = int(model_map[identifier].get_generation(unix_timestamp_seconds))
     power_generation = PowerGenerationModel(**{"datetime": unix_timestamp_seconds, "identifier": identifier, "generation": int(current_generation), "category": "generation", "category_unit": "Wh", "interval": 15, "interval_unit": "minutes"})
     return power_generation
+
+@app.post("/generator/{identifier}/model")
+def create_model(identifier: str, model_file: UploadFile = File(...)):
+    content = model_file.file.read()
+    model = pickle.loads(content)
+    logging.debug(f"update model for {identifier} with model {len(content)}")
+    model_map[identifier] = model
+    return { "Status": "Success" }

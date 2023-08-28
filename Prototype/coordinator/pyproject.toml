@@ -12,6 +12,8 @@ pandas = "^2.0.3"
 plotly = "^5.16.1"
 requests = "^2.31.0"
 dash = "^2.12.1"
+dill = "^0.3.7"
+seaborn = "^0.12.2"
 
 
 [build-system]

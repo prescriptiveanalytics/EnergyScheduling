@@ -1,8 +1,6 @@
 import random
-import pickle
 import pandas as pd
 from datetime import datetime
-from domain_models.PowerConsumptionModel import PowerConsumptionModel
 
 class RandomConsumption:
     def __init__(self, identifier: str):

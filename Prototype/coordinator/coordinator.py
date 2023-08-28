@@ -220,3 +220,18 @@ def gen_ts(nodes_df, opfs):
         dataframes.append(df1)
     gen_ts = pd.concat(dataframes)
     return gen_ts
+
+def get_scenario_dataframes(nodes_df, scenario, scenario_name):
+    res_load_ts = load_ts(nodes_df, scenario)
+    res_load_ts['scenario'] = scenario_name
+    res_sum_load_ts = res_load_ts[['time', 'p_mw', 'q_mvar']].groupby(by=['time']).sum().reset_index().sort_values(by=['time'])
+    res_sum_load_ts['scenario'] = scenario_name
+    res_ext_grid_ts = ext_grid_ts(nodes_df, scenario)
+    res_ext_grid_ts['scenario'] = scenario_name
+    res_gen_ts = gen_ts(nodes_df, scenario)
+    res_gen_ts['scenario'] = scenario_name
+
+    sum_grid = res_ext_grid_ts['p_mw'].sum()
+    sum_load = res_sum_load_ts['p_mw'].sum()
+    sum_generation = res_gen_ts['p_mw'].sum()
+    return res_sum_load_ts, res_ext_grid_ts, res_gen_ts
