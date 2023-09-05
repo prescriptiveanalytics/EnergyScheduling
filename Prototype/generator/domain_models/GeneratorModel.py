@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List
 
 class GeneratorModel(BaseModel):
     name: str
@@ -10,3 +11,6 @@ class GeneratorModel(BaseModel):
     type: str
     category: str
     profile_identifier: str
+
+class ScenarioModel(BaseModel):
+    generators: List[GeneratorModel]

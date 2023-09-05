@@ -1,6 +1,6 @@
 {
-    "consumer_api": "http://localhost:8000",
-    "generator_api": "http://localhost:8010",
+    "consumer_api": "http://localhost:7000",
+    "generator_api": "http://localhost:7010",
     "network": {
         "entities": [{
             "identifier": "d3ae8923-d4cd-46fb-ae6c-e4a20c7e5dab",

@@ -16,7 +16,11 @@ with open(config_file, "r") as input_file:
 
 model_path = Path('models/generation/')
 scenarios = [ 'hgb_east_10kwp', 'hgb_south_5kwp_east_5kwp', 'hgb_south_5kwp_west_5kwp', 'hgb_south_7kwp_east_1.5kwp_west1.5kwp', 'hgb_south_10kwp', 'hgb_west_10kwp' ]
-pv_identifier = '8bee677b-b929-4d52-ba2d-d8619b86e199'
+# scenario 3 consumers
+#pv_identifier = '8bee677b-b929-4d52-ba2d-d8619b86e199'
+# scenario 1 consumer
+pv_identifier = "12b277c0-ec01-448b-bffe-d081c11fd200"
+
 
 mapbox_token = open("token").read()
 logging.debug(f"read config file: {config}")

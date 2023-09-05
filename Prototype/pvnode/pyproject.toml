@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "network"
+name = "pvnode"
 version = "0.1.0"
 description = ""
 authors = ["Michael Boegl <michael.boegl@risc-software.at>"]
@@ -7,13 +7,6 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-fastapi = "^0.101.1"
-pandapower = "^2.13.1"
-requests = "^2.31.0"
-uvicorn = {extras = ["standard"], version = "^0.23.2"}
-ipykernel = "^6.25.1"
-numpy = "^1.25.2"
-importlib = "^1.0.4"
 
 
 [build-system]

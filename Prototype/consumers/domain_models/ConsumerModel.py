@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List
 
 class ConsumerModel(BaseModel):
     name: str
@@ -10,3 +11,6 @@ class ConsumerModel(BaseModel):
     type: str
     category: str
     profile_identifier: str
+
+class ScenarioModel(BaseModel):
+    consumers: List[ConsumerModel]

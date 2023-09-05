@@ -26,3 +26,6 @@ class NetworkModel(BaseModel):
     entities: List[NetworkEntityModel]
     bus: List[NetworkBusModel]
     lines: List[NetworkLineModel]
+
+class ScenarioNetworkModel(BaseModel):
+    network: NetworkModel

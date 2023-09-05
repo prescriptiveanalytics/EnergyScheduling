@@ -1,29 +1,30 @@
 from fastapi import FastAPI
-from models.NetworkModel import NetworkModel
-from models.PowerConsumptionModel import PowerConsumptionModel
-from models.ConsumerModel import ConsumerModel
-from models.GeneratorModel import GeneratorModel
-from models.PowerGenerationModel import PowerGenerationModel
 import pandapower as pp
 import json
 import requests
 import logging
 from typing import List
+from pathlib import Path
+from domain_models.NetworkModel import NetworkModel, ScenarioNetworkModel
+from domain_models.PowerConsumptionModel import PowerConsumptionModel
+from domain_models.ConsumerModel import ConsumerModel
+from domain_models.GeneratorModel import GeneratorModel
+from domain_models.PowerGenerationModel import PowerGenerationModel
+from domain_models.OptimalPowerFlow import OptimalPowerFlowSolution
 
 logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
 
-config_file = "config.json"
+config_file = Path("configurations/ex0_one_consumer/config.json")
 config = None
+
+with open(config_file, "r") as input_file:
+    config = json.load(input_file)
+    config["network"] = NetworkModel(**config["network"])
 
 initialized: bool = False
 consumers: List[ConsumerModel] = None
 generators: List[GeneratorModel] = None
 network: NetworkModel = None
-
-def load_config():
-    with open(config_file, "r") as input_file:
-        config = json.load(input_file)
-        return config
 
 def fetch_loads(consumers, unix_timestamp_seconds):
     consumer_loads = {}
@@ -132,8 +133,7 @@ def read_initialize():
     global config
     global network
     logging.debug("/initialize")
-    config = load_config()
-    network = NetworkModel(**config["network"])
+    network = config["network"].network #NetworkModel(**config["network"])
     logging.debug(f"config loaded: {config}")
     request_consumers = f"{config['consumer_api']}/consumer/all"
     result = requests.get(request_consumers)
@@ -158,4 +158,19 @@ def read_opf(unix_timestamp_seconds:int):
     loads: PowerConsumptionModel = fetch_loads(consumers, unix_timestamp_seconds)
     generations: PowerGenerationModel = fetch_generations(generators, unix_timestamp_seconds)
     opf = initialize_network(network, consumers, generations, loads)
-    return opf
+    # return opf
+    return OptimalPowerFlowSolution(**opf)
+
+@app.post("/scenario/{identifier}")
+def create_scenario(identifier: str, scenario_data: ScenarioNetworkModel):
+    global initialized
+    global consumers
+    global generators
+    global config
+    global network
+    initialized = False
+    logging.debug(f"load new scenario {identifier}")
+    logging.debug(f"scenario data: {scenario_data}")
+    config["network"] = scenario_data
+    logging.debug(f"new config={config}")
+    return { "Status": "Success" }
