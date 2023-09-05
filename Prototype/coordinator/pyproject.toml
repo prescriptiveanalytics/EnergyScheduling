@@ -15,8 +15,15 @@ dash = "^2.12.1"
 dill = "^0.3.7"
 seaborn = "^0.12.2"
 pydantic = "^2.3.0"
+spa-dat = {version = "^0.1.1", source = "risc-pypi"}
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+# https://python-poetry.org/docs/repositories/#using-a-private-repository
+[[tool.poetry.source]]
+name = "risc-pypi"
+url = "https://pypiserver.risc-software.at/simple/"
+priority = "explicit"
