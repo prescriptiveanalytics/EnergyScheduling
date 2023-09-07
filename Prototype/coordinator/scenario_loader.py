@@ -4,12 +4,16 @@ import logging
 from pathlib import Path
 import requests
 import uuid
+import sys
 
 consumer_model_path = Path("models/consumer")
 generator_model_path = Path("models/generator")
 
-#config_file = Path("scenarios/ex0_one_consumer/config.json")
-config_file = Path("scenarios/ex1_three_consumer/config.json")
+# config_file = Path("scenarios/ex0_one_consumer/config.json")
+# config_file = Path("scenarios/ex1_three_consumer/config.json")
+# config_file = Path("scenarios/ex2_ten_consumer/config.json")
+
+config_file = sys.argv[1]
 config = None
 
 with open(config_file, "r") as input_file:

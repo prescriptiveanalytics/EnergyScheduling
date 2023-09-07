@@ -14,12 +14,16 @@ from domain_models.OptimalPowerFlow import OptimalPowerFlowSolution
 
 logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
 
-config_file = Path("configurations/ex0_one_consumer/config.json")
-config = None
-
+config_file = "config.json"
 with open(config_file, "r") as input_file:
     config = json.load(input_file)
-    config["network"] = NetworkModel(**config["network"])
+
+scenario_file = Path("configurations/ex0_one_consumer/config.json")
+scenario = None
+with open(scenario_file, "r") as input_file:
+    scenario = json.load(input_file)
+    scenario["network"] = NetworkModel(**scenario["network"])
+
 
 initialized: bool = False
 consumers: List[ConsumerModel] = None
@@ -130,11 +134,11 @@ def read_initialize():
     global initialized
     global consumers
     global generators
-    global config
+    global scenario
     global network
     logging.debug("/initialize")
-    network = config["network"].network #NetworkModel(**config["network"])
-    logging.debug(f"config loaded: {config}")
+    network = scenario["network"].network #NetworkModel(**scenario["network"])
+    logging.debug(f"scenario loaded: {scenario}")
     request_consumers = f"{config['consumer_api']}/consumer/all"
     result = requests.get(request_consumers)
     logging.debug(f"result.text={result.text}")
@@ -151,7 +155,7 @@ def read_initialize():
 def read_opf(unix_timestamp_seconds:int):
     global consumers
     global generators
-    global config
+    global scenario
     global network
     if not initialized:
         return { "Result": "Network not initialized, please call /initialize"}
@@ -166,11 +170,11 @@ def create_scenario(identifier: str, scenario_data: ScenarioNetworkModel):
     global initialized
     global consumers
     global generators
-    global config
+    global scenario
     global network
     initialized = False
     logging.debug(f"load new scenario {identifier}")
     logging.debug(f"scenario data: {scenario_data}")
-    config["network"] = scenario_data
-    logging.debug(f"new config={config}")
+    scenario["network"] = scenario_data
+    logging.debug(f"new scenario={scenario}")
     return { "Status": "Success" }
