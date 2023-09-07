@@ -2,11 +2,13 @@
 name = "pvnode"
 version = "0.1.0"
 description = ""
-authors = ["Michael Boegl <michael.boegl@risc-software.at>"]
+authors = ["ilangtha <ines.langthallner@risc-software.at>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+pandas = "^2.0.3"
+requests = "^2.31.0"
 
 
 [build-system]
