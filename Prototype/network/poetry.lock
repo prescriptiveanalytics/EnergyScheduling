@@ -1468,13 +1468,13 @@ files = [
 
 [[package]]
 name = "spa-dat"
-version = "0.1.1"
+version = "0.3.0"
 description = "This package provides a wrapper for the message based communication of distributed applications"
 optional = false
 python-versions = ">=3.11,<4.0"
 files = [
-    {file = "spa_dat-0.1.1-py3-none-any.whl", hash = "sha256:90076c825c62748c40cd6659e4488593b8dd1417a0ae8c80b1b93149979c0183"},
-    {file = "spa_dat-0.1.1.tar.gz", hash = "sha256:05a1ad6580cc580a8703960f7a62e2177a8884d021646def192d78d6a9bf268a"},
+    {file = "spa_dat-0.3.0-py3-none-any.whl", hash = "sha256:c1750bfa9c594f4878171865e861e88fa52dfe65bad89d968373cf92a38e4694"},
+    {file = "spa_dat-0.3.0.tar.gz", hash = "sha256:1e5ed26079f7edd55161b0e714be80058b66ee0d0545893c0a5ce9bfa88abf15"},
 ]
 
 [package.dependencies]
@@ -1814,4 +1814,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "cf5b1adb0b3a557333584d71aad74aad6aade26d1b40eef8607170f6a8349937"
+content-hash = "eead33cd23fd5a50963a56ed137dcac9c385bcd9400dd85cdfe94463b7da2727"

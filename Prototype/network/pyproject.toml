@@ -14,7 +14,7 @@ uvicorn = {extras = ["standard"], version = "^0.23.2"}
 ipykernel = "^6.25.1"
 numpy = "^1.25.2"
 importlib = "^1.0.4"
-spa-dat = {version = "^0.1.1", source = "risc-pypi"}
+spa-dat = {version = "^0.3.0", source = "risc-pypi"}
 
 
 [build-system]

@@ -1,4 +1,6 @@
 {    
+    "host": "localhost",
+    "port": 1883,
     "consumer_api": "http://localhost:7000",
     "generator_api": "http://localhost:7010"
 }

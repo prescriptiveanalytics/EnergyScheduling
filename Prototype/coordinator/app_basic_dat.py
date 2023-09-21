@@ -1,17 +1,30 @@
-import requests
+import os
 import json
 import pandas as pd
 import plotly.graph_objects as go
 import datetime
 from dash import Dash, html, dcc, Input, Output, State
 import logging
-import coordinator
 
+from spa_dat.application.application import DistributedApplication
+from spa_dat.config import PayloadFormat, SocketConfig
+from spa_dat.provider import SocketProviderFactory
+from spa_dat.socket.mqtt import MqttConfig
+from spa_dat.socket.typedef import SpaMessage, SpaSocket
+
+import coordinator_dat as coordinator
+
+logger = logging.getLogger(__name__)
 logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
 
 config_file = "config.json"
 with open(config_file, "r") as input_file:
     config = json.load(input_file)
+
+config["host"] = os.getenv("MQTT_HOST", config["host"])
+config["port"] = os.getenv("MQTT_PORT", config["port"])
+
+logging.debug("using config=%s", config)
 
 mapbox_token = open("token").read()
 logging.debug(f"read config file: {config}")
@@ -47,30 +60,37 @@ def input_date(n_clicks, value):
     fig_load = go.Figure()
 
     if n_clicks == 0:
-        return [f"", fig_map, fig_load, f"grid load={0}, consumer load={0}"]
+        return ["", fig_map, fig_load, f"grid load={0}, consumer load={0}"]
     try:
         dt = datetime.datetime.strptime(value, '%Y-%m-%d')
-    except:
+    except ValueError:
+        logging.error("could not parse date=%s", value)
         return ["Error while parsing " + value, fig_map, fig_load, f"grid load={0}, consumer load={0}"]
     
     start_timestamp = int(dt.timestamp())
     interval = 900
-    number_intervals = 4
+    number_intervals = 96
     query_times = [start_timestamp + i*interval for i in range(0, number_intervals)]
 
     try:
-        logging.debug(f"query consumers")
-        consumers = coordinator.query_consumers(config['consumer_api'])
-        logging.debug(f"got {len(consumers)} results")
-        logging.debug(f"query generators")
-        generators = coordinator.query_generators(config['generator_api'])
-        logging.debug(f"got {len(generators)} results")
-        logging.debug(f"query network")
-        network = coordinator.query_network(config['network_api'])
-        logging.debug(f"query opf")
-        opfs = coordinator.query_range(query_times, config['network_api'])
-        logging.debug(f"got {len(opfs)} results")
+        logging.debug("query consumers")
+        coordinator.app_consumer.start()
+        logging.debug("scenario_state.consumer=%s", coordinator.scenario_state.consumer)
+        logging.debug("query generators")
+        coordinator.app_generator.start()
+        logging.debug("scenario_state.generator=%s", coordinator.scenario_state.generator)
+        logging.debug("query network")
+        coordinator.app_network.start()
+        logging.debug("query opf using %s intervals", query_times)
+        coordinator.scenario_state.query_times = query_times
+        logging.debug("query opf using %s intervals", len(query_times))
+        coordinator.app_network_opf.start()
+        opfs = coordinator.scenario_state.network_opf
+        logging.debug("got %s opf results", len(opfs))
        
+        consumers = coordinator.scenario_state.consumer['consumers']
+        generators = coordinator.scenario_state.generator['generators']
+        network = coordinator.scenario_state.network['network']
         logging.debug(f"extract nodes information")
         nodes_df = coordinator.get_nodes(consumers, generators, network)
         logging.debug(f"got {len(nodes_df)} nodes")
@@ -178,4 +198,4 @@ def input_date(n_clicks, value):
         return [f"Error during requests", fig_map, fig_load, f"grid load={0}, consumer load={0}"]
 
 if __name__ == '__main__':
-    app.run(debug=True, port='8050')
+    app.run(debug=True, port='8050', host="0.0.0.0")

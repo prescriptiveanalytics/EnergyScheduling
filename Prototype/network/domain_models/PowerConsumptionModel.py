@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Json
+from typing import Dict
 from datetime import datetime
 
 class PowerConsumptionModel(BaseModel):
@@ -9,3 +10,6 @@ class PowerConsumptionModel(BaseModel):
     category_unit: str
     interval: int
     interval_unit: str
+
+class PowerConsumptionCollection(BaseModel):
+    consumptions: Dict[str, PowerConsumptionModel]

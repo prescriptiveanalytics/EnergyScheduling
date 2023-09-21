@@ -1,3 +1,4 @@
+from typing import List, Optional
 from pydantic import BaseModel
 
 class ConsumerModel(BaseModel):
@@ -10,3 +11,8 @@ class ConsumerModel(BaseModel):
     type: str
     category: str
     profile_identifier: str
+
+class ConsumerCollection(BaseModel):
+    """Represents a collection of generators.
+    """
+    consumers: Optional[List[ConsumerModel]] = None

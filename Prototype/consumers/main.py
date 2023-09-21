@@ -2,16 +2,15 @@ from fastapi import FastAPI, File, UploadFile
 import json
 import dill as pickle
 from pathlib import Path
-from datetime import datetime
-from domain_models.ConsumerModel import ConsumerModel, ScenarioModel
+from domain_models.Consumer import ConsumerModel, ScenarioModel
 from domain_models.PowerConsumptionModel import PowerConsumptionModel
 from typing import List
 import logging
 
 logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
 
-# config_file = Path("configurations/ex1_three_consumer/config.json")
-config_file = Path("configurations/ex0_one_consumer/config.json")
+config_file = Path("configurations/ex1_three_consumer/config.json")
+#config_file = Path("configurations/ex0_one_consumer/config.json")
 config = None
 
 # read consumer nodes and initialize models

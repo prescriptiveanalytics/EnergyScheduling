@@ -3,7 +3,7 @@ import json
 import dill as pickle
 from pathlib import Path
 from datetime import datetime
-from domain_models.GeneratorModel import GeneratorModel, ScenarioModel
+from domain_models.Generator import GeneratorModel, ScenarioModel
 from domain_models.PowerGenerationModel import PowerGenerationModel
 from typing import List
 import logging

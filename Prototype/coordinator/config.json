@@ -1,5 +1,7 @@
 {
-    "consumer_api": "http://localhost:7000",
-    "generator_api": "http://localhost:7010",
-    "network_api": "http://localhost:7020"
+    "host": "10.32.8.59",
+    "port": 1883,
+    "consumer_api": "http://localhost:8000",
+    "generator_api": "http://localhost:8010",
+    "network_api": "http://localhost:8020"
 }

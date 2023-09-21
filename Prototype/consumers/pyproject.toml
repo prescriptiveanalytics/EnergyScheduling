@@ -15,7 +15,8 @@ jupyter = "^1.0.0"
 pandas = "^2.0.3"
 python-multipart = "^0.0.6"
 requests = "^2.31.0"
-spa-dat = {version = "^0.1.1", source = "risc-pypi"}
+spa-dat = {version = "^0.3.0", source = "risc-pypi"}
+cruft = "^2.15.0"
 
 
 [build-system]

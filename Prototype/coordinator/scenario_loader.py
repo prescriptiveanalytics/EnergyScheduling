@@ -20,9 +20,9 @@ with open(config_file, "r") as input_file:
     config = json.load(input_file)
 
 
-uri_consumer = "http://localhost:7000"
-uri_generator = "http://localhost:7010"
-uri_network = "http://localhost:7020"
+uri_consumer = "http://localhost:8000"
+uri_generator = "http://localhost:8010"
+uri_network = "http://localhost:8020"
 
 scenario_uuid = str(uuid.uuid4())
 
