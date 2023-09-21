@@ -1,0 +1,46 @@
+{
+    "consumer_api": "http://localhost:8000",
+    "generator_api": "http://localhost:8010",
+    "network": {
+        "entities": [{
+            "identifier": "f60efbaf-df19-4d91-a2a7-4697895fc2d8",
+            "name": "grid connection",
+            "latitude": 48.32521,
+            "longitude": 13.35129,
+            "address": "",
+            "type": "network",
+            "category": "network",
+            "network_entity": "network"
+        }],
+        "bus": [{
+            "identifier": "1bf48567-0522-43af-865d-78fc9c04cd61",
+            "voltage": 400,
+            "category": "consumer",
+            "type": "load"
+        },
+        {
+            "identifier": "f60efbaf-df19-4d91-a2a7-4697895fc2d8",
+            "voltage": 400,
+            "category": "grid_connection",
+            "type": "grid_connection"            
+        },
+        {
+            "identifier": "12b277c0-ec01-448b-bffe-d081c11fd200",
+            "voltage": 400,
+            "category": "generator",
+            "type": "generation"
+        }],
+        "lines": [{
+            "from_bus": "1bf48567-0522-43af-865d-78fc9c04cd61",
+            "to_bus": "12b277c0-ec01-448b-bffe-d081c11fd200",
+            "std_type": "NAYY 4x50 SE",
+            "length_km": 0.02
+        },
+        {
+            "from_bus": "12b277c0-ec01-448b-bffe-d081c11fd200",
+            "to_bus": "f60efbaf-df19-4d91-a2a7-4697895fc2d8",
+            "std_type": "NAYY 4x50 SE",
+            "length_km": 0.03
+        }]
+    }
+}

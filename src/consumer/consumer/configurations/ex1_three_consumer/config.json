@@ -1,0 +1,36 @@
+{
+    "consumers":
+    [{
+        "name": "location 1",
+        "identifier": "e6c8200f-d84b-499b-ad13-4313eec39ca2",
+        "level": 7,
+        "latitude": 48.3744, 
+        "longitude": 14.5123,
+        "address": "none",
+        "type": "load",
+        "category": "household",
+        "profile_identifier": "ex1_london2011-2014_cluster0"
+    },
+    {
+        "name": "location 2",
+        "identifier": "60d36bfa-92a2-4521-95fa-ed0e95f2413f",
+        "level": 7,
+        "latitude": 48.3744, 
+        "longitude": 14.5115,
+        "address": "none",
+        "type": "load",
+        "category": "household",
+        "profile_identifier": "ex1_london2011-2014_cluster0"        
+    },
+    {
+        "name": "location 3",
+        "identifier": "ec28306c-772c-4d65-9916-55c03ce61566",
+        "level": 7,
+        "latitude": 48.374, 
+        "longitude": 14.5111,
+        "address": "none",
+        "type": "load",
+        "category": "household",
+        "profile_identifier": "ex1_london2011-2014_cluster0"        
+    }]
+}
