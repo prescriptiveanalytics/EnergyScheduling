@@ -1,0 +1,21 @@
+{
+  "template": "https://gitdma.risc-software.at/common/python-package-template",
+  "commit": "b6ac1262e68013ca722f55b65678f3fa1f7f4da1",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "package_name": "generator",
+      "package_description": "generator node for spa energy use case",
+      "package_url": "https://github.com/prescriptiveanalytics/EnergyScheduling",
+      "author_name": "Michael Boegl",
+      "author_email": "michael.boegl@risc-software.at",
+      "python_version": "3.11",
+      "docstring_style": "Google",
+      "use_conventional_commits": true,
+      "__package_name_kebab_case": "generator",
+      "__package_name_snake_case": "generator",
+      "_template": "https://gitdma.risc-software.at/common/python-package-template"
+    }
+  },
+  "directory": null
+}
