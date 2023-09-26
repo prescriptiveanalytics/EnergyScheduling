@@ -198,4 +198,4 @@ def input_date(n_clicks, value):
         return [f"Error during requests", fig_map, fig_load, f"grid load={0}, consumer load={0}"]
 
 if __name__ == '__main__':
-    app.run(debug=True, port='8050', host="0.0.0.0")
+    app.run(port='8050', host="0.0.0.0")

@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  # MQTT broker
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    ports:
+      - "1883:1883"      # MQTT port
+      - "9001:9001"      # WebSockets (if you want to enable it, you'll need to adjust the config)
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+  spa-consumer:
+    image: spa-energy-consumer
+    environment:
+        - MQTT_HOST=${MQTT_HOST}
+        - MQTT_PORT=1883
+  spa-generator:
+    image: spa-energy-generator
+    environment:
+        - MQTT_HOST=${MQTT_HOST}
+        - MQTT_PORT=1883    
+  spa-network:
+    image: spa-energy-network
+    environment:
+        - MQTT_HOST=${MQTT_HOST}
+        - MQTT_PORT=1883        
+  spa-coordinator:
+    image: spa-energy-coordinator
+    environment:
+        - MQTT_HOST=${MQTT_HOST}
+        - MQTT_PORT=1883 
+    ports:
+      - "8050:8050"
+      
+# use tools like https://github.com/EdJoPaTo/mqttui or mqtt-explorer to connect to the broker
