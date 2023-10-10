@@ -33,7 +33,7 @@ numpy = { version = "^1.26.0", python = ">=3.11,<3.13" }
 
 # https://python-poetry.org/docs/master/managing-dependencies/
 pandas = "^2.1.1"
-spa-dat = {version = "^0.3.0", source = "risc-pypi"}
+spa-dat = {version = "0.3.0", source = "risc-pypi"}
 plotly = "^5.17.0"
 dash = "^2.13.0"
 [tool.poetry.group.dev.dependencies]  
