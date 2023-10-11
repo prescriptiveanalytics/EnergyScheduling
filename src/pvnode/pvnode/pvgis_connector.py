@@ -2,13 +2,6 @@ import requests
 import pandas as pd
 import configuration_model
 
-'''
-This is a script to access the pvgis webpage (https://re.jrc.ec.europa.eu/pvg_tools/en/)
-which downloads pv data of given position and parameters
-and groups the kwh data by month, day, hour and minutes.
-It returns the data as a dictionary.
-'''
-
 def query_pvgis(config_entry):
     data = None
     print('access pvgis...')
@@ -49,7 +42,7 @@ def process_data(query):
     dfr = dfr.resample('15min').ffill()
     dfr = dfr.reset_index()
     # add column kwh
-    dfr['kwh'] = dfr['P'] / 4 / 1000
+    dfr['kwh'] = dfr['P'] / 4
     # add columns month, day, hour, minute
     dfr['month'] = dfr['time'].dt.month
     dfr['day'] = dfr['time'].dt.day
