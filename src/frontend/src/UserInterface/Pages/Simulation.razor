@@ -1,0 +1,26 @@
+﻿@page "/simulation"
+
+@inherits FluxorComponent
+
+@using System.Text;
+@using UserInterface.Data;
+@using UserInterface.Store;
+
+@inject IDispatcher Dispatcher
+@inject IState<ScenarioDataState> ScenarioDataState
+
+<PageTitle>spa - energy network scenario simulation</PageTitle>
+
+<h1>Scenario Simulation</h1>
+
+@if (ScenarioDataState.Value.Initialized && ScenarioDataState.Value.SelectedScenario != null)
+{
+    <MudText>Scenario for simulation available.</MudText>
+}else
+{
+    <MudText>No scenario available for simulation.</MudText>
+}
+
+@code {
+
+}
