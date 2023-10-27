@@ -290,7 +290,7 @@ async def network_scenario_update_callback(message: SpaMessage, socket: SpaSocke
     logging.debug("update scenario=%s", payload)
     scenario_identifier = payload['scenario_identifier']
     network_node = NetworkNode(scenario_identifier=scenario_identifier)
-    snm = NetworkModel(**payload['network']['network'])
+    snm = NetworkModel(**payload['network'])
     network_node.networks = ScenarioNetworkModel(network=snm)
     logging.debug("update scenario network_node=%s", network_node)
 

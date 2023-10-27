@@ -154,7 +154,7 @@ async def consumer_scenario_update_callback(message: SpaMessage, socket: SpaSock
     logging.debug("update scenario=%s", payload)
     scenario_identifier = payload['scenario_identifier']
     consumer_node = ConsumerNode(scenario_identifier=scenario_identifier)
-    consumer_node.consumers = ScenarioModel(consumers=payload['consumers']['consumers'])
+    consumer_node.consumers = ScenarioModel(consumers=payload['consumers'])
     consumer_node.consumption_models = { consumer.identifier: None for consumer in consumer_node.consumers.consumers }
     logging.debug("update scenario consumer_node=%s", consumer_node)
 
