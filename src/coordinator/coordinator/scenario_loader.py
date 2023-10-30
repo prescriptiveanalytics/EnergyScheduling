@@ -84,7 +84,7 @@ async def update_scenario(socket: SpaSocket, state):
             topic = "consumer/scenario"
         )
     )
-    for cm in data_consumer['consumers']:
+    for cm in data_consumer:
         logging.info("update consumer model for consumer=%s, with model %s", cm['identifier'], cm['profile_identifier'])
         with open(consumer_model_path / cm['profile_identifier'], "rb") as model_input_file:
             model_content = model_input_file.read()
@@ -106,7 +106,7 @@ async def update_scenario(socket: SpaSocket, state):
             topic = "generator/scenario"
         )
     )
-    for gm in data_generator['generators']:
+    for gm in data_generator:
         logging.info("update generator model for generator=%s, with model %s", gm['identifier'], gm['profile_identifier'])
         with open(generator_model_path / gm['profile_identifier'], "rb") as model_input_file:
             model_content = model_input_file.read()
@@ -158,8 +158,8 @@ if __name__ == '__main__':
             with open(scenario_file, "rt", encoding='utf-8') as input_file:
                 scenario = json.load(input_file)
             scenario_uuid = str(uuid.uuid4())            
-            data_consumer = scenario['scenario']['consumer']
-            data_generator = scenario['scenario']['generator']
+            data_consumer = scenario['scenario']['consumers']
+            data_generator = scenario['scenario']['generators']
             data_network = scenario['scenario']['network']
             app_update_scenario.start()
     elif len(sys.argv) == 4:

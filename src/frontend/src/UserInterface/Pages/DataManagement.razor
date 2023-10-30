@@ -1,0 +1,120 @@
+﻿@page "/datamanagement"
+
+@inherits FluxorComponent
+
+@using System.IO.Compression;
+@using System.Text;
+@using UserInterface.Data;
+@using UserInterface.Store;
+
+@inject IDispatcher Dispatcher
+@inject IState<ScenarioDataState> ScenarioDataState
+
+<PageTitle>spa - energy network scenario loader</PageTitle>
+
+<h1>Scenario Loader</h1>
+
+<MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+    <ButtonTemplate>
+        <MudButton HtmlTag="label"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                   for="@context">
+            Upload Files
+        </MudButton>
+    </ButtonTemplate>
+</MudFileUpload>
+
+@if (ScenarioDataState.Value.Initialized)
+{
+    <MudDataGrid Items="@ScenarioDataState.Value.ScenarioData.ConfigJsonData.Values">
+        <Columns>
+            <PropertyColumn Property="x => x.Scenario.Name" Title="Name" />
+            <PropertyColumn Property="x => x.Scenario.Version" Title="Version" />
+            <PropertyColumn Property="x => x.Scenario.Consumers.Length" Title="No consumers" />
+            <PropertyColumn Property="x => x.Scenario.Generators.Length" Title="No generators" />
+            <PropertyColumn Property="x => x.Scenario.Network.Buses.Length" Title="No buses" />
+        </Columns>
+    </MudDataGrid>
+}
+
+@code {
+    IBrowserFile fileUpload;
+    private byte[] fileContents;
+    IList<ZipArchiveEntry> files;
+    IDictionary<string, byte[]> zipContents;
+
+    private async void UploadFiles(IBrowserFile file)
+    {
+        files = new List<ZipArchiveEntry>();
+
+        fileUpload = file;
+        fileContents = new byte[fileUpload.Size];
+
+        using (var uploadStream = file.OpenReadStream(fileUpload.Size))
+        {
+            await uploadStream.ReadExactlyAsync(fileContents, 0, (int)fileUpload.Size);
+        }
+
+        Console.WriteLine("zip upload finished");
+
+        zipContents = new Dictionary<string, byte[]>();
+        using (var zip = new ZipArchive(new MemoryStream(fileContents), ZipArchiveMode.Read))
+        {
+            foreach (var entry in zip.Entries)
+            {
+                Console.Write($"unpack file={entry.FullName}, length={entry.Length} ... ");
+                if (entry.Length == 0)
+                {
+                    Console.WriteLine($"skip");
+                    continue;
+                }
+
+                files.Append(entry);
+                byte[] fc = new byte[entry.Length];
+                using (var stream = entry.Open())
+                {
+                    await stream.ReadExactlyAsync(fc, 0, fc.Length);
+                }
+                zipContents.Add(entry.FullName, fc);
+                Console.WriteLine($"finished read {fc.Length} bytes");
+            }
+        }
+
+        foreach (var kvp in zipContents)
+        {
+            Console.WriteLine($"Key={kvp.Key}, Value.Length={kvp.Value.Length}");
+        }
+
+        IEnumerable<KeyValuePair<string, byte[]>> rawScenarios = zipContents.Where(x => x.Key.EndsWith(".json"));
+        IDictionary<string, ScenarioModelJson> scenarios = new Dictionary<string, ScenarioModelJson>();
+
+        foreach (var kvp in rawScenarios)
+        {
+            string config = Encoding.UTF8.GetString(kvp.Value, 0, kvp.Value.Length);
+            ScenarioModelJson? smj = System.Text.Json.JsonSerializer.Deserialize<ScenarioModelJson>(config, new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            if (smj?.Scenario?.Name == null)
+            {
+                continue;
+            } else if (smj?.Scenario?.Version == null)
+            {
+                continue;
+            }
+            scenarios.Add(kvp.Key, smj);
+        }
+
+        IDictionary<string, byte[]> models = new Dictionary<string, byte[]>();
+        foreach (var kvp in zipContents)
+        {
+            if (scenarios.Keys.Contains(kvp.Key)) continue;
+            models.Add(kvp.Key, kvp.Value);
+        }
+        ScenarioData sd = new ScenarioData()
+            {
+                ConfigJsonData = scenarios,
+                Models = models
+            };
+        Dispatcher.Dispatch(new ScenarioDataSetDataAction(sd));
+    }
+}

@@ -146,7 +146,7 @@ async def generator_scenario_update_callback(message: SpaMessage, socket: SpaSoc
     logging.debug("update scenario=%s", payload)
     scenario_identifier = payload['scenario_identifier']
     generator_node = GeneratorNode(scenario_identifier=scenario_identifier)
-    generator_node.generators = ScenarioModel(generators=payload['generators']['generators'])
+    generator_node.generators = ScenarioModel(generators=payload['generators'])
     generator_node.generation_models = { consumer.identifier: None for consumer in generator_node.generators.generators }
     logging.debug("update scenario generator_node=%s", generator_node)
 

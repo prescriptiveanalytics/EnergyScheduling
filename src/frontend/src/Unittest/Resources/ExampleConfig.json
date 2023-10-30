@@ -1,0 +1,127 @@
+{
+    "scenario": {
+        "name": "3 Consumer, 1 Generator",
+        "description": "simple test network",
+        "version": "2023-10-25-V1",
+        "consumers": [
+            {
+                "name": "Household 1",
+                "identifier": "09cc00e3-9435-47a3-892a-cc6ebfc8d22c",
+                "latitude": 48.3789,
+                "longitude": 14.5175,
+                "address": "Risc Strasse 1",
+                "level": 7,
+                "type": "load",
+                "category": "household",
+                "profile_identifier": "london2011-2014_cluster0"
+            },
+            {
+                "name": "Household 2",
+                "identifier": "86423b63-04d9-44d6-bec4-99e08563c812",
+                "latitude": 48.3791,
+                "longitude": 14.5177,
+                "address": "Risc Strasse 2",
+                "level": 7,
+                "type": "load",
+                "category": "household",
+                "profile_identifier": "london2011-2014_cluster0"
+            },
+            {
+                "name": "Household 3",
+                "identifier": "fb72ab42-9b8c-4c4f-9d4e-bc290adf686c",
+                "latitude": 48.3793,
+                "longitude": 14.5179,
+                "address": "Risc Strasse 3",
+                "level": 7,
+                "type": "load",
+                "category": "household",
+                "profile_identifier": "london2011-2014_cluster0"
+            }
+        ],
+        "generators": [
+            {
+                "name": "photovoltaic 1",
+                "identifier": "a6fa3c24-e12a-4cf1-b16f-a9894bf7f9d7",
+                "latitude": 48.3795,
+                "longitude": 14.5181,
+                "address": "Risc Strasse 4",
+                "level": 7,
+                "type": "generator",
+                "category": "household",
+                "profile_identifier": "hgb_east_10kwp"
+            }
+        ],
+        "network": {
+            "entities": [
+                {
+                    "name": "grid connection 1",
+                    "identifier": "cbf0bf51-453b-4897-883f-4708a0938331",
+                    "latitude": 48.3787,
+                    "longitude": 14.5173,
+                    "address": "Risc Strasse 0",
+                    "type": "network",
+                    "category": "network",
+                    "network_entity": "network"
+                }
+            ],
+            "buses": [
+                {
+                    "identifier": "09cc00e3-9435-47a3-892a-cc6ebfc8d22c",
+                    "voltage": 400,
+                    "category": "consumer",
+                    "type": "load"
+                },
+                {
+                    "identifier": "86423b63-04d9-44d6-bec4-99e08563c812",
+                    "voltage": 400,
+                    "category": "consumer",
+                    "type": "load"
+                },
+                {
+                    "identifier": "fb72ab42-9b8c-4c4f-9d4e-bc290adf686c",
+                    "voltage": 400,
+                    "category": "consumer",
+                    "type": "load"
+                },
+                {
+                    "identifier": "cbf0bf51-453b-4897-883f-4708a0938331",
+                    "voltage": 400,
+                    "category": "grid_connection",
+                    "type": "grid_connection"
+                },
+                {
+                    "identifier": "a6fa3c24-e12a-4cf1-b16f-a9894bf7f9d7",
+                    "voltage": 400,
+                    "category": "generator",
+                    "type": "generation"
+                }
+            ],
+            "lines": [
+                {
+                    "from_bus": "cbf0bf51-453b-4897-883f-4708a0938331",
+                    "to_bus": "09cc00e3-9435-47a3-892a-cc6ebfc8d22c",
+                    "std_type": "NAYY 4x50 SE",
+                    "length_km": 0.1
+                },
+                {
+                    "from_bus": "09cc00e3-9435-47a3-892a-cc6ebfc8d22c",
+                    "to_bus": "86423b63-04d9-44d6-bec4-99e08563c812",
+                    "std_type": "NAYY 4x50 SE",
+                    "length_km": 0.1
+                },
+                {
+                    "from_bus": "86423b63-04d9-44d6-bec4-99e08563c812",
+                    "to_bus": "fb72ab42-9b8c-4c4f-9d4e-bc290adf686c",
+                    "std_type": "NAYY 4x50 SE",
+                    "length_km": 0.1
+                },
+                {
+                    "from_bus": "fb72ab42-9b8c-4c4f-9d4e-bc290adf686c",
+                    "to_bus": "a6fa3c24-e12a-4cf1-b16f-a9894bf7f9d7",
+                    "std_type": "NAYY 4x50 SE",
+                    "length_km": 0.1
+                }
+            ]
+        }
+    }
+}
