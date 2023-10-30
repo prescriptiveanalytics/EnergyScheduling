@@ -19,8 +19,6 @@ from domain_models.ConsumerModel import ConsumerModel, ConsumerCollection
 from domain_models.GeneratorModel import GeneratorModel, GeneratorCollection
 from domain_models.PowerGenerationModel import PowerGenerationModel, PowerGenerationCollection
 from domain_models.OptimalPowerFlow import OptimalPowerFlowSolution
-from domain_models.PvModel import PvCollection
-from domain_models.PowerPvModel import PowerPvModel, PowerPvCollection
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
@@ -38,7 +36,6 @@ config["port"] = os.getenv("MQTT_PORT", config["port"])
 initialized: bool = False
 consumers: ConsumerCollection = None
 generators: GeneratorCollection = None
-pvs: PvCollection = None
 network: NetworkModel = None
 
 network_node: NetworkNode = NetworkNode("")
@@ -167,6 +164,7 @@ async def fetch_loads_dat(consumers: ConsumerCollection, unix_timestamp_seconds:
             SpaMessage(
                 topic = f"consumer/{c.identifier}/consumption",
                 payload = str(unix_timestamp_seconds),
+                # response_topic = f"consumer/{c.identifier}/consumption/response"
             )
         )
         consumer_loads[c.identifier] = json.loads(consumption.payload.decode('utf-8'))
@@ -181,6 +179,7 @@ async def fetch_generations_dat(generators: GeneratorCollection, unix_timestamp_
             SpaMessage(
                 topic = f"generator/{g.identifier}/generation",
                 payload = str(unix_timestamp_seconds),
+                # response_topic = f"generator/{g.identifier}/generation/response"
             )
         )
         generator_generations[g.identifier] = json.loads(generation.payload.decode('utf-8'))
@@ -192,6 +191,7 @@ async def query_network_participants_dat(network_node: NetworkNode, socket: SpaS
         SpaMessage(
             payload = "",
             topic = "consumer/all",
+            # response_topic= "consumer/all/response"
         )
     )
     logging.debug("received consumsers=%s", consumers_response)
