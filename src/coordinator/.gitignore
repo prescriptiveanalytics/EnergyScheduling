@@ -16,6 +16,8 @@ reports/
 *.zip*
 data/
 output/
+results_cache/
+
 
 # direnv
 .envrc
