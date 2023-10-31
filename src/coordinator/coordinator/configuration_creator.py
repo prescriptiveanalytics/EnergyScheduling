@@ -1,6 +1,22 @@
 import pandas as pd
 import json
 import uuid
+import os
+
+"""
+This script is designed to generate a configuration JSON file that defines a scenario for a consumer-generator network, 
+including consumers, generators, network entities, buses and lines.
+
+Usage (see main function at the bottom of this file):
+1.  Provide a location specifying a latitude and longitude. The default values for the location are Hagenberg im Mühlkreis, Austria.
+    Also choose a consumer- and generator model and create instances of DataFrameCreator to generate DataFrames for grid connections, 
+    households and generators. You can specify the number of consumers, generators, grid connections and other parameters in the main 
+    function as well.
+2.  Create an instance of ConfigurationCreator by providing the DataFrames created in step 1.
+3.  Call the generate_config method to generate the JSON configuration for the scenario.
+4.  The JSON configuration is saved to a file named "config.json" in the "scenarios" folder.
+
+"""
 
 class ConfigurationCreator:
     def __init__(self, df_grid_connection, df_household, df_generation):
@@ -12,18 +28,12 @@ class ConfigurationCreator:
         # set architecture of json
         return {
             "scenario": {
-                "consumer": {
-                    "consumers": []
-                },
-                "generator": {
-                    "generators": []
-                },
-                "network": {
-                    "network": {
-                        "entities": [],
-                        "bus": [],
-                        "lines": []
-                    }
+                "consumers": [],
+                "generators": [],
+                "networks": {
+                    "entities": [],
+                    "bus": [],
+                    "lines": []
                 }
             }
         }
@@ -90,7 +100,7 @@ class ConfigurationCreator:
             for dict in hh_dict:
                 dict.update(self.__set_attr_households())
         # fill json with values
-        json_str["scenario"]["consumer"]["consumers"] = hh_dict
+        json_str["scenario"]["consumers"] = hh_dict
         
         # generator:
         # convert each entry to a dict
@@ -101,7 +111,7 @@ class ConfigurationCreator:
             for dict in gen_dict:
                 dict.update(self.__set_attr_generator())
         # append values to json
-        json_str["scenario"]["generator"]["generators"] = gen_dict
+        json_str["scenario"]["generators"] = gen_dict
         
         # grid connections - entities:
         # convert each entry to a dict
@@ -111,7 +121,7 @@ class ConfigurationCreator:
             for dict in ent_dict:
                 dict.update(self.__set_attr_entities())
         # append values to json
-        json_str["scenario"]["network"]["network"]["entities"] = ent_dict
+        json_str["scenario"]["networks"]["entities"] = ent_dict
         
         # get ids
         id_hh = self.df_hh.identifier.tolist()
@@ -120,12 +130,12 @@ class ConfigurationCreator:
         # add buses
         buses = self.__get_buses(id_hh, id_grid, id_gen)
         # append to json string
-        json_str["scenario"]["network"]["network"]["bus"] = buses
+        json_str["scenario"]["networks"]["bus"] = buses
             
         # add lines
         lines = self.__get_lines(id_grid + id_hh + id_gen)
         # append list to json string
-        json_str["scenario"]["network"]["network"]["lines"] = lines
+        json_str["scenario"]["networks"]["lines"] = lines
         return json_str
         
     def __get_buses(self, id_hh, id_grid, id_gen):
@@ -191,7 +201,7 @@ class DataFrameCreator:
             types.append("network")
             category.append("network")
             network_entity.append("network")
-            # increment location
+            # increment location and address 
             self.lat += 0.0002
             self.lon += 0.0002
             self.address_number += 1
@@ -293,13 +303,14 @@ class DataFrameCreator:
 
 if __name__ == "__main__":
     # set models and variables
-    generator_model = "hgb_east_10kwp"
+    generator_model = "hgb_south_10kwp"
     consumer_model = "london2011-2014_cluster0"
-    consumer = 300
+    consumer = 500
     generators = 1
     grid_conns = 1
     
     # create csv data and save to given paths
+    # if you want to choose another city, add parameters latitude and longitude
     c = DataFrameCreator(consumer, generators, grid_conns, generator_model, consumer_model)    
     df_grid = c.create_df_grid_connection()
     df_hh = c.create_df_household()
@@ -310,5 +321,7 @@ if __name__ == "__main__":
     json_str = config_creator.generate_config()
     # save json config
     json_obj = json.dumps(json_str, indent=4)
+    if not os.path.exists(f"scenarios/{consumer}_consumer"):
+        os.makedirs(f"scenarios/{consumer}_consumer")
     with open(f"scenarios/{consumer}_consumer/config.json", "w") as of:
         of.write(json_obj)
