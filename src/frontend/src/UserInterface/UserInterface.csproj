@@ -13,11 +13,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Resources\" />
     <Folder Include="wwwroot\css\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\DistributedApplicationTools\src\Communication\Communication.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\..\DistributedApplicationTools\src\Configuration\Configuration.csproj" />
     <ProjectReference Include="..\LeafletMap\BlazorLeaflet.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Resources\opf_1641002400.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
