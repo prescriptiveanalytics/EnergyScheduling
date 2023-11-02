@@ -124,7 +124,7 @@
                 "address": "Risc Straße 11",
                 "type": "generator",
                 "category": "household",
-                "profile_identifier": "pvgis_hgp_south_10kwp"
+                "profile_identifier": "hgb_south_10kwp"
             }]
         },
         "network": {
