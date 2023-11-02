@@ -12,6 +12,14 @@ from spa_dat.provider import SocketProviderFactory
 from spa_dat.socket.mqtt import MqttConfig
 from spa_dat.socket.typedef import SpaMessage, SpaSocket
 
+""" 
+This Python script is used for querying and processing data related to a power grid scenario. It sets up an environment 
+for distributed applications using MQTT, loads configuration from a JSON file and defines various callback functions to query and 
+process data related to consumers, generators and the network. The script also includes functions for retrieving data and time 
+series information, with a focus on processing and analyzing data related to power load, generators and network entities within 
+the power grid scenario.
+"""
+
 logger = logging.getLogger(__name__)
 logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
 config_file = "config.json"
@@ -54,7 +62,6 @@ async def query_consumers(socket: SpaSocket, state):
         SpaMessage(
             payload = "",
             topic = "consumer/all",
-            response_topic = "consumer/all/response"
         )
     )
     logging.debug("received consumers=%s", consumers_response)
@@ -68,7 +75,6 @@ async def query_generators(socket: SpaSocket, state):
         SpaMessage(
             payload = "",
             topic = "generator/all",
-            response_topic = "generator/all/response"
         )
     )
     logging.debug("received generators=%s", generators_response)
@@ -82,7 +88,6 @@ async def query_network(socket: SpaSocket, state):
         SpaMessage(
             payload = "",
             topic = "network/all",
-            response_topic = "network/all/response"
         )
     )
     logging.debug("received networks=%s", network_response)
@@ -100,7 +105,6 @@ async def query_range(socket: SpaSocket, state):
                 SpaMessage(
                     payload = str(ts),
                     topic = "network/opf",
-                    response_topic = "network/opf/response"
                 )
             )
             opf[ts] = json.loads(network_opf_response.payload)

@@ -17,6 +17,11 @@ from domain_models.Consumer import (ConsumerCollection, ConsumerModel,
 from domain_models.PowerConsumptionModel import PowerConsumptionModel
 from ConsumerNode import ConsumerNode
 
+""" 
+This script is designed to manage consumer models and their associated power consumption data using the spa-dat package
+and MQTT communication. It is used to control and to interact with simulated consumers in a power grid system.
+"""
+
 # create and configure logger
 logger = logging.getLogger(__name__)
 logging.basicConfig(encoding='utf-8', level=logging.DEBUG)

@@ -2,6 +2,12 @@ import random
 import pandas as pd
 from datetime import datetime
 
+""" 
+The classes in this script are used for generating synthetic consumption data based on different templates: random consumption, 
+daily consumption, and yearly consumption. The specific template and corresponding consumption value are determined based 
+on the current time provided as a Unix timestamp.
+"""
+
 class RandomConsumption:
     def __init__(self, identifier: str):
         self.identifier: str = identifier

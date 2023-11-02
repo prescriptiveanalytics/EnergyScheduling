@@ -13,6 +13,21 @@ from spa_dat.provider import SocketProviderFactory
 from spa_dat.socket.mqtt import MqttConfig
 from spa_dat.socket.typedef import SpaMessage, SpaSocket
 
+"""
+This python script is designed to create and export optimal power flow json files based on a preloaded model.
+It sets up the SPA_DAT library for communication using MQTT, with configurations including payload format and MQTT host/port settings.
+The script defines query parameters such as the start timestamp, time interval, and the number of intervals to query. It calculates 
+query times based on these parameters. The script checks for a cache directory and stores queried results there to avoid redundant queries. 
+It logs information about queried files.
+
+Usage:
+1. Ensure the "config.json" file contains the necessary configuration settings.
+2. Set the desired query parameters, such as the start timestamp, time interval, and the number of intervals.
+3. Run the script to start the distributed application and query network data.
+4. Queried data is cached in the specified directory for future use.
+
+"""
+
 logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
 
 config_file = Path(__file__).parent / "config.json"
@@ -35,6 +50,7 @@ results = dict()
 start_timestamp = datetime.datetime(2022, 1, 1, 0, 0, 0).timestamp()
 interval = 900
 number_intervals = int(365*24*4)
+# number_intervals = int(24*4)
 query_times = [start_timestamp + i*interval for i in range(0, number_intervals)]
 
 cache_dir = "./results_cache"
@@ -66,7 +82,7 @@ async def query_range(socket: SpaSocket, state):
             SpaMessage(
                     payload = str(ts),
                     topic = "network/opf",
-                    response_topic = "network/opf/response"
+                    # response_topic = "network/opf/response"
             )
         )
         

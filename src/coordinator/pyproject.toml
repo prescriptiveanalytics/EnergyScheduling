@@ -36,6 +36,7 @@ pandas = "^2.1.1"
 spa-dat = {version = "0.3.0", source = "risc-pypi"}
 plotly = "^5.17.0"
 dash = "^2.13.0"
+python-igraph = "^0.11.2"
 [tool.poetry.group.dev.dependencies]  
 poethepoet = "^0.20.0"
 black = { version = "^23.3.0", extras = ["jupyter"] }

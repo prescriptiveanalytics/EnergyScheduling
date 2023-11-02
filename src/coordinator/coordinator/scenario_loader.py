@@ -16,10 +16,10 @@ from spa_dat.socket.typedef import SpaMessage, SpaSocket
 This script loads a scenario or updates a generator or consumer model.
 
 If you want to load a whole scenario, you have to call the script with three arguments:
-    1. the name of the script which is called (scenario_loader.py)
+    1. the name of the script which is called ("scenario_loader.py")
     2. what you want to load/update ("scenario")
     3. the path of the scenario to load (config.json-file)
-Example call:    python scenario_loader.py scenario path/of/scenario
+Example call:    python scenario_loader.py scenario path/of/config-file-scenario
 
 If you want to update a model to an existing scenario, you have to call the script with four arguments:
     1. the name of the script which is called (scenario_loader.py)
