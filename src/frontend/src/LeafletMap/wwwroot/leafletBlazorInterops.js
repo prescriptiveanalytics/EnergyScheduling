@@ -89,6 +89,10 @@ window.leafletBlazor = {
             layer.setLatLngs(shapeToLatLngArray(polyline.shape));
         }
     },
+    addAntPolyline: function (mapId, antpolyline) {
+        const layer = L.polyline.antPath(shapeToLatLngArray(antpolyline.shape), createAntPolyline(antpolyline));
+        addLayer(mapId, layer, antpolyline.id);
+    },
     addPolygon: function (mapId, polygon, objectReference) {
         const layer = L.polygon(shapeToLatLngArray(polygon.shape), createPolyline(polygon));
         addLayer(mapId, layer, polygon.id);
@@ -256,6 +260,19 @@ function createPolyline(polyline) {
         ...createPath(polyline),
         smoothFactor: polyline.smoothFactor,
         noClip: polyline.noClipEnabled
+    };
+}
+
+function createAntPolyline(antpolyline) {
+    return {
+        ... createPath(antpolyline),
+        delay: antpolyline.delay,
+        dashArray: antpolyline.dashArray,
+        weight: antpolyline.weight,
+        color: antpolyline.color,
+        pulseColor: antpolyline.pulseColor,
+        reverse: antpolyline.reverse,
+        paused: antpolyline.paused
     };
 }
 

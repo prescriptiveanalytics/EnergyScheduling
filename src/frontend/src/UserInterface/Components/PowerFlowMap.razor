@@ -1,0 +1,181 @@
+﻿@using BlazorLeaflet
+@using BlazorLeaflet.Models;
+@using System.Drawing;
+@using UserInterface.Data;
+
+@inject IJSRuntime JSRuntime
+
+<div id ="mapContainer" style="height: 400px; width: 100%">
+    <p>Map</p>
+	<LeafletMap Map="_map"/>
+</div>
+
+@code {
+
+    [Parameter] public PowerFlow? PowerFlow { get { return _powerFlow; } set { _powerFlow = value; ProcessPowerFlow(); } }
+    [Parameter] public ScenarioModelJson? ScenarioData { get; set; }
+
+    // Reference to map
+    private Map _map;
+
+    private PowerFlow? _powerFlow;
+
+    // Mapping from UUID of the objects to Points
+    private IDictionary<string, PointF> _uuidToPointF = new Dictionary<string, PointF>();
+    private IDictionary<int, string> _idToUuid = new Dictionary<int, string>();
+
+    // Map region
+    private float minLatitude = float.MaxValue;
+    private float minLongitude = float.MaxValue;
+    private float maxLatitude = float.MinValue;
+    private float maxLongitude = float.MinValue;
+
+    private List<PowerLineInformation> _powerLineInformation = new List<PowerLineInformation>();
+
+    protected override void OnInitialized()
+    {
+        _map = new Map(JSRuntime);
+        _map.OnInitialized += () =>
+        {
+            _map.AddLayer(new TileLayer
+                {
+                    UrlTemplate = "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    Attribution = "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+                });
+            _map.FitBounds(new PointF(48.87f, 12.79f), new PointF(47.25f, 15.12f), maxZoom: 15f);
+
+            ProcessConsumers();
+            ProcessGenerators();
+            ProcessNetwork();
+            ProcessPowerFlow();
+            _map.FitBounds(new PointF(minLatitude, minLongitude), new PointF(maxLatitude, maxLongitude), maxZoom: 15f);
+
+        };
+        base.OnInitialized();
+    }
+
+    private void ProcessConsumers()
+    {
+        foreach (var c in ScenarioData.Scenario.Consumers)
+        {
+            minLatitude = Math.Min(minLatitude, c.Latitude);
+            maxLatitude = Math.Max(maxLatitude, c.Latitude);
+            minLongitude = Math.Min(minLongitude, c.Longitude);
+            maxLongitude = Math.Max(maxLongitude, c.Longitude);
+
+            _uuidToPointF.Add(c.Identifier, new PointF(c.Latitude, c.Longitude));
+
+            LatLng latLng = new LatLng(c.Latitude, c.Longitude);
+            var marker = new Marker(latLng)
+                {
+                    Title = c.Name
+                };
+            _map.AddLayer(marker);
+        }
+    }
+
+    private void ProcessGenerators()
+    {
+        foreach (var g in ScenarioData.Scenario.Generators)
+        {
+            minLatitude = Math.Min(minLatitude, g.Latitude);
+            maxLatitude = Math.Max(maxLatitude, g.Latitude);
+            minLongitude = Math.Min(minLongitude, g.Longitude);
+            maxLongitude = Math.Max(maxLongitude, g.Longitude);
+
+            _uuidToPointF.Add(g.Identifier, new PointF(g.Latitude, g.Longitude));
+
+            LatLng latLng = new LatLng(g.Latitude, g.Longitude);
+            var marker = new Marker(latLng)
+                {
+                    Title = g.Name
+                };
+            _map.AddLayer(marker);
+        }
+    }
+
+    private void ProcessNetwork()
+    {
+        foreach (var n in ScenarioData.Scenario.Network.Entities)
+        {
+            minLatitude = Math.Min(minLatitude, n.Latitude);
+            maxLatitude = Math.Max(maxLatitude, n.Latitude);
+            minLongitude = Math.Min(minLongitude, n.Longitude);
+            maxLongitude = Math.Max(maxLongitude, n.Longitude);
+
+            LatLng latLng = new LatLng(n.Latitude, n.Longitude);
+            _uuidToPointF.Add(n.Identifier, new PointF(n.Latitude, n.Longitude));
+            var marker = new Marker(latLng)
+                {
+                    Title = n.Name,
+                };
+            _map.AddLayer(marker);
+        }
+
+        var polyLines = new List<PointF[]>();
+        int lineId = 0;
+        foreach (var l in ScenarioData.Scenario.Network.Lines)
+        {
+            var line = new List<PointF>();
+            line.Add(_uuidToPointF[l.FromBus]);
+            line.Add(_uuidToPointF[l.ToBus]);
+            polyLines.Add(line.ToArray<PointF>());
+
+            PowerLineInformation pli = new PowerLineInformation
+            {
+                    FromUuid = l.FromBus,
+                    ToUuid = l.ToBus,
+                    LineId = lineId.ToString(),
+                    Path = line.ToArray<PointF>()
+            };
+            _powerLineInformation.Add(pli);
+            lineId++;
+        }
+        var polyline = new Polyline
+        {
+            Shape = polyLines.ToArray<PointF[]>(),
+
+        };
+        _map.AddLayer(polyline);
+    }
+
+    private void ProcessPowerFlow()
+    {
+        if (PowerFlow != null)
+        {
+            Console.WriteLine("Processing powerflow...");
+            // get powerflow for the lines
+            ResLine resLine = PowerFlow.ResLine;
+            int i = 1;
+            foreach (var line in _powerLineInformation)
+            {
+                double lp = resLine.LoadingPercent.Where(x => x.Key == line.LineId).FirstOrDefault().Value;
+                line.LoadingPercentage = lp;
+                double pFromMw = resLine.PFromMw.Where(x => x.Key == line.LineId).FirstOrDefault().Value;
+                line.PFromMw = pFromMw;
+                double pToMw = resLine.PToMw.Where(x => x.Key == line.LineId).FirstOrDefault().Value;
+                line.PToMw = pToMw;
+
+                AntPolyline apl = new AntPolyline()
+                    {
+                        Shape = new PointF[][] { line.Path },
+                        Reverse = line.PFromMw < line.PToMw,
+                        Paused = line.PToMw == 0
+                    };
+                i++;
+                _map.AddLayer(apl);
+            }
+        }
+    }
+
+    private class PowerLineInformation
+    {
+        public string FromUuid { get; set; }
+        public string ToUuid { get; set; }
+        public PointF[] Path { get; set; }
+        public string LineId { get; set; }
+        public double PFromMw { get; set; }
+        public double PToMw { get; set; }
+        public double LoadingPercentage { get; set; }
+    }
+}

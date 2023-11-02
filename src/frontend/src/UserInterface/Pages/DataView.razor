@@ -202,6 +202,6 @@
 
     private void OnValueChanged(ScenarioModelJson scenarioModelJson)
     {
-        Dispatcher.Dispatch(new ScenarioDataSetSelectedScenario(scenarioModelJson));
+        Dispatcher.Dispatch(new ScenarioDataSetSelectedScenarioAction(scenarioModelJson));
     }
 }
