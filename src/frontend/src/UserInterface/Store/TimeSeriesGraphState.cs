@@ -34,9 +34,9 @@ namespace UserInterface.Store
 
     public class UpdateChartDataAction
     {
-        public IDictionary<DateTime, PowerFlow> PowerFlowData;
+        public IDictionary<DateTime, OptimalPowerFlow> PowerFlowData;
 
-        public UpdateChartDataAction(IDictionary<DateTime, PowerFlow> powerFlowData)
+        public UpdateChartDataAction(IDictionary<DateTime, OptimalPowerFlow> powerFlowData)
         {
             PowerFlowData = powerFlowData;
         }
@@ -55,6 +55,7 @@ namespace UserInterface.Store
             // sgen, ext_grid, load
             foreach (var pf in action.PowerFlowData.Values)
             {
+                // TODO
                 gen.Add(pf.ResSgen.PMw.Values.Sum());
                 load.Add(pf.ResLoad.PMw.Values.Sum());
                 grid.Add(pf.ResExtGrid.PMw.Values.Sum());

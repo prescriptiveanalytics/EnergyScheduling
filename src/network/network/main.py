@@ -5,6 +5,9 @@ import requests
 import logging
 from typing import List
 from pathlib import Path
+import base64
+
+import humps
 
 from spa_dat.application.application import DistributedApplication
 from spa_dat.config import PayloadFormat, SocketConfig
@@ -45,48 +48,10 @@ scenario = None
 with open(scenario_file, "r") as input_file:
     logging.debug("read scenario file")
     scenario = json.load(input_file)
-    scenario["network"] = NetworkModel(**scenario["network"])
-    network_node.networks = ScenarioNetworkModel(network=scenario["network"])
+    scenario["Network"] = NetworkModel(**scenario["Network"])
+    network_node.networks = ScenarioNetworkModel(Network=scenario["Network"])
 
 logging.debug("initial network_node=%s", network_node)
-
-def fetch_loads(consumers, unix_timestamp_seconds):
-    consumer_loads = {}
-    for c in consumers:
-        logging.debug(f"request consumption for {c}")
-        request_consumers = f"{config['consumer_api']}/consumer/{c.identifier}/consumption/{unix_timestamp_seconds}"
-        logging.debug(f"request consumption url {request_consumers}")
-        result = requests.get(request_consumers)
-        logging.debug(f"got customer {c.identifier}={result.json()}")
-        consumer_loads[c.identifier] = PowerConsumptionModel(**result.json())
-    logging.debug(f"fetched consumer loads: {consumer_loads}")
-    return consumer_loads
-
-def fetch_generations(generators, unix_timestamp_seconds):
-    generators_power = {}
-    for g in generators:
-        logging.debug(f"request generation for {g}")
-        request_generators = f"{config['generator_api']}/generator/{g.identifier}/generation/{unix_timestamp_seconds}"
-        logging.debug(f"request generator url {request_generators}")
-        result = requests.get(request_generators)
-        logging.debug(f"got generator {g.identifier}={result.json()}")
-        generators_power[g.identifier] = PowerGenerationModel(**result.json())
-    logging.debug(f"fetched generators: {generators_power}")
-    return generators_power
-
-# TODO:
-def fetch_pvs(pvs, unix_timestamp_seconds):
-    pv_power = {}
-    for p in pvs:
-        logging.debug(f"request pvnode for {p}")
-        request_pvs = f"{config['pvnode_api']}/pvnode/{p.identifier}/pv/{unix_timestamp_seconds}"
-        logging.debug(f"request pvnode url {request_pvs}")
-        result = requests.get(request_pvs)
-        logging.debug(f"got pvnode {p.identifier}={result.json()}")
-        pv_power[p.identifier] = PowerPvModel(**result.json())
-    logging.debug(f"fetched pvs: {pv_power}")
-    return pv_power
-# end TODO   
 
 def initialize_network(network_config, generations: PowerGenerationCollection, loads: PowerConsumptionCollection) -> OptimalPowerFlowSolution:
     # create network
@@ -95,42 +60,42 @@ def initialize_network(network_config, generations: PowerGenerationCollection, l
 
     # create buses
     logging.debug("create buses")
-    bus_data = network_config.bus
+    bus_data = network_config.Buses
     buses = {} # dictionary holding all created buses
     for b in bus_data:
-        logging.debug("create bus=%s", b.identifier)
-        bn = pp.create_bus(net, vn_kv=b.voltage/1000, name=b.identifier)
-        buses[b.identifier] = bn
+        logging.debug("create bus=%s", b.Identifier)
+        bn = pp.create_bus(net, vn_kv=b.Voltage/1000, name=b.Identifier)
+        buses[b.Identifier] = bn
 
     # create grid connection
-    logging.debug(f"create network entities")
-    grid_connections = [x for x in network_config.bus if x.type == "grid_connection"]
+    logging.debug("create network entities")
+    grid_connections = [x for x in network_config.Buses if x.Type == "grid_connection"]
     if len(grid_connections) != 1:
         logging.error("No or more than one grid connection")
     gc = grid_connections[0]
-    gc_entity = [x for x in network_config.entities if x.identifier == gc.identifier][0]
-    pp.create_ext_grid(net, bus=buses[gc.identifier], vm_pu=1.02, name=gc_entity.name)
+    gc_entity = [x for x in network_config.Entities if x.Identifier == gc.Identifier][0]
+    pp.create_ext_grid(net, bus=buses[gc.Identifier], vm_pu=1.02, name=gc_entity.Name)
 
     # create load
-    logging.debug(f"create loads")
-    for identifier, load in loads.consumptions.items():
+    logging.debug("create loads")
+    for identifier, load in loads.Consumptions.items():
         logging.debug(f"consumer load for {identifier}: {load}")
-        pp.create_load(net, bus=buses[identifier], p_mw=load.usage/1000000, q_mvar=0.05, name=identifier)
+        pp.create_load(net, bus=buses[identifier], p_mw=load.Usage/1000000, q_mvar=0.05, name=identifier)
 
-    logging.debug(f"create generations")
-    for identifier, generation in generations.generations.items():
+    logging.debug("create generations")
+    for identifier, generation in generations.Generations.items():
         logging.debug(f"generation power for {identifier}: {generation}")
-        pp.create_sgen(net, bus=buses[identifier], p_mw=generation.generation/1000000, name=identifier)
+        pp.create_sgen(net, bus=buses[identifier], p_mw=generation.Generation/1000000, name=identifier)
 
-    logging.debug(f"create lines")
+    logging.debug("create lines")
     x = 1
-    for line in network_config.lines:
-        logging.debug(f"create line from {line.from_bus} to {line.to_bus}")
-        frombus = buses[line.from_bus]
-        tobus = buses[line.to_bus]
-        name = f"{line.from_bus}-{line.to_bus}"
+    for line in network_config.Lines:
+        logging.debug(f"create line from {line.FromBus} to {line.ToBus}")
+        frombus = buses[line.FromBus]
+        tobus = buses[line.ToBus]
+        name = f"{line.FromBus}-{line.ToBus}"
         #pp.create_line(net, from_bus=frombus, to_bus=tobus, length_km=line.length_km, std_type=line.std_type)
-        pp.create_line_from_parameters(net, from_bus=frombus, to_bus=tobus, length_km=line.length_km, r_ohm_per_km=0.001, x_ohm_per_km=0, c_nf_per_km=0, r0_ohm_per_km=0, x0_ohm_per_km=0, c0_nf_per_km=0, max_i_ka=100)
+        pp.create_line_from_parameters(net, from_bus=frombus, to_bus=tobus, length_km=line.LengthKm, r_ohm_per_km=0.001, x_ohm_per_km=0, c_nf_per_km=0, r0_ohm_per_km=0, x0_ohm_per_km=0, c0_nf_per_km=0, max_i_ka=100)
         x += 1
 
     logging.debug("run opf")
@@ -139,15 +104,17 @@ def initialize_network(network_config, generations: PowerGenerationCollection, l
     logging.debug(f"calculated net={net}")
 
     result = {}
-    result['bus'] = json.loads(net.bus.to_json())
-    result['load'] = json.loads(net.load.to_json())
-    result['line'] = json.loads(net.line.to_json())
-    result['sgen'] = json.loads(net.sgen.to_json())
-    result['res_bus'] = json.loads(net.res_bus.to_json())
-    result['res_line'] = json.loads(net.res_line.to_json())
-    result['res_load'] = json.loads(net.res_load.to_json())
-    result['res_ext_grid'] = json.loads(net.res_ext_grid.to_json())
-    result['res_sgen'] = json.loads(net.res_sgen.to_json())
+    result['Bus'] = json.loads(net.bus.to_json())
+    result['Load'] = json.loads(net.load.to_json())
+    result['Line'] = json.loads(net.line.to_json())
+    result['Sgen'] = json.loads(net.sgen.to_json())
+    result['ResBus'] = json.loads(net.res_bus.to_json())
+    result['ResLine'] = json.loads(net.res_line.to_json())
+    result['ResLoad'] = json.loads(net.res_load.to_json())
+    result['ResExtGrid'] = json.loads(net.res_ext_grid.to_json())
+    result['ResSgen'] = json.loads(net.res_sgen.to_json())
+    result = humps.pascalize(result)
+    logging.debug("result=%s", result)
     return OptimalPowerFlowSolution(**result)
 
 # spa configuration
@@ -158,76 +125,92 @@ app_dat = DistributedApplication(socket_provider)
 
 async def fetch_loads_dat(consumers: ConsumerCollection, unix_timestamp_seconds: int, socket: SpaSocket):
     consumer_loads = {}
-    for c in consumers.consumers:
+    json_message = { 'UnixTimestampSeconds': unix_timestamp_seconds }
+    payload_message = base64.b64encode(json.dumps(json_message).encode('utf-8'))
+    for c in consumers.Consumers:
         logging.debug("request consumption for %s", c)
         consumption = await socket.request(
             SpaMessage(
-                topic = f"consumer/{c.identifier}/consumption",
-                payload = str(unix_timestamp_seconds),
-                # response_topic = f"consumer/{c.identifier}/consumption/response"
+                Topic = f"consumer/{c.Identifier}/consumption",
+                Payload = payload_message #str(unix_timestamp_seconds)
             )
         )
-        consumer_loads[c.identifier] = json.loads(consumption.payload.decode('utf-8'))
+        cnt = consumption.payload.decode("utf-8")
+        usable_payload = base64.b64decode(cnt)
+        payload = json.loads(usable_payload)
+        consumer_loads[c.Identifier] = payload
     logging.debug("consumer_loads=%s", consumer_loads)
-    return PowerConsumptionCollection(consumptions=consumer_loads)
+    return PowerConsumptionCollection(Consumptions=consumer_loads)
 
 async def fetch_generations_dat(generators: GeneratorCollection, unix_timestamp_seconds: int, socket: SpaSocket):
     generator_generations = {}
-    for g in generators.generators:
+    json_message = { 'UnixTimestampSeconds': unix_timestamp_seconds }
+    payload_message = base64.b64encode(json.dumps(json_message).encode('utf-8'))
+    for g in generators.Generators:
         logging.debug("request generations for %s", g)
         generation = await socket.request(
             SpaMessage(
-                topic = f"generator/{g.identifier}/generation",
-                payload = str(unix_timestamp_seconds),
-                # response_topic = f"generator/{g.identifier}/generation/response"
+                Topic = f"generator/{g.Identifier}/generation",
+                Payload = payload_message #str(unix_timestamp_seconds)
             )
         )
-        generator_generations[g.identifier] = json.loads(generation.payload.decode('utf-8'))
+        cnt = generation.payload.decode("utf-8")
+        usable_payload = base64.b64decode(cnt)
+        payload = json.loads(usable_payload)
+        generator_generations[g.Identifier] = payload
     logging.debug("generation_generations=%s", generator_generations)
-    return PowerGenerationCollection(generations=generator_generations)
+    return PowerGenerationCollection(Generations=generator_generations)
 
 async def query_network_participants_dat(network_node: NetworkNode, socket: SpaSocket):
     consumers_response = await socket.request(
         SpaMessage(
-            payload = "",
-            topic = "consumer/all",
-            # response_topic= "consumer/all/response"
+            Payload = "",
+            Topic = "consumer/all"
         )
     )
     logging.debug("received consumsers=%s", consumers_response)
+
+    # TODO: rewrite this part
     logging.debug("consumers=%s", consumers_response.payload)
-    logging.debug("parsed json=%s", json.loads(consumers_response.payload.decode('utf-8')))
-    consumers = ConsumerCollection(**json.loads(consumers_response.payload.decode('utf-8')))
+    cnt = consumers_response.payload.decode('utf-8')
+    usable_payload = base64.b64decode(cnt)
+    payload = json.loads(usable_payload)
+    logging.debug("parsed consumers json=%s", payload)
+    consumers = ConsumerCollection(**payload)
     logging.info("parsed consumers=%s", consumers)
     network_node.consumers = consumers
+
     generators_response = await socket.request(
         SpaMessage(
-            payload = "",
-            topic = "generator/all",
+            Payload = "",
+            Topic = "generator/all",
         )
     )
     logging.debug("received generators=%s", generators_response)
     logging.debug("generators=%s", generators_response.payload)
-    logging.debug("parsed json=%s", json.loads(generators_response.payload.decode('utf-8')))
-    generators = GeneratorCollection(**json.loads(generators_response.payload.decode('utf-8')))
+    cnt = generators_response.payload.decode('utf-8')
+    usable_payload = base64.b64decode(cnt)
+    payload = json.loads(usable_payload)
+    logging.debug("parsed generators json=%s", payload)
+    generators = GeneratorCollection(**payload)
     network_node.generators = generators
     logging.debug("parsed generators=%s", generators)
     logging.debug("network_node=%s", network_node)
     network_node.initialized = True
 
 @app_dat.application("network")
-async def network_topic_endpoint_callback(message: SpaMessage, socket: SpaSocket, state: NetworkNode):
+async def network_topic_endpoint_callback(message: SpaMessage, socket: SpaSocket, **kwargs):
     """Basic network topic subscription"""
     logging.debug("network_topic_endpoint_callback=%s", message)
     await socket.publish(
         SpaMessage(
-            payload="available",
-            topic=message.response_topic
+            Payload="available",
+            Topic=message.response_topic
         )
     )
 
 @app_dat.application("network/all")
-async def network_all_endpoint_callback(message: SpaMessage, socket: SpaSocket, state: NetworkNode):
+async def network_all_endpoint_callback(message: SpaMessage, socket: SpaSocket, **kwargs):
     """Query network information"""
     global network_node
     logging.debug("network_all_endpoint_callback")
@@ -241,19 +224,59 @@ async def network_all_endpoint_callback(message: SpaMessage, socket: SpaSocket, 
         logging.debug("return network")
         await socket.publish(
             SpaMessage(
-                content_type = "application/json",
-                payload = network_node.networks.model_dump_json(),
-                topic = message.response_topic
+                ContentType = "application/json",
+                Payload = network_node.networks.model_dump_json(),
+                Topic = message.response_topic
             )
         )
 
+# @app_dat.application("network/opf")
+# async def network_opf_query_callback(message: SpaMessage, socket: SpaSocket, state: NetworkNode):
+#     global network_node
+#     logging.debug("network_opf_query_callback=%s", message)
+#     logging.debug("network_opf_query_callback: state=%s", state)
+
+#     unix_timestamp_seconds = int(message.payload)
+
+#     if not network_node.initialized:
+#         logging.info("initialize network")
+#         await query_network_participants_dat(network_node, socket)
+#         if network_node.initialized:
+#             logging.debug("network successfully initialized")
+    
+#     if network_node.initialized:
+#         loads: PowerConsumptionCollection = await fetch_loads_dat(network_node.consumers, unix_timestamp_seconds, socket)
+#         generations: PowerGenerationCollection = await fetch_generations_dat(network_node.generators, unix_timestamp_seconds, socket)
+#         opf = initialize_network(network_node.networks.network, generations, loads)
+#         logging.debug("opf=%s", opf)
+#         await socket.publish(
+#             SpaMessage(
+#                 content_type="application/json",
+#                 payload = opf.model_dump_json(),
+#                 topic=message.response_topic
+#             )
+#         )
+
+#     else:
+#         logging.debug("error: network not initialized")
+#         await socket.publish(
+#             SpaMessage(
+#                 payload = "error: network could not be initialized",
+#                 topic=message.response_topic
+#             )
+#         )
+
 @app_dat.application("network/opf")
-async def network_opf_query_callback(message: SpaMessage, socket: SpaSocket, state: NetworkNode):
+async def network_opf_query_callback(message: SpaMessage, socket: SpaSocket, **kwargs):
     global network_node
     logging.debug("network_opf_query_callback=%s", message)
-    logging.debug("network_opf_query_callback: state=%s", state)
 
-    unix_timestamp_seconds = int(message.payload)
+    cnt = message.payload.decode("utf-8")
+    usable_payload = base64.b64decode(cnt)
+    payload = json.loads(usable_payload)
+    # payload = humps.decamelize(payload)
+
+    unix_timestamp_seconds = int(payload['UnixTimestampSeconds'])
 
     if not network_node.initialized:
         logging.info("initialize network")
@@ -264,13 +287,16 @@ async def network_opf_query_callback(message: SpaMessage, socket: SpaSocket, sta
     if network_node.initialized:
         loads: PowerConsumptionCollection = await fetch_loads_dat(network_node.consumers, unix_timestamp_seconds, socket)
         generations: PowerGenerationCollection = await fetch_generations_dat(network_node.generators, unix_timestamp_seconds, socket)
-        opf = initialize_network(network_node.networks.network, generations, loads)
+        opf = initialize_network(network_node.networks.Network, generations, loads)
+        # TODO: convert opf json into correct payload format.
         logging.debug("opf=%s", opf)
+        t1 = base64.b64encode(opf.model_dump_json().encode("utf-8"))
+
         await socket.publish(
             SpaMessage(
-                content_type="application/json",
-                payload = opf.model_dump_json(),
-                topic=message.response_topic
+                ContentType="application/json",
+                Payload = t1,
+                Topic=message.response_topic
             )
         )
 
@@ -278,20 +304,33 @@ async def network_opf_query_callback(message: SpaMessage, socket: SpaSocket, sta
         logging.debug("error: network not initialized")
         await socket.publish(
             SpaMessage(
-                payload = "error: network could not be initialized",
-                topic=message.response_topic
+                Payload = "error: network could not be initialized",
+                Topic=message.response_topic
             )
         )
 
+# @app_dat.application("network/scenario")
+# async def network_scenario_update_callback(message: SpaMessage, socket: SpaSocket, state: NetworkNode):
+#     global network_node
+#     payload = json.loads(message.payload)
+#     logging.debug("update scenario=%s", payload)
+#     scenario_identifier = payload['scenario_identifier']
+#     network_node = NetworkNode(scenario_identifier=scenario_identifier)
+#     snm = NetworkModel(**payload['network'])
+#     network_node.networks = ScenarioNetworkModel(network=snm)
+#     logging.debug("update scenario network_node=%s", network_node)
+
 @app_dat.application("network/scenario")
-async def network_scenario_update_callback(message: SpaMessage, socket: SpaSocket, state: NetworkNode):
+async def network_scenario_update_callback(message: SpaMessage, socket: SpaSocket, **kwargs):
     global network_node
-    payload = json.loads(message.payload)
-    logging.debug("update scenario=%s", payload)
-    scenario_identifier = payload['scenario_identifier']
+    logging.debug("update scenario=%s", message)
+    cnt = message.payload.decode("utf-8")
+    usable_payload = base64.b64decode(cnt)
+    payload = json.loads(usable_payload)
+    scenario_identifier = payload['ScenarioIdentifier']
     network_node = NetworkNode(scenario_identifier=scenario_identifier)
-    snm = NetworkModel(**payload['network'])
-    network_node.networks = ScenarioNetworkModel(network=snm)
+    snm = NetworkModel(**payload['Network'])
+    network_node.networks = ScenarioNetworkModel(Network=snm)
     logging.debug("update scenario network_node=%s", network_node)
 
 if __name__ == '__main__':

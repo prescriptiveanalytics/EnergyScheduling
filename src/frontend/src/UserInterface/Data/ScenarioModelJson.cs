@@ -27,7 +27,6 @@ namespace UserInterface.Data
         public int Level { get; set; }
         public string Category { get; set; }
         public string Type { get; set; }
-        [JsonPropertyName("profile_identifier")]
         public string ProfileIdentifier { get; set; }
     }
 
@@ -41,7 +40,7 @@ namespace UserInterface.Data
         public int Level { get; set; }
         public string Category { get; set; }
         public string Type { get; set; }
-        [JsonPropertyName("profile_identifier")]
+        //[JsonPropertyName("ProfileIdentifier")]
         public string ProfileIdentifier { get; set; }
     }
 
@@ -61,7 +60,7 @@ namespace UserInterface.Data
         public string Address { get; set; }
         public string Category { get; set; }
         public string Type { get; set; }
-        [JsonPropertyName("network_entity")]
+        //[JsonPropertyName("NetworkEntity")]
         public string NetworkEntity { get; set; }
     }
 
@@ -76,13 +75,13 @@ namespace UserInterface.Data
 
     public class Line
     {
-        [JsonPropertyName("from_bus")]
+        //[JsonPropertyName("FromBus")]
         public string FromBus { get; set; }
-        [JsonPropertyName("to_bus")]
+        //[JsonPropertyName("ToBus")]
         public string ToBus { get; set; }
-        [JsonPropertyName("std_type")]
+        //[JsonPropertyName("StdType")]
         public string StdType { get; set; }
-        [JsonPropertyName("length_km")]
+        //[JsonPropertyName("LengthKm")]
         public float LengthKm { get; set; }
     }
 }

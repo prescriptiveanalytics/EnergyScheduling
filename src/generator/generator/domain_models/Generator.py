@@ -4,27 +4,27 @@ from pydantic import BaseModel
 class GeneratorModel(BaseModel):
     """Represents a generator data object.
     """
-    name: str
-    identifier: str
-    level: int
-    latitude: float
-    longitude: float
-    address: str
-    type: str
-    category: str
-    profile_identifier: str
+    Name: str
+    Identifier: str
+    Level: int
+    Latitude: float
+    Longitude: float
+    Address: str
+    Type: str
+    Category: str
+    ProfileIdentifier: str
 
 class GeneratorCollection(BaseModel):
     """Represents a collection of generators.
     """
-    generators: Optional[List[GeneratorModel]] = None
+    Generators: Optional[List[GeneratorModel]] = None
 
 class GeneratorModelMap(BaseModel):
     """Maps a geneartor to its generation model.
     """
-    model_map: dict
+    ModelMap: dict
 
 class ScenarioModel(BaseModel):
     """Represents a scenario
     """
-    generators: List[GeneratorModel]
+    Generators: List[GeneratorModel]

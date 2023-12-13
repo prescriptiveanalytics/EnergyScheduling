@@ -12,13 +12,46 @@
 
 @code {
 
-    [Parameter] public PowerFlow? PowerFlow { get { return _powerFlow; } set { _powerFlow = value; ProcessPowerFlow(); } }
-    [Parameter] public ScenarioModelJson? ScenarioData { get; set; }
+    [Parameter] public OptimalPowerFlow? PowerFlow { get { return _powerFlow; } set { _powerFlow = value; ProcessPowerFlow(); } }
+    [Parameter] public ScenarioModelJson? ScenarioData {
+        get
+        {
+            return _scenarioModelJson;
+        }
+        set {
+            if (value != null)
+            {
+                _dataInitialized = false;
+                _uuidToPointF = new Dictionary<string, PointF>();
+                _idToUuid = new Dictionary<int, string>();
+                minLatitude = float.MaxValue;
+                minLongitude = float.MaxValue;
+                maxLatitude = float.MinValue;
+                maxLongitude = float.MinValue;
+                _powerFlow = null;
+                _scenarioModelJson = value;
+                // InitializeMap();
+                if (_map != null && _mapInitialized)
+                {
+                    var layers = _map.GetLayers();
+                    foreach (var layer in layers) _map.RemoveLayer(layer);
+                    AddTileLayer();
+                    ProcessConsumers();
+                    ProcessGenerators();
+                    ProcessNetwork();
+                    ProcessPowerFlow();
+                    _dataInitialized = true;
+                }
+            }
+        } }
 
     // Reference to map
     private Map _map;
+    private bool _mapInitialized = false;
+    private bool _dataInitialized = false;
 
-    private PowerFlow? _powerFlow;
+    private ScenarioModelJson? _scenarioModelJson;
+    private OptimalPowerFlow? _powerFlow;
 
     // Mapping from UUID of the objects to Points
     private IDictionary<string, PointF> _uuidToPointF = new Dictionary<string, PointF>();
@@ -34,6 +67,7 @@
 
     protected override void OnInitialized()
     {
+        _mapInitialized = false;
         _map = new Map(JSRuntime);
         _map.OnInitialized += () =>
         {
@@ -43,15 +77,31 @@
                     Attribution = "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
                 });
             _map.FitBounds(new PointF(48.87f, 12.79f), new PointF(47.25f, 15.12f), maxZoom: 15f);
+            _mapInitialized = true;
 
-            ProcessConsumers();
-            ProcessGenerators();
-            ProcessNetwork();
-            ProcessPowerFlow();
-            _map.FitBounds(new PointF(minLatitude, minLongitude), new PointF(maxLatitude, maxLongitude), maxZoom: 15f);
-
+            if (_dataInitialized == false)
+            {
+                var layers = _map.GetLayers();
+                foreach (var layer in layers) _map.RemoveLayer(layer);
+                AddTileLayer();
+                ProcessConsumers();
+                ProcessGenerators();
+                ProcessNetwork();
+                ProcessPowerFlow();
+                _dataInitialized = true;
+            }
         };
         base.OnInitialized();
+    }
+
+    private void AddTileLayer()
+    {
+        _map.AddLayer(new TileLayer
+            {
+                UrlTemplate = "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                Attribution = "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+            });
+        _map.FitBounds(new PointF(48.87f, 12.79f), new PointF(47.25f, 15.12f), maxZoom: 15f);
     }
 
     private void ProcessConsumers()

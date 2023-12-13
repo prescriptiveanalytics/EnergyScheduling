@@ -1,0 +1,81 @@
+{
+    "Scenario": {
+		"Name": "1 Consumer, 1 Generator, rural",
+        "Description": "simple test network",				
+		"Version": "2023-11-06-V1",
+        "Consumers": [
+            {
+                "Address": "none",
+                "Category": "household",
+                "Identifier": "1bf48567-0522-43af-865d-78fc9c04cd61",
+                "Latitude": 48.32512,
+                "Level": 7,
+                "Longitude": 13.35174,
+                "Name": "Household 1",
+                "ProfileIdentifier": "london2011-2014_cluster0",
+                "Type": "load"
+            }
+        ],
+        "Generators": [
+            {
+                "Address": "none",
+                "Category": "household",
+                "Identifier": "12b277c0-ec01-448b-bffe-d081c11fd200",
+                "Latitude": 48.32515,
+                "Level": 7,
+                "Longitude": 13.35147,
+                "Name": "photovoltaic 1",
+                "ProfileIdentifier": "pvgis_hgp_south_10kwp",
+                "Type": "generator"
+            }
+        ],
+        "Network": {
+            "Buses": [
+                {
+                    "Category": "consumer",
+                    "Identifier": "1bf48567-0522-43af-865d-78fc9c04cd61",
+                    "Type": "load",
+                    "voltage": 400
+                },
+                {
+                    "Category": "grid_connection",
+                    "Identifier": "f60efbaf-df19-4d91-a2a7-4697895fc2d8",
+                    "Type": "grid_connection",
+                    "voltage": 400
+                },
+                {
+                    "Category": "generator",
+                    "Identifier": "12b277c0-ec01-448b-bffe-d081c11fd200",
+                    "Type": "generation",
+                    "voltage": 400
+                }
+            ],
+            "Entities": [
+                {
+                    "Address": "",
+                    "Category": "network",
+                    "Identifier": "f60efbaf-df19-4d91-a2a7-4697895fc2d8",
+                    "latitude": 48.32521,
+                    "longitude": 13.35129,
+                    "name": "grid connection",
+                    "network_entity": "network",
+                    "Type": "network"
+                }
+            ],
+            "Lines": [
+                {
+                    "FromBus": "1bf48567-0522-43af-865d-78fc9c04cd61",
+                    "LengthKm": 0.02,
+                    "StdType": "NAYY 4x50 SE",
+                    "ToBus": "12b277c0-ec01-448b-bffe-d081c11fd200"
+                },
+                {
+                    "FromBus": "12b277c0-ec01-448b-bffe-d081c11fd200",
+                    "LengthKm": 0.03,
+                    "StdType": "NAYY 4x50 SE",
+                    "ToBus": "f60efbaf-df19-4d91-a2a7-4697895fc2d8"
+                }
+            ]
+        }
+    }
+}

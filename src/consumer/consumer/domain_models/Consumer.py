@@ -4,27 +4,27 @@ from pydantic import BaseModel
 class ConsumerModel(BaseModel):
     """Represents a single consumer data object.
     """
-    name: str
-    identifier: str
-    level: int
-    latitude: float
-    longitude: float
-    address: str
-    type: str
-    category: str
-    profile_identifier: str
+    Name: str
+    Identifier: str
+    Level: int
+    Latitude: float
+    Longitude: float
+    Address: str
+    Type: str
+    Category: str
+    ProfileIdentifier: str
 
 class ConsumerCollection(BaseModel):
     """Represents a collection of consumers.
     """
-    consumers: Optional[List[ConsumerModel]] = None
+    Consumers: Optional[List[ConsumerModel]] = None
 
 class ConsumerModelMap(BaseModel):
     """Maps a consumer to its consumption model
     """
-    model_map: dict
+    ModelMap: dict
 
 class ScenarioModel(BaseModel):
     """Represents a scenario
     """
-    consumers: List[ConsumerModel]
+    Consumers: List[ConsumerModel]

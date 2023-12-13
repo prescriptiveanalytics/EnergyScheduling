@@ -3,13 +3,13 @@ from typing import Dict
 from datetime import datetime
 
 class PowerGenerationModel(BaseModel):
-    identifier: str
-    datetime: datetime
-    generation: int
-    category: str
-    category_unit: str
-    interval: int
-    interval_unit: str
+    Identifier: str
+    UnixTimestampSeconds: int
+    Generation: int
+    Category: str
+    CategoryUnit: str
+    Interval: int
+    IntervalUnit: str
 
 class PowerGenerationCollection(BaseModel):
-    generations: Dict[str, PowerGenerationModel]
+    Generations: Dict[str, PowerGenerationModel]

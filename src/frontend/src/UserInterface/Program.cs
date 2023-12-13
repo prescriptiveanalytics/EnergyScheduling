@@ -7,14 +7,14 @@ using UserInterface.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// TODO: Remove me and add mqtt connection
-using (StreamReader r = new StreamReader("Resources/opf_1641002400.json"))
-{
-    string json = r.ReadToEnd();
-    Console.WriteLine(json);
-    var solution = JsonSerializer.Deserialize<PowerFlow>(json);
-    builder.Services.AddSingleton<PowerFlow>(solution);
-}
+//// TODO: Remove me and add mqtt connection
+//using (StreamReader r = new StreamReader("Resources/opf_1641002400.json"))
+//{
+//    string json = r.ReadToEnd();
+//    Console.WriteLine(json);
+//    var solution = JsonSerializer.Deserialize<OptimalPowerFlow>(json);
+//    builder.Services.AddSingleton<OptimalPowerFlow>(solution);
+//}
 
 // Add services to the container.
 builder.Services.AddRazorPages();

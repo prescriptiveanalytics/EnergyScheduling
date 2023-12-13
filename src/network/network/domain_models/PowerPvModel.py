@@ -3,13 +3,13 @@ from typing import Dict
 from datetime import datetime
 
 class PowerPvModel(BaseModel):
-    identifier: str
-    datetime: datetime
-    usage: int
-    category: str
-    category_unit: str
-    interval: int
-    interval_unit: str
+    Identifier: str
+    UnixTimestampSeconds: int
+    Usage: int
+    Category: str
+    CategoryUnit: str
+    Interval: int
+    IntervalUnit: str
 
 class PowerPvCollection(BaseModel):
-    pvs: Dict[str, PowerPvModel]
+    Pvs: Dict[str, PowerPvModel]

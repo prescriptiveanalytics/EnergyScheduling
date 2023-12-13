@@ -38,6 +38,7 @@
         <MudIconButton Icon="@Icons.Material.Outlined.NotStarted" OnClick="SimulationStepClicked" Disabled="!ScenarioDataState.Value.StartEndDateValid"></MudIconButton>
         <MudIconButton Icon="@Icons.Material.Outlined.PlayCircle" OnClick="SimulationRunClicked" Disabled="true"></MudIconButton>
         <MudIconButton Icon="@Icons.Material.Outlined.PauseCircle" OnClick="SimulationPauseClicked" Disabled="true"></MudIconButton>
+        <MudIconButton Icon="@Icons.Material.Outlined.ChangeCircle" OnClick="SimulationResetClicked" Disabled="true"></MudIconButton>
     </MudButtonGroup>
 
     <MudGrid>
@@ -92,7 +93,6 @@
     {
         Console.WriteLine("Simulation step clicked");
         Dispatcher.Dispatch(new SimulationSingleStepAction(ScenarioDataState.Value.CurrentDateTimeOffset));
-        Dispatcher.Dispatch(new UpdateChartDataAction(ScenarioDataState.Value.PowerFlows));
     }
 
     private void SimulationRunClicked()
@@ -103,5 +103,10 @@
     private void SimulationPauseClicked()
     {
         Console.WriteLine("Simulation pause clicked");
+    }
+
+    private void SimulationResetClicked()
+    {
+        Console.WriteLine("Simulation reset clicked");
     }
 }
