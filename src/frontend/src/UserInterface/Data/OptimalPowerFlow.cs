@@ -4,6 +4,8 @@ namespace UserInterface.Data
 {
     public class OptimalPowerFlow
     {
+        [JsonPropertyName("Bus")]
+        public BusUuid Bus { get; set; }
         //[JsonPropertyName("res_bus")]
         public ResBus ResBus { get; set; }
         //[JsonPropertyName("res_line")]
@@ -16,6 +18,14 @@ namespace UserInterface.Data
         public ResSgen ResSgen { get; set; }
     }
 
+    public class BusUuid
+    {
+        public IDictionary<string, string> Name { get; set; }
+        public IDictionary<string, double> VnKv { get; set; }
+        public IDictionary<string, string> Type { get; set; }
+        public IDictionary<string, string> Zone { get; set; }
+        public IDictionary<string, bool> InService { get; set; }
+    }
     public class ResBus
     {
         //[JsonPropertyName("p_mw")]

@@ -7,6 +7,9 @@ using YamlDotNet.Core.Tokens;
 using System.Buffers.Text;
 using static MudBlazor.CategoryTypes;
 using static Confluent.Kafka.ConfigPropertyNames;
+using Plotly.Blazor;
+using Plotly.Blazor.Traces;
+using UserInterface.Dataprocessor;
 
 namespace UserInterface.Store
 {
@@ -22,10 +25,11 @@ namespace UserInterface.Store
         public bool StartEndDateValid { get; init; }
         public bool SimulationStarted { get; init; }
         public SortedList<DateTime, OptimalPowerFlow> PowerFlows { get; init; }
-
+        public IList<ITrace> PowerflowTimeSeries { get; init; }
         public ScenarioDataState()
         {
             PowerFlows = new SortedList<DateTime, OptimalPowerFlow>();
+            PowerflowTimeSeries = new List<ITrace>();
         }
     }
 
@@ -87,12 +91,23 @@ namespace UserInterface.Store
         }
     }
 
-    public class SimulationSingleStepAction
+    //public class SimulationSingleStepAction
+    //{
+    //    public DateTimeOffset DateTimeOffset { get; set; }
+    //    public SimulationSingleStepAction(DateTimeOffset dateTimeOffset)
+    //    {
+    //        DateTimeOffset = dateTimeOffset;
+    //    }
+    //}
+
+    public class SimulationSingleStepAction2
     {
         public DateTimeOffset DateTimeOffset { get; set; }
-        public SimulationSingleStepAction(DateTimeOffset dateTimeOffset)
+        public PlotlyChart Chart { get; set; }
+        public SimulationSingleStepAction2(DateTimeOffset dateTimeOffset, PlotlyChart chart)
         {
             DateTimeOffset = dateTimeOffset;
+            Chart = chart;
         }
     }
 
@@ -100,10 +115,12 @@ namespace UserInterface.Store
     {
         public DateTime DateTime { get; set; }
         public OptimalPowerFlow PowerFlow { get; set; }
-        public AddSingleStepResultAction(DateTime dateTime, OptimalPowerFlow powerFlow)
+        public PlotlyChart Chart { get; set; }
+        public AddSingleStepResultAction(DateTime dateTime, OptimalPowerFlow powerFlow, PlotlyChart chart)
         {
             DateTime = dateTime;
             PowerFlow = powerFlow;
+            Chart = chart;
         }
     }
 
@@ -178,6 +195,36 @@ namespace UserInterface.Store
         {
             SortedList<DateTime, OptimalPowerFlow> powerflows = state.PowerFlows ?? new SortedList<DateTime, OptimalPowerFlow>();
             powerflows.Add(action.DateTime, action.PowerFlow);
+
+            PowerflowDataProcessor pdp = new PowerflowDataProcessor(state?.SelectedScenario);
+            var data = pdp.GetPowerflowSummaryGraphInfo(action.PowerFlow);
+
+            IList<ITrace> timeSeriesData = state.PowerflowTimeSeries ?? new List<ITrace>();
+            string[] name = { "Load", "Generation", "Grid Import" };
+
+            if (timeSeriesData.Count == 0)
+            {
+                foreach (var entry in name) 
+                {
+                    timeSeriesData.Add(new Scatter
+                    {
+                        Name = entry,
+                        X = new List<object>(),
+                        Y = new List<object>()
+                    });
+                }
+            }
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (timeSeriesData[i] is Scatter scatter)
+                {
+                    scatter.X.Add(scatter.X.Count);
+                    scatter.Y.Add(data[i]);
+                }
+            }
+            action.Chart.Data = timeSeriesData;
+            action.Chart.Update();
+
             return state with
             {
                 PowerFlows = powerflows,
@@ -193,7 +240,6 @@ namespace UserInterface.Store
                 Loading = true
             };
         }
-
     }
 
     public class ScenarioEffects
@@ -208,7 +254,7 @@ namespace UserInterface.Store
         }
 
         [EffectMethod]
-        public async Task SimulationSingleStep(SimulationSingleStepAction action, IDispatcher dispatcher)
+        public async Task SimulationSingleStep(SimulationSingleStepAction2 action, IDispatcher dispatcher)
         {
             NetworkRequest gr = new NetworkRequest()
             {
@@ -219,8 +265,7 @@ namespace UserInterface.Store
                 GenerateResponseTopicPostfix = true,
                 Topic = $"network/opf"
             }, gr);
-            dispatcher.Dispatch(new AddSingleStepResultAction(action.DateTimeOffset.DateTime, powerFlow));
-            dispatcher.Dispatch(new UpdateChartDataAction(ScenarioDataState.Value.PowerFlows));
+            dispatcher.Dispatch(new AddSingleStepResultAction(action.DateTimeOffset.DateTime, powerFlow, action.Chart));
         }
 
         [EffectMethod]
@@ -305,7 +350,6 @@ namespace UserInterface.Store
                 Topic = "network/scenario",
             }, nm);
         }
-
     }
 
     public class ConsumptionRequest
@@ -323,6 +367,7 @@ namespace UserInterface.Store
         public int Interval { get; set; } = 15;
         public string IntervalUnit { get; set; } = "minutes";
     }
+    
     public class ConsumersMessage
     {
         public string ScenarioIdentifier { get; set; }

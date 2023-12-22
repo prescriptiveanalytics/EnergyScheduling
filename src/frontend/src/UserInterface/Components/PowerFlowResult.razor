@@ -1,0 +1,75 @@
+﻿@using UserInterface.Data;
+
+<div id ="resultContainer">
+    @if (PowerFlow != null)
+    {
+        <MudText>Summary</MudText>
+        @if (_powerflowTableViewSummary != null)
+        {
+            <MudTable Items="@_powerflowTableViewSummary.Values">
+                <HeaderContent>
+                    <MudTh>Name</MudTh>
+                    <MudTh>Value</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Name">@context.First()</MudTd>
+                    <MudTd DataLabel="Value">@context.Last()</MudTd>
+                </RowTemplate>
+            </MudTable>
+        }
+        @if (_powerflowTableViewDetailed != null)
+        {
+            <MudText>Data</MudText>
+            <MudTable Items="@_powerflowTableViewDetailed.Values">
+                <HeaderContent>
+                    <MudTh>Name</MudTh>
+                    <MudTh>Category</MudTh>
+                    <MudTh>Value</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    @foreach (var entry in context)
+                    {
+                        <MudTd>@entry</MudTd>
+                    }
+                </RowTemplate>
+            </MudTable>
+        }
+    }
+    else
+    {
+        <p>Values not available</p>
+    }
+</div>
+
+@code {
+
+    [Parameter] public OptimalPowerFlow? PowerFlow { get { return _powerFlow; } set { if (value != null) { _powerFlow = value; ProcessPowerflow(); } } }
+    [Parameter] public ScenarioModelJson? ScenarioData { get { return _scenarioModelJson; } set { _scenarioModelJson = value; } }
+
+    private ScenarioModelJson? _scenarioModelJson;
+    private OptimalPowerFlow? _powerFlow;
+
+    private PowerflowDataProcessor? _powerflowTableProcessor;
+
+    private PowerflowTableView? _powerflowTableViewDetailed;
+    private PowerflowTableView? _powerflowTableViewSummary;
+
+    protected override void OnInitialized()
+    {
+        // _idToUuid = new Dictionary<int, string>();
+        _powerflowTableProcessor = new PowerflowDataProcessor(_scenarioModelJson);
+        if (ScenarioData != null && PowerFlow != null)
+        {
+            _powerflowTableViewDetailed = _powerflowTableProcessor.GetPowerflowTableInfo(PowerFlow);
+            _powerflowTableViewSummary = _powerflowTableProcessor.GetPowerflowSummaryTableInfo(PowerFlow);
+        }
+        // resolve identifier
+        base.OnInitialized();
+    }
+
+    private void ProcessPowerflow()
+    {
+        _powerflowTableViewDetailed = _powerflowTableProcessor?.GetPowerflowTableInfo(PowerFlow);
+        _powerflowTableViewSummary = _powerflowTableProcessor?.GetPowerflowSummaryTableInfo(PowerFlow);
+    }
+}

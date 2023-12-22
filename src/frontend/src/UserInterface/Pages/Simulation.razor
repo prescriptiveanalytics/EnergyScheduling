@@ -5,6 +5,8 @@
 @using System.Text;
 @using System.Text.Json;
 @using BlazorLeaflet
+@using Plotly.Blazor.LayoutLib
+@using Plotly.Blazor.Traces.ScatterLib
 @using UserInterface.Data;
 @using UserInterface.Store;
 @using UserInterface.Components;
@@ -43,13 +45,13 @@
 
     <MudGrid>
         <MudItem xs="12">
-            <MudChart ChartType="ChartType.Line" ChartSeries="@TimeSeriesGraphState.Value.OverviewChartSeries" @bind-SelectedIndex="Index" XAxisLabels="@TimeSeriesGraphState.Value.OverviewChartSeriesXAxisLabels"></MudChart>
+            <PlotlyChart style="height: 60vh; min-height: 350px" @bind-Config="config" @bind-Layout="layout" @bind-Data="timeSeriesData" @ref="chart" />
         </MudItem>
         <MudItem xs="9">
-            <PowerFlowMap ScenarioData="@ScenarioDataState.Value.SelectedScenario" PowerFlow="@ScenarioDataState.Value.PowerFlows?.Values?.LastOrDefault()"/>
+            <PowerFlowMap ScenarioData="@ScenarioDataState.Value.SelectedScenario" PowerFlow="@ScenarioDataState.Value.PowerFlows?.Values?.LastOrDefault()" />
         </MudItem>
         <MudItem xs="3">
-            <MudText>Values</MudText>
+            <PowerFlowResult ScenarioData="@ScenarioDataState.Value.SelectedScenario" PowerFlow="@ScenarioDataState.Value.PowerFlows?.Values?.LastOrDefault()" />
         </MudItem>
     </MudGrid>
 }else
@@ -61,13 +63,11 @@
 
     DateTimePicker _startDateTime;
     DateTimePicker _endDateTime;
-    // // Chart specific fields
-    private int Index = -1;
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-    }
+    // Chart specific fields
+    PlotlyChart chart;
+    Config config = new Config();
+    Layout layout = new Layout();
+    IList<ITrace> timeSeriesData; 
 
     string CurrentTime { 
         get
@@ -92,7 +92,7 @@
     private void SimulationStepClicked()
     {
         Console.WriteLine("Simulation step clicked");
-        Dispatcher.Dispatch(new SimulationSingleStepAction(ScenarioDataState.Value.CurrentDateTimeOffset));
+        Dispatcher.Dispatch(new SimulationSingleStepAction2(ScenarioDataState.Value.CurrentDateTimeOffset, chart));
     }
 
     private void SimulationRunClicked()

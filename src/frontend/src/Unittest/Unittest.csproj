@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\DistributedApplicationTools\src\Configuration\Configuration.csproj" />
     <ProjectReference Include="..\UserInterface\UserInterface.csproj" />
   </ItemGroup>
 
