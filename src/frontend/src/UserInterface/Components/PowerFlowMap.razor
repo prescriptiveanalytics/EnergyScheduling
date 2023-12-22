@@ -21,28 +21,32 @@
         set {
             if (value != null)
             {
-                _dataInitialized = false;
-                _uuidToPointF = new Dictionary<string, PointF>();
-                _idToUuid = new Dictionary<int, string>();
-                minLatitude = float.MaxValue;
-                minLongitude = float.MaxValue;
-                maxLatitude = float.MinValue;
-                maxLongitude = float.MinValue;
-                _powerFlow = null;
-                _scenarioModelJson = value;
-                if (_map != null && _mapInitialized)
+                if (_scenarioModelJson == null || value.Scenario.Description != _scenarioModelJson.Scenario.Description)
                 {
-                    var layers = _map.GetLayers();
-                    foreach (var layer in layers) _map.RemoveLayer(layer);
-                    AddTileLayer();
-                    ProcessConsumers();
-                    ProcessGenerators();
-                    ProcessNetwork();
-                    ProcessPowerFlow();
-                    _dataInitialized = true;
+                    _dataInitialized = false;
+                    _uuidToPointF = new Dictionary<string, PointF>();
+                    _idToUuid = new Dictionary<int, string>();
+                    minLatitude = float.MaxValue;
+                    minLongitude = float.MaxValue;
+                    maxLatitude = float.MinValue;
+                    maxLongitude = float.MinValue;
+                    _powerFlow = null;
+                    _scenarioModelJson = value;
+                    if (_map != null && _mapInitialized)
+                    {
+                        var layers = _map.GetLayers();
+                        foreach (var layer in layers) _map.RemoveLayer(layer);
+                        AddTileLayer();
+                        ProcessConsumers();
+                        ProcessGenerators();
+                        ProcessNetwork();
+                        ProcessPowerFlow();
+                        _dataInitialized = true;
+                    }
                 }
             }
-        } }
+        } 
+    }
 
     // Reference to map
     private Map _map;
