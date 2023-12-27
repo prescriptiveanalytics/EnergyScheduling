@@ -1,0 +1,68 @@
+{
+    "Consumers":
+    [{
+        "Name": "Household 1",
+        "Identifier": "1bf48567-0522-43af-865d-78fc9c04cd61",
+        "Level": 7,
+        "Latitude": 48.32512,
+        "Longitude": 13.35174,
+        "Address": "none",
+        "Type": "load",
+        "Category": "household",
+        "ProfileIdentifier": "two_person_all_working_no_heat"
+    }],
+    "Generators":
+    [{
+        "Name": "photovoltaic 1",
+        "Identifier": "12b277c0-ec01-448b-bffe-d081c11fd200",
+        "Level": 7,
+        "Latitude": 48.32515,
+        "Longitude": 13.35147,
+        "Address": "none",
+        "Type": "generator",
+        "Category": "household",
+        "ProfileIdentifier": "hgb_south_10kwp"
+    }],
+    "Network": {
+        "Entities": [{
+            "Identifier": "f60efbaf-df19-4d91-a2a7-4697895fc2d8",
+            "Name": "grid connection",
+            "Latitude": 48.32521,
+            "Longitude": 13.35129,
+            "Address": "",
+            "Type": "network",
+            "Category": "network",
+            "NetworkEntity": "network"
+        }],
+        "Buses": [{
+            "Identifier": "1bf48567-0522-43af-865d-78fc9c04cd61",
+            "Voltage": 400,
+            "Category": "consumer",
+            "Type": "load"
+        },
+        {
+            "Identifier": "f60efbaf-df19-4d91-a2a7-4697895fc2d8",
+            "Voltage": 400,
+            "Category": "grid_connection",
+            "Type": "grid_connection"
+        },
+        {
+            "Identifier": "12b277c0-ec01-448b-bffe-d081c11fd200",
+            "Voltage": 400,
+            "Category": "generator",
+            "Type": "generation"
+        }],
+        "Lines": [{
+            "FromBus": "1bf48567-0522-43af-865d-78fc9c04cd61",
+            "ToBus": "12b277c0-ec01-448b-bffe-d081c11fd200",
+            "StdType": "NAYY 4x50 SE",
+            "LengthKm": 0.02
+        },
+        {
+            "FromBus": "12b277c0-ec01-448b-bffe-d081c11fd200",
+            "ToBus": "f60efbaf-df19-4d91-a2a7-4697895fc2d8",
+            "StdType": "NAYY 4x50 SE",
+            "LengthKm": 0.03
+        }]
+    }
+}
