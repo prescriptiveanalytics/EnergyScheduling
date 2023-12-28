@@ -103,12 +103,12 @@ def initialize_network(network_config, generations: PowerGenerationCollection,
     logging.debug("create loads")
     for identifier, load in loads.Consumptions.items():
         logging.debug(f"consumer load for {identifier}: {load}")
-        pp.create_load(net, bus=buses[identifier], p_mw=load.Usage / 1000000, q_mvar=0.05, name=identifier)
+        pp.create_load(net, bus=buses[identifier], p_mw=load.Usage / 1000, q_mvar=0.05, name=identifier)
 
     logging.debug("create generations")
     for identifier, generation in generations.Generations.items():
         logging.debug(f"generation power for {identifier}: {generation}")
-        pp.create_sgen(net, bus=buses[identifier], p_mw=generation.Generation / 1000000, name=identifier)
+        pp.create_sgen(net, bus=buses[identifier], p_mw=generation.Generation / 1000, name=identifier)
 
     logging.debug("create lines")
     x = 1
