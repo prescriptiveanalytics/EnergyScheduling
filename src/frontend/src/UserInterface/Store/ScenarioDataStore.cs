@@ -273,72 +273,47 @@ namespace UserInterface.Store
         {
             var scenario = ScenarioDataState.Value.SelectedScenario.Scenario;
             string uuid = Guid.NewGuid().ToString();
-            // deploy consumers
-            ConsumersMessage cm = new ConsumersMessage()
-            {
-                ScenarioIdentifier = uuid,
-                Consumers = scenario.Consumers
-            };
 
-            MqttService.Server.Publish<ConsumersMessage>(new DAT.Configuration.PublicationOptions()
+            foreach (var c in scenario.Consumers)
             {
-               Topic = "consumer/scenario",
-            }, cm);
-
-            // deploy consumer models
-            foreach (var consumer in scenario.Consumers)
-            {
-                var model = ScenarioDataState.Value.ScenarioData.Models.Where(x => x.Key.Contains(consumer.ProfileIdentifier)).FirstOrDefault();
-                if (!model.Key.Contains(consumer.ProfileIdentifier))
+                MqttService.Server.Publish<UserInterface.Data.Consumer>(new DAT.Configuration.PublicationOptions() 
                 {
-                    continue;
-                }
+                    Topic = $"consumer/{c.Identifier}/add"
+                }, c);
+
+                var model = ScenarioDataState.Value.ScenarioData.Models.Where(x => x.Key.Contains(c.ProfileIdentifier)).FirstOrDefault();
                 string base64 = Convert.ToBase64String(model.Value);
                 FileMessage fm = new FileMessage()
                 {
                     File = base64
                 };
-                string topic = $"consumer/{consumer.Identifier}/model";
+                string topic = $"consumer/{c.Identifier}/model";
                 MqttService.Server.Publish<FileMessage>(new DAT.Configuration.PublicationOptions()
                 {
                     Topic = topic
                 }, fm);
             }
-            // deploy generators
-            GeneratorsMessage gm = new GeneratorsMessage()
+
+            foreach (var g in scenario.Generators)
             {
-                ScenarioIdentifier = uuid,
-                Generators = scenario.Generators
-            };
+                MqttService.Server.Publish<UserInterface.Data.Generator>(new DAT.Configuration.PublicationOptions() 
+                {
+                    Topic = $"generator/{g.Identifier}/add"
+                }, g);
 
-            MqttService.Server.Publish<GeneratorsMessage>(new DAT.Configuration.PublicationOptions()
-            {
-                Topic = "generator/scenario",
-                QosLevel = DAT.Configuration.QualityOfServiceLevel.ExactlyOnce
-            }, gm);
-
-
-            foreach (var generator in scenario.Generators)
-            {                
-                var model = ScenarioDataState.Value.ScenarioData.Models.Where(x => x.Key.Contains(generator.ProfileIdentifier)).FirstOrDefault();
+                var model = ScenarioDataState.Value.ScenarioData.Models.Where(x => x.Key.Contains(g.ProfileIdentifier)).FirstOrDefault();
                 string base64 = Convert.ToBase64String(model.Value);
                 FileMessage fm = new FileMessage()
                 {
                     File = base64
                 };
-                string topic = $"generator/{generator.Identifier}/model";
+                string topic = $"generator/{g.Identifier}/model";
                 MqttService.Server.Publish<FileMessage>(new DAT.Configuration.PublicationOptions()
                 {
-                    Topic = topic,
-                    QosLevel = DAT.Configuration.QualityOfServiceLevel.ExactlyOnce
+                    Topic = topic
                 }, fm);
-                GenerationRequest gr = new GenerationRequest()
-                {
-                    UnixTimestampSeconds = 1699975259
-                };
             }
 
-            // deploy network
             NetworkMessage nm = new NetworkMessage()
             {
                 ScenarioIdentifier = uuid,
@@ -349,6 +324,85 @@ namespace UserInterface.Store
             {
                 Topic = "network/scenario",
             }, nm);
+
+            //var scenario = ScenarioDataState.Value.SelectedScenario.Scenario;
+            //string uuid = Guid.NewGuid().ToString();
+            //// deploy consumers
+            //ConsumersMessage cm = new ConsumersMessage()
+            //{
+            //    ScenarioIdentifier = uuid,
+            //    Consumers = scenario.Consumers
+            //};
+
+            //MqttService.Server.Publish<ConsumersMessage>(new DAT.Configuration.PublicationOptions()
+            //{
+            //   Topic = "consumer/scenario",
+            //}, cm);
+
+            //// deploy consumer models
+            //foreach (var consumer in scenario.Consumers)
+            //{
+            //    var model = ScenarioDataState.Value.ScenarioData.Models.Where(x => x.Key.Contains(consumer.ProfileIdentifier)).FirstOrDefault();
+            //    if (!model.Key.Contains(consumer.ProfileIdentifier))
+            //    {
+            //        continue;
+            //    }
+            //    string base64 = Convert.ToBase64String(model.Value);
+            //    FileMessage fm = new FileMessage()
+            //    {
+            //        File = base64
+            //    };
+            //    string topic = $"consumer/{consumer.Identifier}/model";
+            //    MqttService.Server.Publish<FileMessage>(new DAT.Configuration.PublicationOptions()
+            //    {
+            //        Topic = topic
+            //    }, fm);
+            //}
+            //// deploy generators
+            //GeneratorsMessage gm = new GeneratorsMessage()
+            //{
+            //    ScenarioIdentifier = uuid,
+            //    Generators = scenario.Generators
+            //};
+
+            //MqttService.Server.Publish<GeneratorsMessage>(new DAT.Configuration.PublicationOptions()
+            //{
+            //    Topic = "generator/scenario",
+            //    QosLevel = DAT.Configuration.QualityOfServiceLevel.ExactlyOnce
+            //}, gm);
+
+
+            //foreach (var generator in scenario.Generators)
+            //{                
+            //    var model = ScenarioDataState.Value.ScenarioData.Models.Where(x => x.Key.Contains(generator.ProfileIdentifier)).FirstOrDefault();
+            //    string base64 = Convert.ToBase64String(model.Value);
+            //    FileMessage fm = new FileMessage()
+            //    {
+            //        File = base64
+            //    };
+            //    string topic = $"generator/{generator.Identifier}/model";
+            //    MqttService.Server.Publish<FileMessage>(new DAT.Configuration.PublicationOptions()
+            //    {
+            //        Topic = topic,
+            //        QosLevel = DAT.Configuration.QualityOfServiceLevel.ExactlyOnce
+            //    }, fm);
+            //    GenerationRequest gr = new GenerationRequest()
+            //    {
+            //        UnixTimestampSeconds = 1699975259
+            //    };
+            //}
+
+            //// deploy network
+            //NetworkMessage nm = new NetworkMessage()
+            //{
+            //    ScenarioIdentifier = uuid,
+            //    Network = scenario.Network
+            //};
+
+            //MqttService.Server.Publish<NetworkMessage>(new DAT.Configuration.PublicationOptions()
+            //{
+            //    Topic = "network/scenario",
+            //}, nm);
         }
     }
 
@@ -374,10 +428,22 @@ namespace UserInterface.Store
         public Data.Consumer[] Consumers { get; set; } 
     }
 
+    public class ConsumerMessage
+    {
+        public string ScenarioIdentifier { get; set;}
+        public Data.Consumer Consumer { get; set; }
+    }
+
     public class GeneratorsMessage
     {
         public string ScenarioIdentifier { get; set; }
         public Generator[] Generators { get; set; }
+    }
+
+    public class GeneratorMessage
+    {
+        public string ScenarioIdentifier { get; set; }
+        public Data.Generator Generator { get; set; }
     }
 
     public class GenerationRequest

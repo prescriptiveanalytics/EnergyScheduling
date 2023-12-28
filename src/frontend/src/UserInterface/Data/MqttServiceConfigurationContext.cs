@@ -2,13 +2,14 @@
 {
     public class MqttServiceConfigurationContext
     {
-        public string MQTT_HOST { get; set; }
-        public int MQTT_PORT { get; set; }
+        public const string Mqtt = "MQTT";
 
-        public MqttServiceConfigurationContext(string mqtt_host = "localhost", int mqtt_port = 1883)
+        public string Host { get; set; }
+        public int Port { get; set; }
+
+        public MqttServiceConfigurationContext(IConfiguration configuration)
         {
-            MQTT_HOST = mqtt_host;
-            MQTT_PORT = mqtt_port;
+            configuration.GetSection(Mqtt).Bind(this);
         }
     }
 }

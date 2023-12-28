@@ -1,11 +1,18 @@
 ﻿using UserInterface.Data;
 using UserInterface.Store;
 using System.Text.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace Unittest
 {
     public class IntegrationTestMqttMessages
     {
+        IDictionary<string, string> configuration = new Dictionary<string, string>
+        { 
+            { "Mqtt:Host", "localhost" },
+            { "Mqtt:Port", "1883" }
+        };
+
         [Fact]
         public void TestConsumerModelDeployment()
         {
@@ -24,11 +31,9 @@ namespace Unittest
             // read model
             //FileStream inputFile = File.OpenRead("./Resources/london2011-2014_cluster0");
             var model = File.ReadAllBytes("./Resources/london2011-2014_cluster0");
-            MqttService mqttService = new MqttService(new MqttServiceConfigurationContext()
-            {
-                MQTT_HOST = "localhost",
-                MQTT_PORT = 1883
-            });
+
+            var config = new ConfigurationBuilder().AddInMemoryCollection(configuration).Build();
+            MqttService mqttService = new MqttService(new MqttServiceConfigurationContext(config));
 
             string uuid = System.Guid.NewGuid().ToString();
             ConsumersMessage cm = new ConsumersMessage()
@@ -87,11 +92,8 @@ namespace Unittest
 
             // read model
             var model = File.ReadAllBytes("./Resources/hgb_south_10kwp");
-            MqttService mqttService = new MqttService(new MqttServiceConfigurationContext()
-            {
-                MQTT_HOST = "localhost",
-                MQTT_PORT = 1883
-            });
+            var config = new ConfigurationBuilder().AddInMemoryCollection(configuration).Build();
+            MqttService mqttService = new MqttService(new MqttServiceConfigurationContext(config));
 
             string uuid = System.Guid.NewGuid().ToString();
             GeneratorsMessage gm = new GeneratorsMessage()
@@ -150,11 +152,8 @@ namespace Unittest
             };
             ScenarioModelJson? scenario = JsonSerializer.Deserialize<ScenarioModelJson>(text, options);
             Network network = scenario?.Scenario?.Network;
-            MqttService mqttService = new MqttService(new MqttServiceConfigurationContext()
-            {
-                MQTT_HOST = "localhost",
-                MQTT_PORT = 1883
-            });
+            var config = new ConfigurationBuilder().AddInMemoryCollection(configuration).Build();
+            MqttService mqttService = new MqttService(new MqttServiceConfigurationContext(config));
 
             string uuid = System.Guid.NewGuid().ToString();
             NetworkMessage nm = new NetworkMessage()
@@ -197,11 +196,8 @@ namespace Unittest
             // read model
             //FileStream inputFile = File.OpenRead("./Resources/london2011-2014_cluster0");
             var model_consumer = File.ReadAllBytes("./Resources/london2011-2014_cluster0");
-            MqttService mqttService = new MqttService(new MqttServiceConfigurationContext()
-            {
-                MQTT_HOST = "localhost",
-                MQTT_PORT = 1883
-            });
+            var config = new ConfigurationBuilder().AddInMemoryCollection(configuration).Build();
+            MqttService mqttService = new MqttService(new MqttServiceConfigurationContext(config));
 
             string uuid = System.Guid.NewGuid().ToString();
             ConsumersMessage cm = new ConsumersMessage()
