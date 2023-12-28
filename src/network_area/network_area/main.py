@@ -50,6 +50,8 @@ with open(config_file, "rt") as input_file:
 config["host"] = os.getenv("MQTT_HOST", config["host"])
 config["port"] = os.getenv("MQTT_PORT", config["port"])
 
+logging.debug("config=%s", config)
+
 initialized: bool = False
 #consumers: ConsumerCollection = None
 #generators: GeneratorCollection = None
