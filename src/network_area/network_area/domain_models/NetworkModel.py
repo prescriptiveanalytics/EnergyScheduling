@@ -1,10 +1,10 @@
-from typing import Optional, List
+from typing import List
 from pydantic import BaseModel
 
 
 class NetworkBusModel(BaseModel):
     Identifier: str
-    Voltage: int
+    Voltage: float
     Category: str
     Type: str
 

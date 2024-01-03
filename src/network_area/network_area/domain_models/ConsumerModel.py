@@ -12,6 +12,7 @@ class ConsumerModel(BaseModel):
     Type: str
     Category: str
     ProfileIdentifier: str
+    InService: bool
 
 
 class ConsumerCollection(BaseModel):

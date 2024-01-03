@@ -12,6 +12,7 @@ class GeneratorModel(BaseModel):
     Type: str
     Category: str
     ProfileIdentifier: str
+    InService: bool
 
 
 class GeneratorCollection(BaseModel):

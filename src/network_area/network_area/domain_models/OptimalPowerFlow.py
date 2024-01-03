@@ -85,6 +85,23 @@ class OptimalPowerFlowSgen(BaseModel):
     SnMva: dict
     Type: dict
 
+class OptimalPowerFlowStorage(BaseModel):
+    Name: dict
+    Bus: dict
+    PMw: dict
+    QMvar: dict
+    SnMva: dict
+    SocPercent: dict
+    MinEMwh: dict
+    MaxEMwh: dict
+    Scaling: dict
+    InService: dict
+    Type: dict
+
+class OptimalPowerFlowResStorage(BaseModel):
+    PMw: dict
+    QMvar: dict
+
 class OptimalPowerFlowSolution(BaseModel):
     Bus: OptimalPowerFlowBus
     Line: OptimalPowerFlowLine
@@ -95,6 +112,9 @@ class OptimalPowerFlowSolution(BaseModel):
     ResLoad: OptimalPowerFlowResLoad
     ResExtGrid: OptimalPowerFlowResExtGrid
     ResSgen: OptimalPowerFlowResSgen
+    Storage: OptimalPowerFlowStorage
+    ResStorage: OptimalPowerFlowResStorage
+
 
 class OptimalPowerFlowSolutionCollection(BaseModel):
     OpfCollection: List[OptimalPowerFlowSolution]

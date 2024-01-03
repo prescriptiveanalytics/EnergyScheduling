@@ -10,6 +10,8 @@ class PowerGenerationModel(BaseModel):
     CategoryUnit: str
     Interval: int
     IntervalUnit: str
+    InService: bool
+
 
 class PowerGenerationCollection(BaseModel):
     Generations: Dict[str, PowerGenerationModel]

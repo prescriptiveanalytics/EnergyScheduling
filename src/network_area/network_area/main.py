@@ -21,7 +21,9 @@ from domain_models.PowerConsumptionModel import PowerConsumptionModel, PowerCons
 from domain_models.ConsumerModel import ConsumerModel, ConsumerCollection
 from domain_models.GeneratorModel import GeneratorModel, GeneratorCollection
 from domain_models.PowerGenerationModel import PowerGenerationModel, PowerGenerationCollection
+from domain_models.StorageModel import StorageCollection, StorageModelStateCollection, StorageModel, StorageModelState
 from domain_models.OptimalPowerFlow import OptimalPowerFlowSolution
+import storage_simple_strategy
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
@@ -42,7 +44,6 @@ model_path: dict[str, str] = {
 }
 
 config_file = Path("config.json")
-config = dict()
 
 with open(config_file, "rt") as input_file:
     config = json.load(input_file)
@@ -53,21 +54,19 @@ config["port"] = os.getenv("MQTT_PORT", config["port"])
 logging.debug("config=%s", config)
 
 initialized: bool = False
-#consumers: ConsumerCollection = None
-#generators: GeneratorCollection = None
-#network: NetworkModel = None
 
 network_node: NetworkNode = NetworkNode("")
 
 scenario_file = Path("configurations/ex0_one_consumer/config.json")
-scenario = None
+
 with open(scenario_file, "r") as input_file:
     logging.debug("read scenario file")
-    scenario = json.load(input_file)
+    scenario = json.load(input_file)["Scenario"]
     scenario["Network"] = NetworkModel(**scenario["Network"])
     network_node.networks = ScenarioNetworkModel(Network=scenario["Network"])
     network_node.consumers = ConsumerCollection(Consumers=scenario["Consumers"])
     network_node.generators = GeneratorCollection(Generators=scenario["Generators"])
+    network_node.storages = StorageCollection(Storages=scenario["Storages"])
 
 logging.debug("initial network_node=%s", network_node)
 
@@ -75,6 +74,26 @@ consumer_models = create_model_map(network_node.consumers.Consumers, model_path[
 network_node.consumption_models = consumer_models
 generator_models = create_model_map(network_node.generators.Generators, model_path["generator"])
 network_node.generation_models = generator_models
+
+
+class UnitConversionException(Exception):
+    pass
+
+
+def convert_magnitude(usage: float, category_unit_input: str, category_unit_output: str):
+    conversions = {
+        "TWh": 1000000000.0,
+        "MWh": 1000000.0,
+        "kWh": 1000.0,
+        "Wh": 1.0,
+        "mWh": 0.001,
+        "uWh": 0.000001,
+    }
+
+    if category_unit_input not in conversions.keys() or category_unit_output not in conversions.keys():
+        raise UnitConversionException()
+
+    return usage * conversions[category_unit_input] / conversions[category_unit_output]
 
 
 def initialize_network(network_config, generations: PowerGenerationCollection,
@@ -89,7 +108,7 @@ def initialize_network(network_config, generations: PowerGenerationCollection,
     buses = {}  # dictionary holding all created buses
     for b in bus_data:
         logging.debug("create bus=%s", b.Identifier)
-        bn = pp.create_bus(net, vn_kv=b.Voltage / 1000, name=b.Identifier)
+        bn = pp.create_bus(net, vn_kv=b.Voltage, name=b.Identifier)
         buses[b.Identifier] = bn
 
     # create grid connection
@@ -105,12 +124,25 @@ def initialize_network(network_config, generations: PowerGenerationCollection,
     logging.debug("create loads")
     for identifier, load in loads.Consumptions.items():
         logging.debug(f"consumer load for {identifier}: {load}")
-        pp.create_load(net, bus=buses[identifier], p_mw=load.Usage / 1000, q_mvar=0.05, name=identifier)
+        pp.create_load(net, bus=buses[identifier],
+                       p_mw=convert_magnitude(load.Usage, load.CategoryUnit, "MWh"),
+                       q_mvar=0.0, name=identifier)
 
     logging.debug("create generations")
     for identifier, generation in generations.Generations.items():
         logging.debug(f"generation power for {identifier}: {generation}")
-        pp.create_sgen(net, bus=buses[identifier], p_mw=generation.Generation / 1000, name=identifier)
+        pp.create_sgen(net, bus=buses[identifier],
+                       p_mw=convert_magnitude(generation.Generation, generation.CategoryUnit, "MWh"),
+                       name=identifier, in_service=generation.InService)
+
+    logging.debug("create storages")
+    for storage in network_node.storages.Storages:
+        logging.debug(f"battery storage for {storage.Identifier}")
+        store_el = pp.create_storage(net, bus=buses[storage.Identifier], p_mw=0.0, q_mvar=0.0,
+                                     max_e_mwh=storage.MaximumCapacity, min_e_mwh=storage.MinimumCapacity,
+                                     name=storage.Name, in_service=storage.InService)
+
+        storage_simple_strategy.Storage(net=net, gid=store_el, soc_percentage=storage.StateOfCharge)
 
     logging.debug("create lines")
     x = 1
@@ -119,22 +151,25 @@ def initialize_network(network_config, generations: PowerGenerationCollection,
         frombus = buses[line.FromBus]
         tobus = buses[line.ToBus]
         name = f"{line.FromBus}-{line.ToBus}"
-        #pp.create_line(net, from_bus=frombus, to_bus=tobus, length_km=line.length_km, std_type=line.std_type)
         if line.StdType:
             resolved_line = pp.std_types.basic_line_std_types()[line.StdType]
-            pp.create_line_from_parameters(net, from_bus=frombus, to_bus=tobus, length_km=line.LengthKm, **resolved_line)
+            pp.create_line_from_parameters(net, from_bus=frombus, to_bus=tobus,
+                                           length_km=line.LengthKm, name=name, **resolved_line)
         x += 1
 
     logging.debug("run opf")
-    pp.runpp(net)
+    pp.runpp(net, run_control=True)
     logging.debug(f"keys in net={net.keys()}")
     logging.debug(f"calculated net={net}")
 
     pandapower_result = {'Bus': json.loads(net.bus.to_json()), 'Load': json.loads(net.load.to_json()),
-              'Line': json.loads(net.line.to_json()), 'Sgen': json.loads(net.sgen.to_json()),
-              'ResBus': json.loads(net.res_bus.to_json()), 'ResLine': json.loads(net.res_line.to_json()),
-              'ResLoad': json.loads(net.res_load.to_json()), 'ResExtGrid': json.loads(net.res_ext_grid.to_json()),
-              'ResSgen': json.loads(net.res_sgen.to_json())}
+                         'Line': json.loads(net.line.to_json()), 'Sgen': json.loads(net.sgen.to_json()),
+                         'ResBus': json.loads(net.res_bus.to_json()), 'ResLine': json.loads(net.res_line.to_json()),
+                         'ResLoad': json.loads(net.res_load.to_json()),
+                         'ResExtGrid': json.loads(net.res_ext_grid.to_json()),
+                         'ResSgen': json.loads(net.res_sgen.to_json()),
+                         'Storage': json.loads(net.storage.to_json()),
+                         'ResStorage': json.loads(net.res_storage.to_json())}
     logging.debug("result=%s", pandapower_result)
     # transform the datastructure to pascal-case
     pandapower_result = humps.pascalize(pandapower_result)
@@ -148,7 +183,7 @@ def fetch_loads(consumers: ConsumerCollection, unix_timestamp_seconds: int):
         consumption = network_node.consumption_models[c.Identifier].get_consumption(unix_timestamp_seconds)
         consumer_loads[c.Identifier] = PowerConsumptionModel(
             **{"UnixTimestampSeconds": unix_timestamp_seconds, "Identifier": c.Identifier, "Usage": consumption,
-               "Category": "load", "CategoryUnit": "Wh", "Interval": 15, "IntervalUnit": "minutes"})
+               "Category": "load", "CategoryUnit": "kWh", "Interval": 15, "IntervalUnit": "minutes", "InService": c.InService })
     logging.debug("consumer_loads=%s", consumer_loads)
     return PowerConsumptionCollection(Consumptions=consumer_loads)
 
@@ -160,7 +195,7 @@ def fetch_generations(generators: GeneratorCollection, unix_timestamp_seconds: i
         generation = network_node.generation_models[g.Identifier].get_generation(unix_timestamp_seconds)
         generator_generations[g.Identifier] = PowerGenerationModel(
             **{"UnixTimestampSeconds": unix_timestamp_seconds, "Identifier": g.Identifier, "Generation": generation,
-               "Category": "generation", "CategoryUnit": "Wh", "Interval": 15, "IntervalUnit": "minutes"})
+               "Category": "generation", "CategoryUnit": "kWh", "Interval": 15, "IntervalUnit": "minutes", "InService": g.InService })
     logging.debug("generation_generations=%s", generator_generations)
     return PowerGenerationCollection(Generations=generator_generations)
 
@@ -240,6 +275,48 @@ async def network_opf_query_callback(message: SpaMessage, socket: SpaSocket, **k
     )
 
 
+def get_storage(identifier: str) -> StorageModel:
+    for sm in network_node.storages.Storages:
+        if sm.Identifier == identifier:
+            return sm
+
+
+def process_storage_states(storage_states: StorageModelStateCollection) -> None:
+    for state in storage_states.Storages:
+        # find storage in storages
+        storage = get_storage(state.Identifier)
+        storage.StateOfCharge = state.StateOfCharge
+
+
+@app_dat.application("network/opf_with_state")
+async def network_opf_query_callback(message: SpaMessage, socket: SpaSocket, **kwargs):
+    global network_node
+    logging.debug("network_opf__with_state_query_callback=%s", message)
+
+    cnt = message.payload.decode("utf-8")
+    usable_payload = base64.b64decode(cnt)
+    payload = json.loads(usable_payload)
+
+    unix_timestamp_seconds = int(payload['UnixTimestampSeconds'])
+    storage_states = StorageModelStateCollection(**payload['StorageModelStates'])
+
+    if storage_states:
+        process_storage_states(storage_states)
+
+    result = calculate_opf(unix_timestamp_seconds)
+
+    logging.debug("opf=%s", result)
+    t1 = base64.b64encode(result.model_dump_json().encode("utf-8"))
+
+    await socket.publish(
+        SpaMessage(
+            ContentType="application/json",
+            Payload=t1,
+            Topic=message.response_topic
+        )
+    )
+
+
 @app_dat.application("network/scenario")
 async def network_scenario_update_callback(message: SpaMessage, socket: SpaSocket, **kwargs):
     """retrieve a new scenario
@@ -272,7 +349,8 @@ async def consumer_add_callback(message: SpaMessage, socket: SpaSocket, **kwargs
             update = True
     if not update:
         logging.info("add consumer=%s", consumer_identifier)
-    network_node.consumers.Consumers = [c for c in network_node.consumers.Consumers if c.Identifier != consumer_identifier]
+    network_node.consumers.Consumers = [c for c in network_node.consumers.Consumers
+                                        if c.Identifier != consumer_identifier]
     network_node.consumers.Consumers.append(ConsumerModel(**payload))
 
 
@@ -309,7 +387,8 @@ async def generator_add_callback(message: SpaMessage, socket: SpaSocket, **kwarg
             update = True
     if not update:
         logging.info("add generator=%s", generator_identifier)
-    network_node.generators.Generators = [c for c in network_node.generators.Generators if c.Identifier != generator_identifier]
+    network_node.generators.Generators = [c for c in network_node.generators.Generators
+                                          if c.Identifier != generator_identifier]
     network_node.generators.Generators.append(GeneratorModel(**payload))
 
 
@@ -333,4 +412,6 @@ async def generator_model_update_callback(message: SpaMessage, socket: SpaSocket
 
 if __name__ == '__main__':
     app_dat.start()
-
+    # we use the default scenario, loaded on script startup
+    # opf = calculate_opf(1659439457)
+    # print(opf)

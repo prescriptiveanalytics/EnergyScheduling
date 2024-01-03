@@ -1,7 +1,8 @@
-from typing import Union, List, Optional
-from domain_models.NetworkModel import NetworkBusModel, NetworkEntityModel, NetworkLineModel, NetworkModel, ScenarioNetworkModel
-from domain_models.ConsumerModel import ConsumerModel, ConsumerCollection
-from domain_models.GeneratorModel import GeneratorModel, GeneratorCollection
+from domain_models.NetworkModel import ScenarioNetworkModel
+from domain_models.ConsumerModel import ConsumerCollection
+from domain_models.GeneratorModel import GeneratorCollection
+from domain_models.StorageModel import StorageCollection
+
 
 class NetworkNode:
     """Network node handles: communication with the consumer and producer nodes
@@ -15,6 +16,7 @@ class NetworkNode:
         self._generators = None
         self._generation_models = None
         self._networks = None
+        self._storages = None
 
     @property
     def initialized(self) -> bool:
@@ -64,5 +66,18 @@ class NetworkNode:
     def networks(self, value: ScenarioNetworkModel):
         self._networks = value
 
+    @property
+    def storages(self) -> StorageCollection:
+        return self._storages
+
+    @storages.setter
+    def storages(self, value: StorageCollection):
+        self._storages = value
+
     def __str__(self) -> str:
-        return f"NetworkNode(scenario_identifier={self._scenario_identifier},initialized={self._initialized},consumers={self._consumers},generators={self._generators},networks={self._networks})"
+        return (f"NetworkNode(scenario_identifier={self._scenario_identifier},"
+                f"initialized={self._initialized},"
+                f"consumers={self._consumers},"
+                f"generators={self._generators},"
+                f"storages={self._storages},"
+                f"networks={self._networks})")
