@@ -5,20 +5,30 @@ namespace UserInterface.Data
     public class OptimalPowerFlow
     {
         [JsonPropertyName("Bus")]
-        public BusUuid Bus { get; set; }
-        //[JsonPropertyName("res_bus")]
-        public ResBus ResBus { get; set; }
-        //[JsonPropertyName("res_line")]
-        public ResLine ResLine { get; set; }
-        //[JsonPropertyName("res_load")]
-        public ResLoad ResLoad { get; set; }
-        //[JsonPropertyName("res_ext_grid")]
-        public ResExtGrid ResExtGrid { get; set; }
-        //[JsonPropertyName("res_sgen")]
-        public ResSgen ResSgen { get; set; }
+        public BusPowerFlow Bus { get; set; }
+        [JsonPropertyName("Line")]
+        public LinePowerFlow Line { get; set; }
+        [JsonPropertyName("Load")]
+        public LoadPowerFlow Load { get; set; }
+        [JsonPropertyName("ResBus")]
+        public ResBusPowerFlow ResBus { get; set; }
+        [JsonPropertyName("ResLine")]
+        public ResLinePowerFlow ResLine { get; set; }
+        [JsonPropertyName("ResLoad")]
+        public ResLoadPowerFlow ResLoad { get; set; }
+        [JsonPropertyName("ResExtGrid")]
+        public ResExtGridPowerFlow ResExtGrid { get; set; }
+        [JsonPropertyName("Sgen")]
+        public SgenPowerFlow Sgen { get; set; }
+        [JsonPropertyName("ResSgen")]
+        public ResSgenPowerFlow ResSgen { get; set; }
+        [JsonPropertyName("Storage")]
+        public StoragePowerFlow Storage { get; set; }
+        [JsonPropertyName("ResStorage")]
+        public ResStoragePowerFlow ResStorage { get; set; }
     }
 
-    public class BusUuid
+    public class BusPowerFlow
     {
         public IDictionary<string, string> Name { get; set; }
         public IDictionary<string, double> VnKv { get; set; }
@@ -26,71 +36,83 @@ namespace UserInterface.Data
         public IDictionary<string, string> Zone { get; set; }
         public IDictionary<string, bool> InService { get; set; }
     }
-    public class ResBus
+
+    public class LinePowerFlow
     {
-        //[JsonPropertyName("p_mw")]
+
+    }
+
+    public class LoadPowerFlow
+    {
+
+    }
+
+    public class SgenPowerFlow
+    {
+
+    }
+    public class ResBusPowerFlow
+    {
         public IDictionary<string, double> PMw { get;set; }
-        //[JsonPropertyName("q_mvar")]
         public IDictionary<string, double> QMvar { get;set; }
-        //[JsonPropertyName("va_degree")]
         public IDictionary<string, double> VaDegree { get;set; }
-        //[JsonPropertyName("vm_pu")]
         public IDictionary<string, double> VmPu { get;set; }
     }
 
-    public class ResLine 
+    public class ResLinePowerFlow 
     {
-        //[JsonPropertyName("i_from_ka")]
         public IDictionary<string, double> IFromKa { get;set; }
-        //[JsonPropertyName("i_ka")]
         public IDictionary<string, double> IKa { get;set; }
-        //[JsonPropertyName("i_to_ka")]
         public IDictionary<string, double> IToKa { get;set; }
-        //[JsonPropertyName("loading_percent")]
         public IDictionary<string, double> LoadingPercent { get;set; }
-        //[JsonPropertyName("p_from_mw")]
         public IDictionary<string, double> PFromMw { get;set; }
-        //[JsonPropertyName("p_to_mw")]
         public IDictionary<string, double> PToMw { get;set; }
-        //[JsonPropertyName("pl_mw")]
         public IDictionary<string, double> PlMw { get;set; }
-        //[JsonPropertyName("q_from_mvar")]
         public IDictionary<string, double> QFromMvar { get;set; }
-        //[JsonPropertyName("q_to_mvar")]
         public IDictionary<string, double> QToMvar { get;set; }
-        //[JsonPropertyName("ql_mvar")]
         public IDictionary<string, double> QlMvar { get;set; }
-        //[JsonPropertyName("var_from_degree")]
         public IDictionary<string, double> VaFromDegree { get;set; }
-        //[JsonPropertyName("va_to_degree")]
         public IDictionary<string, double> VaToDegree { get;set; }
-        //[JsonPropertyName("vm_from_pu")]
         public IDictionary<string, double> VmFromPu { get;set; }
-        //[JsonPropertyName("vm_to_pu")]
         public IDictionary<string, double> VmToPu { get;set; }
     }
 
-    public class ResLoad
+    public class ResLoadPowerFlow
     {
-        //[JsonPropertyName("p_mw")]
         public IDictionary<string, double> PMw { get;set; }        
-        //[JsonPropertyName("q_mvar")]
         public IDictionary<string, double> QMvar { get;set; }  
     }
 
-    public class ResExtGrid
+    public class ResExtGridPowerFlow
     {
-        //[JsonPropertyName("p_mw")]
         public IDictionary<string, double> PMw { get;set; }
-        //[JsonPropertyName("q_mvar")]
         public IDictionary<string, double> QMvar { get;set; }
     }
 
-    public class ResSgen
+    public class ResSgenPowerFlow
     {
-        //[JsonPropertyName("p_mw")]
         public IDictionary<string, double> PMw { get;set; }
-        //[JsonPropertyName("q_mvar")]
         public IDictionary<string, double> QMvar { get;set; }
     }
+
+    public class StoragePowerFlow
+    {
+        public IDictionary<string, string> Name { get; set; }
+        public IDictionary<string, int> Bus{ get; set; }
+        public IDictionary<string, double> MaxEMwh { get; set; }
+        public IDictionary<string, double> MinEMwh { get; set; }
+        public IDictionary<string, double> PMw { get; set; }
+        public IDictionary<string, double> QMvar { get; set; }
+        public IDictionary<string, double> Scaling { get; set; }
+        public IDictionary<string, double> SnMva { get; set; }
+        public IDictionary<string, double> SocPercent { get; set; }
+        public IDictionary<string, bool> InService { get; set; }
+    }
+
+    public class ResStoragePowerFlow
+    {
+        public IDictionary<string, double> PMw { get;set; }
+        public IDictionary<string, double> QMvar { get;set; }
+    }
+
 }

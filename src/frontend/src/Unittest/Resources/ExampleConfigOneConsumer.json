@@ -13,7 +13,8 @@
                 "Longitude": 13.35174,
                 "Name": "Household 1",
                 "ProfileIdentifier": "london2011-2014_cluster0",
-                "Type": "load"
+                "Type": "load",
+                "InService":  true
             }
         ],
         "Generators": [
@@ -26,7 +27,30 @@
                 "Longitude": 13.35147,
                 "Name": "photovoltaic 1",
                 "ProfileIdentifier": "pvgis_hgp_south_10kwp",
-                "Type": "generator"
+                "Type": "generator",
+                "InService": true
+            }
+        ],
+        "Storages": [
+            {
+                "Name": "Storage 1",
+                "Identifier": "ae2ddf46-ab59-4178-b9f4-a1e065b3a08c",
+                "Level": 7,
+                "Latitude": 48.32513,
+                "Longitude": 13.35146,
+                "Address": "none",
+                "Type": "storage",
+                "Category": "household",
+                "MinimumCapacity": 0,
+                "MaximumCapacity": 0.01,
+                "CapacityUnit": "MWh",
+                "MinimumActivePower": 0,
+                "MaximumActivePower": 1,
+                "MinimumReactivePower": 0,
+                "MaximumReactivePower": 1,
+                "CurrentActivePower": 0,
+                "StateOfCharge": 0,
+                "InService": true
             }
         ],
         "Network": {
@@ -48,6 +72,12 @@
                     "Identifier": "12b277c0-ec01-448b-bffe-d081c11fd200",
                     "Type": "generation",
                     "voltage": 400
+                },
+                {
+                    "Category": "storage",
+                    "Identifier": "ae2ddf46-ab59-4178-b9f4-a1e065b3a08c",
+                    "Type": "storage",
+                    "Voltage": 0.4
                 }
             ],
             "Entities": [
@@ -74,6 +104,12 @@
                     "LengthKm": 0.03,
                     "StdType": "NAYY 4x50 SE",
                     "ToBus": "f60efbaf-df19-4d91-a2a7-4697895fc2d8"
+                },
+                {
+                    "FromBus": "ae2ddf46-ab59-4178-b9f4-a1e065b3a08c",
+                    "LengthKm": 0.01,
+                    "StdType": "NAYY 4x50 SE",
+                    "ToBus": "12b277c0-ec01-448b-bffe-d081c11fd200"
                 }
             ]
         }

@@ -68,7 +68,16 @@
                         <MudTd DataLabel="Profile">@context.ProfileIdentifier</MudTd>
                     </RowTemplate>
                 </MudTable>
-
+                <MudTable Items="@ScenarioDataState.Value.SelectedScenario.Scenario.Storages">
+                    <HeaderContent>
+                        <MudTh>Name</MudTh>
+                        <MudTh>Profile</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Name">@context.Name</MudTd>
+                        <MudTd DataLabel="Profile">NA</MudTd>
+                    </RowTemplate>
+                </MudTable>
             </MudExpansionPanel>
             
             <MudExpansionPanel Text="Models">

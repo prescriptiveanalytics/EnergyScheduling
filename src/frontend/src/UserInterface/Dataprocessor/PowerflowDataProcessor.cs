@@ -96,6 +96,9 @@ namespace UserInterface.Dataprocessor
             double import = optimalPowerFlow.ResExtGrid.PMw.Sum(x => x.Value);
             powerflowTableView.Values.Add(new List<string>() {"Import", import.ToString()});
 
+            double storage = optimalPowerFlow.ResStorage.PMw.Sum(x => x.Value);
+            powerflowTableView.Values.Add(new List<string>() {"Storage", storage.ToString()});
+
             return powerflowTableView;
         }
 
@@ -123,7 +126,12 @@ namespace UserInterface.Dataprocessor
             // import/export
             double import = optimalPowerFlow.ResExtGrid.PMw.Sum(x => x.Value);
             values.Add(import);
-
+            //double import = optimalPowerFlow.ResExtGrid.PMw.Sum(x => x.Value >= 0 ? x.Value : 0.0);
+            //values.Add(import);
+            //double export = optimalPowerFlow.ResExtGrid.PMw.Sum(x => x.Value <= 0 ? x.Value : 0.0);
+            //values.Add(export);
+            double storage = optimalPowerFlow.ResStorage.PMw.Sum(x => x.Value);
+            values.Add(storage);
             return values.ToArray<double>();
         }
         private string IdToName(string id, IDictionary<string, string> idToUuid)

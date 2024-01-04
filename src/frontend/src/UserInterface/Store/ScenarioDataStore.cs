@@ -91,15 +91,6 @@ namespace UserInterface.Store
         }
     }
 
-    //public class SimulationSingleStepAction
-    //{
-    //    public DateTimeOffset DateTimeOffset { get; set; }
-    //    public SimulationSingleStepAction(DateTimeOffset dateTimeOffset)
-    //    {
-    //        DateTimeOffset = dateTimeOffset;
-    //    }
-    //}
-
     public class SimulationSingleStepAction2
     {
         public DateTimeOffset DateTimeOffset { get; set; }
@@ -200,7 +191,7 @@ namespace UserInterface.Store
             var data = pdp.GetPowerflowSummaryGraphInfo(action.PowerFlow);
 
             IList<ITrace> timeSeriesData = state.PowerflowTimeSeries ?? new List<ITrace>();
-            string[] name = { "Load", "Generation", "Grid Import" };
+            string[] name = { "Load", "Generation", "Grid", "Storage" };
 
             if (timeSeriesData.Count == 0)
             {
@@ -256,14 +247,50 @@ namespace UserInterface.Store
         [EffectMethod]
         public async Task SimulationSingleStep(SimulationSingleStepAction2 action, IDispatcher dispatcher)
         {
-            NetworkRequest gr = new NetworkRequest()
+            // TODO: Check is this is null or empty
+            StorageModelState[] states = new StorageModelState[ScenarioDataState.Value.SelectedScenario.Scenario.Storages.Length];
+
+            if (ScenarioDataState != null && ScenarioDataState.Value != null && ScenarioDataState.Value.PowerFlows != null && ScenarioDataState.Value.PowerFlows.Count() > 0) {
+                var lastPf = ScenarioDataState.Value.PowerFlows.Last().Value;
+                string[] identifier = lastPf.Storage.Name.Values.ToArray<string>();
+
+                for (int i = 0; i < states.Length; i++)
+                {
+                    string busIndex = lastPf.Storage.Name.FirstOrDefault(x => x.Value == identifier[i]).Key;
+                    StorageModelState sms = new StorageModelState()
+                    {
+                        Identifier = identifier[i],
+                        StateOfCharge = lastPf.Storage.SocPercent.FirstOrDefault(x => x.Key == busIndex).Value
+                    };
+                    states[i] = sms;
+                }
+            }else
             {
-                UnixTimestampSeconds = (int)action.DateTimeOffset.ToUnixTimeSeconds()
+                for (int i = 0; i < states.Length; i++)
+                {
+                    var st = ScenarioDataState.Value.SelectedScenario.Scenario.Storages[i];
+                    states[i] = new StorageModelState()
+                    {
+                        Identifier = st.Identifier,
+                        StateOfCharge = st.StateOfCharge
+                    };
+                }
+            }
+            StorageModelStateCollection smsc = new StorageModelStateCollection()
+            {
+                Storages = states
             };
-            var powerFlow = await MqttService.Server.RequestAsync<OptimalPowerFlow, NetworkRequest>(new DAT.Configuration.RequestOptions()
+
+            NetworkRequestWithModelState gr = new NetworkRequestWithModelState()
+            {
+                UnixTimestampSeconds = (int)action.DateTimeOffset.ToUnixTimeSeconds(),
+                StorageModelStates = smsc
+                
+            };
+            var powerFlow = await MqttService.Server.RequestAsync<OptimalPowerFlow, NetworkRequestWithModelState>(new DAT.Configuration.RequestOptions()
             {
                 GenerateResponseTopicPostfix = true,
-                Topic = $"network/opf"
+                Topic = $"network/opf_with_state"
             }, gr);
             dispatcher.Dispatch(new AddSingleStepResultAction(action.DateTimeOffset.DateTime, powerFlow, action.Chart));
         }
@@ -312,6 +339,13 @@ namespace UserInterface.Store
                 {
                     Topic = topic
                 }, fm);
+            }
+
+            foreach (var s in scenario.Storages) {
+                MqttService.Server.Publish<UserInterface.Data.Storage>(new DAT.Configuration.PublicationOptions()
+                {
+                    Topic = $"storage/{s.Identifier}/add"
+                }, s);
             }
 
             NetworkMessage nm = new NetworkMessage()
@@ -471,6 +505,12 @@ namespace UserInterface.Store
     public class NetworkRequest
     {
         public int UnixTimestampSeconds { get; set;}
+    }
+
+    public class NetworkRequestWithModelState
+    {
+        public int UnixTimestampSeconds { get; set; }
+        public StorageModelStateCollection StorageModelStates { get; set; }
     }
 
     public class NetworkResponse

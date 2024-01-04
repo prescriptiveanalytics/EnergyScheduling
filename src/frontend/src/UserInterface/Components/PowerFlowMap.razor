@@ -89,6 +89,7 @@
                 AddTileLayer();
                 ProcessConsumers();
                 ProcessGenerators();
+                ProcessStorages();
                 ProcessNetwork();
                 ProcessPowerFlow();
                 _dataInitialized = true;
@@ -147,6 +148,25 @@
         }
     }
 
+    private void ProcessStorages()
+    {
+        foreach (var s in ScenarioData.Scenario.Storages)
+        {
+            minLatitude = Math.Min(minLatitude, s.Latitude);
+            maxLatitude = Math.Max(maxLatitude, s.Latitude);
+            minLongitude = Math.Min(minLongitude, s.Longitude);
+            maxLongitude = Math.Max(maxLongitude, s.Longitude);
+
+            _uuidToPointF.Add(s.Identifier, new PointF(s.Latitude, s.Longitude));
+
+            LatLng latLng = new LatLng(s.Latitude, s.Longitude);
+            var marker = new Marker(latLng)
+                {
+                    Title = s.Name
+                };
+            _map.AddLayer(marker);
+        }
+    }
     private void ProcessNetwork()
     {
         foreach (var n in ScenarioData.Scenario.Network.Entities)
@@ -198,7 +218,7 @@
         {
             Console.WriteLine("Processing powerflow...");
             // get powerflow for the lines
-            ResLine resLine = PowerFlow.ResLine;
+            ResLinePowerFlow resLine = PowerFlow.ResLine;
             int i = 1;
             foreach (var line in _powerLineInformation)
             {

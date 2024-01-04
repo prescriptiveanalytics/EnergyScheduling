@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DAT.Communication" Version="0.3.4-alpha" />
     <PackageReference Include="Fluxor" Version="5.9.1" />
     <PackageReference Include="Fluxor.Blazor.Web" Version="5.9.1" />
     <PackageReference Include="MudBlazor" Version="6.11.2" />
@@ -20,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\DistributedApplicationTools\src\Communication\Communication.csproj" />
     <ProjectReference Include="..\..\..\..\..\..\..\DistributedApplicationTools\src\Configuration\Configuration.csproj" />
     <ProjectReference Include="..\LeafletMap\BlazorLeaflet.csproj" />
   </ItemGroup>
