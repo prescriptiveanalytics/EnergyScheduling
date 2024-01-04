@@ -140,7 +140,7 @@ def initialize_network(network_config, generations: PowerGenerationCollection,
         logging.debug(f"battery storage for {storage.Identifier}")
         store_el = pp.create_storage(net, bus=buses[storage.Identifier], p_mw=0.0, q_mvar=0.0,
                                      max_e_mwh=storage.MaximumCapacity, min_e_mwh=storage.MinimumCapacity,
-                                     name=storage.Name, in_service=storage.InService)
+                                     name=storage.Identifier, soc_percent=storage.StateOfCharge, sn_mva=0.0, in_service=storage.InService)
 
         storage_simple_strategy.Storage(net=net, gid=store_el, soc_percentage=storage.StateOfCharge)
 
@@ -173,6 +173,7 @@ def initialize_network(network_config, generations: PowerGenerationCollection,
     logging.debug("result=%s", pandapower_result)
     # transform the datastructure to pascal-case
     pandapower_result = humps.pascalize(pandapower_result)
+    logging.debug("result=%s", pandapower_result)
     return OptimalPowerFlowSolution(**pandapower_result)
 
 
@@ -409,6 +410,24 @@ async def generator_model_update_callback(message: SpaMessage, socket: SpaSocket
     else:
         logging.info("information for generator not available (generator=%s)", generator_identifier)
 
+@app_dat.application("storage/+/add")
+async def storage_add_callback(message: SpaMessage, socket: SpaSocket, **kwargs):
+    logging.debug("storage_add_callback: received request")
+    storage_identifier = message.topic.split("/")[1]
+    logging.info("add storage=%s", storage_identifier)
+    cnt = message.payload.decode("utf-8")
+    usable_payload = base64.b64decode(cnt)
+    payload = json.loads(usable_payload)
+    update = False
+    for s in network_node.storages.Storages:
+        if s.Identifier == storage_identifier:
+            logging.info("update storage=%s", storage_identifier)
+            update = True
+    if not update:
+        logging.info("add storage=%s", storage_identifier)
+    network_node.storages.Storages = [s for s in network_node.storages.Storages
+                                          if s.Identifier != storage_identifier]
+    network_node.storages.Storages.append(StorageModel(**payload))
 
 if __name__ == '__main__':
     app_dat.start()
