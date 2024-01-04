@@ -1,68 +1,117 @@
 {
-    "Consumers":
-    [{
-        "Name": "Household 1",
-        "Identifier": "1bf48567-0522-43af-865d-78fc9c04cd61",
-        "Level": 7,
-        "Latitude": 48.32512,
-        "Longitude": 13.35174,
-        "Address": "none",
-        "Type": "load",
-        "Category": "household",
-        "ProfileIdentifier": "two_person_all_working_no_heat"
-    }],
-    "Generators":
-    [{
-        "Name": "photovoltaic 1",
-        "Identifier": "12b277c0-ec01-448b-bffe-d081c11fd200",
-        "Level": 7,
-        "Latitude": 48.32515,
-        "Longitude": 13.35147,
-        "Address": "none",
-        "Type": "generator",
-        "Category": "household",
-        "ProfileIdentifier": "hgb_south_10kwp"
-    }],
-    "Network": {
-        "Entities": [{
-            "Identifier": "f60efbaf-df19-4d91-a2a7-4697895fc2d8",
-            "Name": "grid connection",
-            "Latitude": 48.32521,
-            "Longitude": 13.35129,
-            "Address": "",
-            "Type": "network",
-            "Category": "network",
-            "NetworkEntity": "network"
-        }],
-        "Buses": [{
-            "Identifier": "1bf48567-0522-43af-865d-78fc9c04cd61",
-            "Voltage": 400,
-            "Category": "consumer",
-            "Type": "load"
-        },
-        {
-            "Identifier": "f60efbaf-df19-4d91-a2a7-4697895fc2d8",
-            "Voltage": 400,
-            "Category": "grid_connection",
-            "Type": "grid_connection"
-        },
-        {
-            "Identifier": "12b277c0-ec01-448b-bffe-d081c11fd200",
-            "Voltage": 400,
-            "Category": "generator",
-            "Type": "generation"
-        }],
-        "Lines": [{
-            "FromBus": "1bf48567-0522-43af-865d-78fc9c04cd61",
-            "ToBus": "12b277c0-ec01-448b-bffe-d081c11fd200",
-            "StdType": "NAYY 4x50 SE",
-            "LengthKm": 0.02
-        },
-        {
-            "FromBus": "12b277c0-ec01-448b-bffe-d081c11fd200",
-            "ToBus": "f60efbaf-df19-4d91-a2a7-4697895fc2d8",
-            "StdType": "NAYY 4x50 SE",
-            "LengthKm": 0.03
-        }]
+    "Scenario": {
+		"Name": "1 Consumer, 1 Generator, rural",
+        "Description": "simple test network",
+		"Version": "2023-11-06-V1",
+        "Consumers": [
+            {
+                "Address": "none",
+                "Category": "household",
+                "Identifier": "1bf48567-0522-43af-865d-78fc9c04cd61",
+                "Latitude": 48.32512,
+                "Level": 7,
+                "Longitude": 13.35174,
+                "Name": "Household 1",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            }
+        ],
+        "Generators": [
+            {
+                "Address": "none",
+                "Category": "household",
+                "Identifier": "12b277c0-ec01-448b-bffe-d081c11fd200",
+                "Latitude": 48.32515,
+                "Level": 7,
+                "Longitude": 13.35147,
+                "Name": "photovoltaic 1",
+                "ProfileIdentifier": "hgb_south_10kwp",
+                "Type": "generator",
+                "InService": false
+            }
+        ],
+		"Storages": [
+			{
+				"Name": "Storage 1",
+				"Identifier": "ae2ddf46-ab59-4178-b9f4-a1e065b3a08c",
+				"Level": 7,
+				"Latitude": 48.32513,
+				"Longitude":  13.35146,
+				"Address": "none",
+				"Type": "storage",
+				"Category": "household",
+				"MinimumCapacity": 0,
+				"MaximumCapacity": 0.000,
+				"CapacityUnit": "MWh",
+				"MinimumActivePower": 0,
+				"MaximumActivePower": 1,
+				"MinimumReactivePower": 0,
+				"MaximumReactivePower": 1,
+				"CurrentActivePower": 0,
+				"StateOfCharge": 0,
+                "InService": false
+			}
+		],
+        "Network": {
+            "Buses": [
+                {
+                    "Category": "consumer",
+                    "Identifier": "1bf48567-0522-43af-865d-78fc9c04cd61",
+                    "Type": "load",
+                    "Voltage": 0.4
+                },
+                {
+                    "Category": "grid_connection",
+                    "Identifier": "f60efbaf-df19-4d91-a2a7-4697895fc2d8",
+                    "Type": "grid_connection",
+                    "Voltage": 0.4
+                },
+                {
+                    "Category": "generator",
+                    "Identifier": "12b277c0-ec01-448b-bffe-d081c11fd200",
+                    "Type": "generation",
+                    "Voltage": 0.4
+                },
+				{
+					"Category": "storage",
+					"Identifier": "ae2ddf46-ab59-4178-b9f4-a1e065b3a08c",
+					"Type": "storage",
+					"Voltage": 0.4
+				}
+            ],
+            "Entities": [
+                {
+                    "Address": "",
+                    "Category": "network",
+                    "Identifier": "f60efbaf-df19-4d91-a2a7-4697895fc2d8",
+                    "Latitude": 48.32521,
+                    "Longitude": 13.35129,
+                    "Name": "grid connection",
+                    "NetworkEntity": "network",
+                    "Type": "network"
+                }
+            ],
+            "Lines": [
+                {
+                    "FromBus": "1bf48567-0522-43af-865d-78fc9c04cd61",
+                    "LengthKm": 0.01,
+                    "StdType": "NAYY 4x50 SE",
+                    "ToBus": "12b277c0-ec01-448b-bffe-d081c11fd200"
+                },
+                {
+                    "FromBus": "12b277c0-ec01-448b-bffe-d081c11fd200",
+                    "LengthKm": 0.01,
+                    "StdType": "NAYY 4x50 SE",
+                    "ToBus": "f60efbaf-df19-4d91-a2a7-4697895fc2d8"
+                },
+                {
+                  "FromBus": "ae2ddf46-ab59-4178-b9f4-a1e065b3a08c",
+                  "LengthKm": 0.01,
+                  "StdType": "NAYY 4x50 SE",
+                  "ToBus": "12b277c0-ec01-448b-bffe-d081c11fd200"
+                }
+            ]
+        }
     }
 }
