@@ -2,30 +2,30 @@ from typing import Optional, List
 from pydantic import BaseModel
 
 class NetworkBusModel(BaseModel):
-    identifier: str
-    voltage: int
-    category: str
-    type: str
+    Identifier: str
+    Voltage: int
+    Category: str
+    Type: str
 
 class NetworkEntityModel(BaseModel):
-    identifier: str
-    name: str
-    latitude: float
-    longitude: float
-    address: str
-    type: str
-    category: str
+    Identifier: str
+    Name: str
+    Latitude: float
+    Longitude: float
+    Address: str
+    Type: str
+    Category: str
 
 class NetworkLineModel(BaseModel):
-    from_bus: str
-    to_bus: str
-    std_type: str
-    length_km: float
+    FromBus: str
+    ToBus: str
+    StdType: str
+    LengthKm: float
 
 class NetworkModel(BaseModel):
-    entities: List[NetworkEntityModel]
-    bus: List[NetworkBusModel]
-    lines: List[NetworkLineModel]
+    Entities: List[NetworkEntityModel]
+    Buses: List[NetworkBusModel]
+    Lines: List[NetworkLineModel]
 
 class ScenarioNetworkModel(BaseModel):
-    network: NetworkModel
+    Network: NetworkModel

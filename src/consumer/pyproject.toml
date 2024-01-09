@@ -20,21 +20,16 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 
-# https://python-poetry.org/docs/repositories/#using-a-private-repository
-[[tool.poetry.source]]
-name = "risc-pypi"
-url = "https://pypiserver.risc-software.at/simple/"
-priority = "explicit"
-
 # https://python-poetry.org/docs/dependency-specification/
 [tool.poetry.dependencies]
 python = "^3.11"
 numpy = { version = "^1.26.0", python = ">=3.11,<3.13" }
 
 # https://python-poetry.org/docs/master/managing-dependencies/
-spa-dat = {version = "^0.3.0", source = "risc-pypi"}
+spa-dat = "^0.4.0"
 dill = "^0.3.7"
 pandas = "^2.1.1"
+pyhumps = "^3.8.0"
 [tool.poetry.group.dev.dependencies]  
 poethepoet = "^0.20.0"
 black = { version = "^23.3.0", extras = ["jupyter"] }

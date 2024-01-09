@@ -1,36 +1,36 @@
 {
-    "consumers":
+    "Consumers":
     [{
-        "name": "location 1",
-        "identifier": "e6c8200f-d84b-499b-ad13-4313eec39ca2",
-        "level": 7,
-        "latitude": 48.3744, 
-        "longitude": 14.5123,
-        "address": "none",
-        "type": "load",
-        "category": "household",
-        "profile_identifier": "ex1_london2011-2014_cluster0"
+        "Name": "location 1",
+        "Identifier": "e6c8200f-d84b-499b-ad13-4313eec39ca2",
+        "Level": 7,
+        "Latitude": 48.3744, 
+        "Longitude": 14.5123,
+        "Address": "none",
+        "Type": "load",
+        "Category": "household",
+        "ProfileIdentifier": "ex1_london2011-2014_cluster0"
     },
     {
-        "name": "location 2",
-        "identifier": "60d36bfa-92a2-4521-95fa-ed0e95f2413f",
-        "level": 7,
-        "latitude": 48.3744, 
-        "longitude": 14.5115,
-        "address": "none",
-        "type": "load",
-        "category": "household",
-        "profile_identifier": "ex1_london2011-2014_cluster0"        
+        "Name": "location 2",
+        "Identifier": "60d36bfa-92a2-4521-95fa-ed0e95f2413f",
+        "Level": 7,
+        "Latitude": 48.3744, 
+        "Longitude": 14.5115,
+        "Address": "none",
+        "Type": "load",
+        "Category": "household",
+        "ProfileIdentifier": "ex1_london2011-2014_cluster0"        
     },
     {
-        "name": "location 3",
-        "identifier": "ec28306c-772c-4d65-9916-55c03ce61566",
-        "level": 7,
-        "latitude": 48.374, 
-        "longitude": 14.5111,
-        "address": "none",
-        "type": "load",
-        "category": "household",
-        "profile_identifier": "ex1_london2011-2014_cluster0"        
+        "Name": "location 3",
+        "Identifier": "ec28306c-772c-4d65-9916-55c03ce61566",
+        "Level": 7,
+        "Latitude": 48.374, 
+        "Longitude": 14.5111,
+        "Address": "none",
+        "tTypeype": "load",
+        "Category": "household",
+        "ProfileIdentifier": "ex1_london2011-2014_cluster0"        
     }]
 }

@@ -1,21 +1,18 @@
 ﻿using System.Timers;
 using Fluxor;
 using MudBlazor;
+using Plotly.Blazor;
 using UserInterface.Data;
 
 namespace UserInterface.Store
 {
     public record TimeSeriesGraphState
     {
-        public List<ChartSeries> OverviewChartSeries { get; init; }
-        public string[] OverviewChartSeriesXAxisLabels { get; init; }
-        public int OverviewChartSeriesIndex { get; init; }
-
+        public IList<ITrace> Data { get; init; }
+        public PlotlyChart Chart { get; init; }
+        
         public TimeSeriesGraphState()
         {
-            OverviewChartSeries = new List<ChartSeries>();
-            OverviewChartSeriesXAxisLabels = Array.Empty<string>();
-            OverviewChartSeriesIndex = -1;
         }
     }
 
@@ -34,9 +31,9 @@ namespace UserInterface.Store
 
     public class UpdateChartDataAction
     {
-        public IDictionary<DateTime, PowerFlow> PowerFlowData;
+        public IDictionary<DateTime, OptimalPowerFlow> PowerFlowData;
 
-        public UpdateChartDataAction(IDictionary<DateTime, PowerFlow> powerFlowData)
+        public UpdateChartDataAction(IDictionary<DateTime, OptimalPowerFlow> powerFlowData)
         {
             PowerFlowData = powerFlowData;
         }
@@ -55,21 +52,23 @@ namespace UserInterface.Store
             // sgen, ext_grid, load
             foreach (var pf in action.PowerFlowData.Values)
             {
+                // TODO
                 gen.Add(pf.ResSgen.PMw.Values.Sum());
                 load.Add(pf.ResLoad.PMw.Values.Sum());
                 grid.Add(pf.ResExtGrid.PMw.Values.Sum());
             }
 
-            overviewChartSeries.Add(new ChartSeries{Name = "Generation", Data = gen.ToArray() });
-            overviewChartSeries.Add(new ChartSeries{Name = "Consumption", Data = load.ToArray() });
-            overviewChartSeries.Add(new ChartSeries{Name = "External grid", Data = grid.ToArray() });
+            overviewChartSeries.Add(new ChartSeries { Name = "Generation", Data = gen.ToArray() });
+            overviewChartSeries.Add(new ChartSeries { Name = "Consumption", Data = load.ToArray() });
+            overviewChartSeries.Add(new ChartSeries { Name = "External grid", Data = grid.ToArray() });
 
             var overviewChartSeriesXAxisLabels = action.PowerFlowData.Keys.Select(x => x.ToString()).ToArray();
 
+            // TODO
             return state with
             {
-                OverviewChartSeries = overviewChartSeries,
-                OverviewChartSeriesXAxisLabels = overviewChartSeriesXAxisLabels,
+                //OverviewChartSeries = overviewChartSeries,
+                //OverviewChartSeriesXAxisLabels = overviewChartSeriesXAxisLabels,
             };
         }
     }

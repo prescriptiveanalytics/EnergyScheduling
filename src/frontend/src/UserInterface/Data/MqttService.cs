@@ -17,7 +17,7 @@ namespace UserInterface.Data
         public MqttService(MqttServiceConfigurationContext configurationContext)
         {
             _configurationContext = configurationContext;
-            _hostAddress = new HostAddress(_configurationContext.MQTT_HOST, _configurationContext.MQTT_PORT);
+            _hostAddress = new HostAddress(_configurationContext.Host, _configurationContext.Port);
             _payloadConverter = new JsonPayloadConverter();
             _publicationOptions = new PublicationOptions("frontend", "frontend/response", QualityOfServiceLevel.ExactlyOnce);
             Server = new MqttSocket(Guid.NewGuid().ToString(), "frontend", _hostAddress, _payloadConverter, defPubOptions: _publicationOptions);

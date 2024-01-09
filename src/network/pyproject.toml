@@ -31,8 +31,9 @@ priority = "explicit"
 python = "^3.11"
 
 # https://python-poetry.org/docs/master/managing-dependencies/
-spa-dat = {version = "^0.3.0", source = "risc-pypi"}
+spa-dat = "^0.4.0"
 pandapower = "^2.13.1"
+pyhumps = "^3.8.0"
 [tool.poetry.group.dev.dependencies]  
 poethepoet = "^0.20.0"
 black = { version = "^23.3.0", extras = ["jupyter"] }

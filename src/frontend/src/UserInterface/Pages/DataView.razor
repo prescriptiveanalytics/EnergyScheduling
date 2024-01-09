@@ -9,6 +9,7 @@
 @using System.Drawing;
 @using UserInterface.Data;
 @using UserInterface.Store;
+@using UserInterface.Components;
 
 @inject IDispatcher Dispatcher
 @inject IState<ScenarioDataState> ScenarioDataState
@@ -20,8 +21,8 @@
 
 @if (ScenarioDataState.Value.Initialized)
 {
-    <MudText>Select scenario</MudText>
-    <MudSelect T="ScenarioModelJson"  ToStringFunc="@converter" Label="Scenario" AnchorOrigin="Origin.BottomCenter" ValueChanged="OnValueChanged">
+    <MudText>Select scenario</MudText>    
+    <MudSelect T="ScenarioModelJson" @bind-Value="selectedScenario" ToStringFunc="@converter" Label="Scenario"  AnchorOrigin="Origin.BottomCenter">
 
         @foreach (var element in ScenarioDataState.Value.ScenarioData.ConfigJsonData.Values)
         {
@@ -31,11 +32,19 @@
 
     @if (ScenarioDataState.Value.SelectedScenario != null)
     {
+        <MudButton Variant="Variant.Filled" Color="MudBlazor.Color.Primary" Disabled="false" OnClick="DeployScenario">Deploy</MudButton>
+    }else
+    {
+        <MudButton Variant="Variant.Filled" Color="MudBlazor.Color.Primary" Disabled="true">Deploy</MudButton>
+    }
+
+    @if (ScenarioDataState.Value.SelectedScenario != null)
+    {
         <MudExpansionPanels MultiExpansion="true">
             <MudExpansionPanel Text="Map">
-                <div id="mapContainer" style="width: 800px; height: 400px;">
-                    <LeafletMap Map="_map" />
-                </div>
+                @* <div id="mapContainer" style="width: 800px; height: 400px;"> *@
+                    <PowerFlowMap ScenarioData="@selectedScenario"/>
+                @* </div> *@
             </MudExpansionPanel>
             <MudExpansionPanel Text="Entities">
                 <MudTable Items="@ScenarioDataState.Value.SelectedScenario.Scenario.Consumers">
@@ -59,7 +68,16 @@
                         <MudTd DataLabel="Profile">@context.ProfileIdentifier</MudTd>
                     </RowTemplate>
                 </MudTable>
-
+                <MudTable Items="@ScenarioDataState.Value.SelectedScenario.Scenario.Storages">
+                    <HeaderContent>
+                        <MudTh>Name</MudTh>
+                        <MudTh>Profile</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Name">@context.Name</MudTd>
+                        <MudTd DataLabel="Profile">NA</MudTd>
+                    </RowTemplate>
+                </MudTable>
             </MudExpansionPanel>
             
             <MudExpansionPanel Text="Models">
@@ -83,125 +101,24 @@
 @code {
     Func<ScenarioModelJson, string> converter = p => p?.Scenario.Name;
     private Map _map;
-
-    protected override void OnInitialized()
+    private ScenarioModelJson selectedScenario
     {
-        if (ScenarioDataState.Value.Initialized)
+        get
         {
-            _map = new Map(jsRuntime);
-            float minlat = float.MaxValue;
-            float minlon = float.MaxValue;
-            float maxlat = float.MinValue;
-            float maxlon = float.MinValue;
-
-            _map.OnInitialized += () =>
-            {
-                IDictionary<string, PointF> _idToPointF = new Dictionary<string, PointF>();
-
-                _map.AddLayer(new TileLayer
-                    {
-                        UrlTemplate = "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                        Attribution = "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
-                    });
-                foreach (var c in ScenarioDataState.Value.SelectedScenario.Scenario.Consumers)
-                {
-                    Console.WriteLine($"generate map marker for consumer {c.Name}.");
-                    minlat = Math.Min(minlat, c.Latitude);
-                    maxlat = Math.Max(maxlat, c.Latitude);
-                    minlon = Math.Min(minlon, c.Longitude);
-                    maxlon = Math.Max(maxlon, c.Longitude);
-
-                    LatLng latLng = new LatLng(c.Latitude, c.Longitude);
-                    _idToPointF.Add(c.Identifier, new PointF(c.Latitude, c.Longitude));
-                    var marker = new Marker(latLng)
-                    {
-                        Title = c.Name,
-                        Tooltip = new Tooltip
-                        {
-                            Content = $"{c.Name}, {c.Address}, {c.Type}",
-                        },
-                        Popup = new Popup
-                        {
-                            Content = $"{c.Name}, {c.Address}, {c.Type}",
-                        }
-                    };
-                    _map.AddLayer(marker);
-                }
-
-                foreach (var g in ScenarioDataState.Value.SelectedScenario.Scenario.Generators)
-                {
-                    Console.WriteLine($"generate map marker for generator {g.Name}.");
-                    minlat = Math.Min(minlat, g.Latitude);
-                    maxlat = Math.Max(maxlat, g.Latitude);
-                    minlon = Math.Min(minlon, g.Longitude);
-                    maxlon = Math.Max(maxlon, g.Longitude);
-
-                    LatLng latLng = new LatLng(g.Latitude, g.Longitude);
-                    _idToPointF.Add(g.Identifier, new PointF(g.Latitude, g.Longitude));
-                    var marker = new Marker(latLng)
-                        {
-                            Title = g.Name,
-                            Tooltip = new Tooltip
-                            {
-                                Content = $"{g.Name}, {g.Address}, {g.Type}",
-                            },
-                            Popup = new Popup
-                            {
-                                Content = $"{g.Name}, {g.Address}, {g.Type}",
-                            }
-                        };
-                    _map.AddLayer(marker);
-                }
-
-                foreach (var n in ScenarioDataState.Value.SelectedScenario.Scenario.Network.Entities)
-                {
-                    Console.WriteLine($"generate map marker for network entity {n.Name}.");
-                    minlat = Math.Min(minlat, n.Latitude);
-                    maxlat = Math.Max(maxlat, n.Latitude);
-                    minlon = Math.Min(minlon, n.Longitude);
-                    maxlon = Math.Max(maxlon, n.Longitude);
-
-                    LatLng latLng = new LatLng(n.Latitude, n.Longitude);
-                    _idToPointF.Add(n.Identifier, new PointF(n.Latitude, n.Longitude));
-                    var marker = new Marker(latLng)
-                        {
-                            Title = n.Name,
-                            Tooltip = new Tooltip
-                            {
-                                Content = $"{n.Name}, {n.Type}",
-                            },
-                            Popup = new Popup
-                            {
-                                Content = $"{n.Name}, {n.Type}",
-                            }
-                        };
-                    _map.AddLayer(marker);
-                }
-                _map.FitBounds(new PointF(minlat, minlon), new PointF(maxlat, maxlon), maxZoom: 15f);
-
-                // create lines:
-                // 1. resolve relation between
-                var polyLines = new List<PointF[]>();
-                foreach (var l in ScenarioDataState.Value.SelectedScenario.Scenario.Network.Lines)
-                {
-                    var line = new List<PointF>();
-                    line.Add(_idToPointF[l.FromBus]);
-                    line.Add(_idToPointF[l.ToBus]);
-                    polyLines.Add(line.ToArray<PointF>());
-                }
-                var polyline = new Polyline
-                {
-                    Shape = polyLines.ToArray<PointF[]>(),
-                };
-                _map.AddLayer(polyline);
-            };
-
+            return ScenarioDataState.Value.SelectedScenario;
         }
-        base.OnInitialized();
+
+        set
+        {
+            if (value != null)
+            {
+                Dispatcher.Dispatch(new ScenarioDataSetSelectedScenarioAction(value));
+            }
+        }
     }
 
-    private void OnValueChanged(ScenarioModelJson scenarioModelJson)
+    async Task DeployScenario()
     {
-        Dispatcher.Dispatch(new ScenarioDataSetSelectedScenarioAction(scenarioModelJson));
+        Dispatcher.Dispatch(new DeploySelectedScenarioAction());
     }
 }
