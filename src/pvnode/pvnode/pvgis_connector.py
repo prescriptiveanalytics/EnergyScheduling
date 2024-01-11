@@ -1,6 +1,10 @@
 import requests
 import pandas as pd
 import configuration_model
+import dill as pickle
+
+from generator_model import PVGisGenerator
+
 
 def query_pvgis(config_entry):
     data = None
@@ -17,8 +21,8 @@ def query_pvgis(config_entry):
 def create_model(pv_configuration):
     dfs = []
     data_kwh = {}
-    for config_entry in pv_configuration:
-        query = query_pvgis(config_entry[1][0])
+    for config_entry in pv_configuration.configuration:
+        query = query_pvgis(config_entry)
         df = process_data(query)
         dfs.append(df)
     # concat dfs
