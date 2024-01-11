@@ -1,0 +1,21 @@
+{
+  "template": "https://gitdma.risc-software.at/common/python-package-template",
+  "commit": "b6ac1262e68013ca722f55b65678f3fa1f7f4da1",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "package_name": "pvnode",
+      "package_description": "This package describes the nodes of the photovoltaic system",
+      "package_url": "https://github.com/prescriptiveanalytics/EnergyScheduling",
+      "author_name": "Ines Langthallner",
+      "author_email": "ines.langthallner@risc-software.at",
+      "python_version": "3.11",
+      "docstring_style": "Google",
+      "use_conventional_commits": true,
+      "__package_name_kebab_case": "pvnode",
+      "__package_name_snake_case": "pvnode",
+      "_template": "https://gitdma.risc-software.at/common/python-package-template"
+    }
+  },
+  "directory": null
+}

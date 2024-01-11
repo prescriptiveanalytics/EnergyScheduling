@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "testclient"
+version = "0.1.0"
+description = ""
+authors = ["Michael Boegl <michael.boegl@risc-software.at>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+spa-dat = {version = "0.3.0", source = "risc-pypi"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# https://python-poetry.org/docs/repositories/#using-a-private-repository
+[[tool.poetry.source]]
+name = "risc-pypi"
+url = "https://pypiserver.risc-software.at/simple/"
+priority = "explicit"
