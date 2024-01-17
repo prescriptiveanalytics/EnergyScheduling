@@ -86,7 +86,7 @@ norecursedirs = [ ]
 fix = true
 ignore-init-module-imports = true
 line-length = 120
-src = ["network", "tests"]
+src = ["network_area", "tests"]
 
 [tool.ruff.pycodestyle]
 max-doc-length = 120
