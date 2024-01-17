@@ -20,10 +20,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="DAT.Communication" Version="0.3.4-alpha" />
+    <PackageReference Include="DAT.Configuration" Version="0.3.4-alpha" />  
+    <PackageReference Include="DAT.Utils" Version="0.3.4-alpha" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\..\DistributedApplicationTools\src\Configuration\Configuration.csproj" />
     <ProjectReference Include="..\UserInterface\UserInterface.csproj" />
   </ItemGroup>
 
