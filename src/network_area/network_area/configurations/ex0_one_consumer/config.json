@@ -28,7 +28,7 @@
                 "Name": "photovoltaic 1",
                 "ProfileIdentifier": "hgb_south_10kwp",
                 "Type": "generator",
-                "InService": false
+                "InService": true
             }
         ],
 		"Storages": [
@@ -42,7 +42,7 @@
 				"Type": "storage",
 				"Category": "household",
 				"MinimumCapacity": 0,
-				"MaximumCapacity": 0.000,
+				"MaximumCapacity": 0.01,
 				"CapacityUnit": "MWh",
 				"MinimumActivePower": 0,
 				"MaximumActivePower": 1,
@@ -50,7 +50,7 @@
 				"MaximumReactivePower": 1,
 				"CurrentActivePower": 0,
 				"StateOfCharge": 0,
-                "InService": false
+                "InService": true
 			}
 		],
         "Network": {
