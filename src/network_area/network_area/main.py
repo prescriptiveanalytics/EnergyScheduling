@@ -21,9 +21,10 @@ from domain_models.PowerConsumptionModel import PowerConsumptionModel, PowerCons
 from domain_models.ConsumerModel import ConsumerModel, ConsumerCollection
 from domain_models.GeneratorModel import GeneratorModel, GeneratorCollection
 from domain_models.PowerGenerationModel import PowerGenerationModel, PowerGenerationCollection
-from domain_models.StorageModel import StorageCollection, StorageModelStateCollection, StorageModel, StorageModelState
+from domain_models.StorageModel import StorageCollection, StorageModelStateCollection, StorageModel
 from domain_models.OptimalPowerFlow import OptimalPowerFlowSolution
 import storage_simple_strategy
+from domain_models.LoadModel import LoadModelCollection
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
@@ -138,9 +139,12 @@ def initialize_network(network_config, generations: PowerGenerationCollection,
     logging.debug("create storages")
     for storage in network_node.storages.Storages:
         logging.debug(f"battery storage for {storage.Identifier}")
+        inService = storage.InService
+        if storage.MaximumCapacity == 0 or storage.MaximumCapacity < storage.MinimumCapacity:
+            inService = False
         store_el = pp.create_storage(net, bus=buses[storage.Identifier], p_mw=0.0, q_mvar=0.0,
                                      max_e_mwh=storage.MaximumCapacity, min_e_mwh=storage.MinimumCapacity,
-                                     name=storage.Identifier, soc_percent=storage.StateOfCharge, sn_mva=0.0, in_service=storage.InService)
+                                     name=storage.Identifier, soc_percent=storage.StateOfCharge, sn_mva=0.0, in_service=inService)
 
         storage_simple_strategy.Storage(net=net, gid=store_el, soc_percentage=storage.StateOfCharge)
 
@@ -189,6 +193,20 @@ def fetch_loads(consumers: ConsumerCollection, unix_timestamp_seconds: int):
     return PowerConsumptionCollection(Consumptions=consumer_loads)
 
 
+def prepare_loads(consumers: ConsumerCollection, unix_timestamp_seconds: int, loads: LoadModelCollection) -> PowerConsumptionCollection:
+    consumer_loads = {}
+    temp_loads = { l.Identifier: l.Load for l in loads.Loads }
+    for c in consumers.Consumers:
+        logging.debug("prepare consumption for %s", c)
+        consumption = temp_loads[c.Identifier]
+        consumer_loads[c.Identifier] = PowerConsumptionModel(
+            **{"UnixTimestampSeconds": unix_timestamp_seconds, "Identifier": c.Identifier, "Usage": consumption,
+               "Category": "load", "CategoryUnit": "kWh", "Interval": 15, "IntervalUnit": "minutes",
+               "InService": c.InService})
+        logging.debug("consumer_loads=%s", consumer_loads)
+    return PowerConsumptionCollection(Consumptions=consumer_loads)
+
+
 def fetch_generations(generators: GeneratorCollection, unix_timestamp_seconds: int):
     generator_generations = {}
     for g in generators.Generators:
@@ -201,10 +219,7 @@ def fetch_generations(generators: GeneratorCollection, unix_timestamp_seconds: i
     return PowerGenerationCollection(Generations=generator_generations)
 
 
-def calculate_opf(unix_timestamp_seconds: int):
-    loads: PowerConsumptionCollection = fetch_loads(network_node.consumers, unix_timestamp_seconds)
-    generations: PowerGenerationCollection = fetch_generations(network_node.generators,
-                                                               unix_timestamp_seconds)
+def calculate_opf(unix_timestamp_seconds: int, loads: PowerConsumptionCollection, generations: PowerGenerationCollection):
     opf = initialize_network(network_node.networks.Network, generations, loads)
     return opf
 
@@ -261,8 +276,10 @@ async def network_opf_query_callback(message: SpaMessage, socket: SpaSocket, **k
     payload = json.loads(usable_payload)
 
     unix_timestamp_seconds = int(payload['UnixTimestampSeconds'])
-
-    result = calculate_opf(unix_timestamp_seconds)
+    loads: PowerConsumptionCollection = fetch_loads(network_node.consumers, unix_timestamp_seconds)
+    generations: PowerGenerationCollection = fetch_generations(network_node.generators,
+                                                               unix_timestamp_seconds)
+    result = calculate_opf(unix_timestamp_seconds, loads, generations)
 
     logging.debug("opf=%s", result)
     t1 = base64.b64encode(result.model_dump_json().encode("utf-8"))
@@ -304,7 +321,10 @@ async def network_opf_query_callback(message: SpaMessage, socket: SpaSocket, **k
     if storage_states:
         process_storage_states(storage_states)
 
-    result = calculate_opf(unix_timestamp_seconds)
+    loads: PowerConsumptionCollection = fetch_loads(network_node.consumers, unix_timestamp_seconds)
+    generations: PowerGenerationCollection = fetch_generations(network_node.generators,
+                                                               unix_timestamp_seconds)
+    result = calculate_opf(unix_timestamp_seconds, loads, generations)
 
     logging.debug("opf=%s", result)
     t1 = base64.b64encode(result.model_dump_json().encode("utf-8"))
@@ -316,6 +336,40 @@ async def network_opf_query_callback(message: SpaMessage, socket: SpaSocket, **k
             Topic=message.response_topic
         )
     )
+
+
+@app_dat.application("network/opf_data")
+async def network_opf_query_data_callback(message: SpaMessage, socket: SpaSocket, **kwargs):
+    global network_node
+    logging.debug("network_opf_data_query_callback=%s", message)
+
+    cnt = message.payload.decode("utf-8")
+    usable_payload = base64.b64decode(cnt)
+    payload = json.loads(usable_payload)
+
+    unix_timestamp_seconds = int(payload['UnixTimestampSeconds'])
+    storage_states = StorageModelStateCollection(**payload['StorageModelStates'])
+    load_data = LoadModelCollection(**payload['Loads'])
+
+    if storage_states:
+        process_storage_states(storage_states)
+
+    if load_data:
+        loads = prepare_loads(network_node.consumers, unix_timestamp_seconds, load_data)
+        generations: PowerGenerationCollection = fetch_generations(network_node.generators,
+                                                               unix_timestamp_seconds)
+        result = calculate_opf(unix_timestamp_seconds, loads, generations)
+
+        logging.debug("opf=%s", result)
+        t1 = base64.b64encode(result.model_dump_json().encode("utf-8"))
+
+        await socket.publish(
+            SpaMessage(
+                ContentType="application/json",
+                Payload=t1,
+                Topic=message.response_topic
+            )
+        )
 
 
 @app_dat.application("network/scenario")
