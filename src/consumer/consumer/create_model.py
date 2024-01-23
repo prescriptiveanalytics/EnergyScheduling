@@ -34,7 +34,7 @@ The script call requests 3 arguments:
     3. the name for the new model
 
 Sample call CLI:
-python create_model.py C:\Projects\SPA_Energie_UseCase\LondonHouseholds\Cluster_dataframes_hourly_only_holidays\n_5\cluster_0_per_hour_n=5_cluster_size=2274.pkl london2011-2014_only_holidays_cluster3
+python create_model.py C:\Projects\SPA_Energie_UseCase\LondonHouseholds\Cluster_dataframes_hourly_only_holidays\n_5\cluster_0_per_hour_n=5_cluster_size=2274.pkl london2011-2014_only_holidays_cluster0
 """
 
 model_output_path = Path("consumption_models")
