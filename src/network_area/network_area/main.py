@@ -27,8 +27,8 @@ import storage_simple_strategy
 from domain_models.LoadModel import LoadModelCollection
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
-
+logging.basicConfig(encoding='utf-8', level=logging.INFO)
+logging.info("current working directory=%s", os.getcwd())
 
 def create_model_map(models: List, path: str) -> object:
     model_map_local: dict = {}
@@ -40,8 +40,8 @@ def create_model_map(models: List, path: str) -> object:
 
 # key is defined as "type" in generator ("generator") or consumer ("load")
 model_path: dict[str, str] = {
-    "load": "models/consumer",
-    "generator": "models/generator"
+    "load": "./models/consumer",
+    "generator": "./models/generator"
 }
 
 config_file = Path("config.json")
@@ -93,7 +93,7 @@ def convert_magnitude(usage: float, category_unit_input: str, category_unit_outp
 
     if category_unit_input not in conversions.keys() or category_unit_output not in conversions.keys():
         raise UnitConversionException()
-
+    converted_value = usage * conversions[category_unit_input] / conversions[category_unit_output]
     return usage * conversions[category_unit_input] / conversions[category_unit_output]
 
 
@@ -214,7 +214,7 @@ def fetch_generations(generators: GeneratorCollection, unix_timestamp_seconds: i
         generation = network_node.generation_models[g.Identifier].get_generation(unix_timestamp_seconds)
         generator_generations[g.Identifier] = PowerGenerationModel(
             **{"UnixTimestampSeconds": unix_timestamp_seconds, "Identifier": g.Identifier, "Generation": generation,
-               "Category": "generation", "CategoryUnit": "kWh", "Interval": 15, "IntervalUnit": "minutes", "InService": g.InService })
+               "Category": "generation", "CategoryUnit": "Wh", "Interval": 15, "IntervalUnit": "minutes", "InService": g.InService })
     logging.debug("generation_generations=%s", generator_generations)
     return PowerGenerationCollection(Generations=generator_generations)
 
