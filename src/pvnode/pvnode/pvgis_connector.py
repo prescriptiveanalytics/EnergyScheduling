@@ -34,6 +34,7 @@ def process_data(query):
     dfr = dfr.reset_index()
     # add column kwh
     dfr['kwh'] = dfr['P'] / 4
+    dfr['kwh'] = dfr['P'] / 4 / 1000
     # add columns month, day, hour, minute
     dfr['month'] = dfr['time'].dt.month
     dfr['day'] = dfr['time'].dt.day
