@@ -2,12 +2,12 @@
     "Scenario": {
         "Name": "1 Consumer, 1 Generator, rural",
         "Description": "simple test network",
-        "Version": "2024-01-30-V1",
+        "Version": "2024-02-07-V1",
         "Consumers": [
             {
                 "Address": "Risc Strasse 1",
                 "Category": "household",
-                "Identifier": "e8491d01-3a8b-4482-adf3-e0e7130aba04",
+                "Identifier": "47ed0ebb-6d34-4e0c-8106-4d4b7cd65225",
                 "Latitude": 48.3789,
                 "Level": 7,
                 "Longitude": 14.5175,
@@ -20,8 +20,7 @@
         "Generators": [
             {
                 "Name": "photovoltaic 1",
-                "Identifier": "8f501d80-59ce-4706-875f-809b3902924e",
-                "ProducerIdentifier": "49781510-112c-403f-97b1-ef3f1abec7b3",
+                "Identifier": "6cc88e88-2b1c-4e8a-822d-17b561936217",
                 "Latitude": 48.3791,
                 "Longitude": 14.5177,
                 "Address": "Risc Strasse 2",
@@ -29,30 +28,33 @@
                 "Type": "generator",
                 "Category": "household",
                 "ProfileIdentifier": "hgb_south_10kwp",
-                "InService": true
+                "InService": true,
+                "ProducerIdentifier": "a15d7593-c167-4b47-a879-5afd37641e13"
             }
         ],
         "Producer": [
             {
-                "Identifier": "49781510-112c-403f-97b1-ef3f1abec7b3",
+                "Identifier": "a15d7593-c167-4b47-a879-5afd37641e13",
                 "Name": "producer 1",
-                "ModelIdentifier": "bad_zell_all_aspects.onnx",
-                "ConfigurationEntries": {
-                    "latitude": 48.3791,
-                    "longitude": 14.5177,
-                    "peakpower": 10,
-                    "angle": 22,
-                    "aspect": 0,
-                    "loss": 14
-                }
+                "ModelIdentifier": "hagenberg_south-10",
+                "ConfigurationEntries": [
+                    {
+                        "latitude": 48.3791,
+                        "longitude": 14.5177,
+                        "peakpower": 10,
+                        "angle": 22,
+                        "aspect": 0,
+                        "loss": 14
+                    }
+                ]
             }
         ],
         "Storages": [
             {
                 "Name": "Storage 1",
-                "Identifier": "211ca69f-2100-4a67-94da-26e1dbd40dcc",
-                "Latitude": 48.3793,
-                "Longitude": 14.5179,
+                "Identifier": "1c218d0e-5df6-4f27-a124-8f31a9c19d2a",
+                "Latitude": 48.3795,
+                "Longitude": 14.5181,
                 "Address": "none",
                 "Level": 7,
                 "Type": "storage",
@@ -72,25 +74,25 @@
         "Network": {
             "Buses": [
                 {
-                    "Identifier": "e8491d01-3a8b-4482-adf3-e0e7130aba04",
+                    "Identifier": "47ed0ebb-6d34-4e0c-8106-4d4b7cd65225",
                     "Voltage": 0.4,
                     "Category": "consumer",
                     "Type": "load"
                 },
                 {
-                    "Identifier": "b81e6c2f-6e93-40a7-980b-91bf97b22e2e",
+                    "Identifier": "0d948222-2b5d-4d7b-acac-385b59c9b431",
                     "Voltage": 0.4,
                     "Category": "grid_connection",
                     "Type": "grid_connection"
                 },
                 {
-                    "Identifier": "8f501d80-59ce-4706-875f-809b3902924e",
+                    "Identifier": "6cc88e88-2b1c-4e8a-822d-17b561936217",
                     "Voltage": 0.4,
                     "Category": "generator",
                     "Type": "generation"
                 },
                 {
-                    "Identifier": "211ca69f-2100-4a67-94da-26e1dbd40dcc",
+                    "Identifier": "1c218d0e-5df6-4f27-a124-8f31a9c19d2a",
                     "Voltage": 0.4,
                     "Category": "storage",
                     "Type": "storage"
@@ -100,7 +102,7 @@
                 {
                     "Address": "Risc Strasse 0",
                     "Category": "network",
-                    "Identifier": "b81e6c2f-6e93-40a7-980b-91bf97b22e2e",
+                    "Identifier": "0d948222-2b5d-4d7b-acac-385b59c9b431",
                     "Latitude": 48.3787,
                     "Longitude": 14.5173,
                     "Name": "grid connection 1",
@@ -110,20 +112,20 @@
             ],
             "Lines": [
                 {
-                    "FromBus": "b81e6c2f-6e93-40a7-980b-91bf97b22e2e",
-                    "ToBus": "e8491d01-3a8b-4482-adf3-e0e7130aba04",
+                    "FromBus": "0d948222-2b5d-4d7b-acac-385b59c9b431",
+                    "ToBus": "47ed0ebb-6d34-4e0c-8106-4d4b7cd65225",
                     "StdType": "NAYY 4x50 SE",
                     "LengthKm": 0.1
                 },
                 {
-                    "FromBus": "e8491d01-3a8b-4482-adf3-e0e7130aba04",
-                    "ToBus": "8f501d80-59ce-4706-875f-809b3902924e",
+                    "FromBus": "47ed0ebb-6d34-4e0c-8106-4d4b7cd65225",
+                    "ToBus": "6cc88e88-2b1c-4e8a-822d-17b561936217",
                     "StdType": "NAYY 4x50 SE",
                     "LengthKm": 0.1
                 },
                 {
-                    "FromBus": "8f501d80-59ce-4706-875f-809b3902924e",
-                    "ToBus": "211ca69f-2100-4a67-94da-26e1dbd40dcc",
+                    "FromBus": "6cc88e88-2b1c-4e8a-822d-17b561936217",
+                    "ToBus": "1c218d0e-5df6-4f27-a124-8f31a9c19d2a",
                     "StdType": "NAYY 4x50 SE",
                     "LengthKm": 0.1
                 }

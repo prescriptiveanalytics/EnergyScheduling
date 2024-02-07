@@ -1,0 +1,207 @@
+{
+    "Scenario": {
+        "Name": "1 Consumer, 2 Generator, rural",
+        "Description": "simple test network",
+        "Version": "2024-02-07-V1",
+        "Consumers": [
+            {
+                "Address": "Risc Strasse 1",
+                "Category": "household",
+                "Identifier": "0bd0ccf2-4b26-44ab-abeb-7e0bf733c143",
+                "Latitude": 48.3789,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 1",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            }
+        ],
+        "Generators": [
+            {
+                "Name": "photovoltaic 1",
+                "Identifier": "20abea86-67d6-4a9a-ad12-35e7f6a8096a",
+                "Latitude": 48.3791,
+                "Longitude": 14.5177,
+                "Address": "Risc Strasse 2",
+                "Level": 7,
+                "Type": "generator",
+                "Category": "household",
+                "ProfileIdentifier": "hgb_south_10kwp",
+                "InService": true,
+                "ProducerIdentifier": "1f136c93-4ec7-4c85-8994-2db235f24baa"
+            },
+            {
+                "Name": "photovoltaic 2",
+                "Identifier": "d9a35a39-55a4-4204-bf58-e8348fc8ab6b",
+                "Latitude": 48.3793,
+                "Longitude": 14.5179,
+                "Address": "Risc Strasse 3",
+                "Level": 7,
+                "Type": "generator",
+                "Category": "household",
+                "ProfileIdentifier": "hgb_south_10kwp",
+                "InService": true,
+                "ProducerIdentifier": "87ba2e9f-19be-4c6c-8ad0-6c33359eff73"
+            }
+        ],
+        "Producer": [
+            {
+                "Identifier": "1f136c93-4ec7-4c85-8994-2db235f24baa",
+                "Name": "producer 1",
+                "ModelIdentifier": "hagenberg_south-10_east-2.5_west-2.5",
+                "ConfigurationEntries": [
+                    {
+                        "latitude": 48.3791,
+                        "longitude": 14.5177,
+                        "peakpower": 10,
+                        "angle": 22,
+                        "aspect": 0,
+                        "loss": 14
+                    },
+                    {
+                        "latitude": 48.3791,
+                        "longitude": 14.5177,
+                        "peakpower": 2.5,
+                        "angle": 22,
+                        "aspect": -90,
+                        "loss": 14
+                    },
+                    {
+                        "latitude": 48.3791,
+                        "longitude": 14.5177,
+                        "peakpower": 2.5,
+                        "angle": 22,
+                        "aspect": 90,
+                        "loss": 14
+                    }
+                ]
+            },
+            {
+                "Identifier": "87ba2e9f-19be-4c6c-8ad0-6c33359eff73",
+                "Name": "producer 2",
+                "ModelIdentifier": "hagenberg_south-10_east-2.5_west-2.5",
+                "ConfigurationEntries": [
+                    {
+                        "latitude": 48.3793,
+                        "longitude": 14.5179,
+                        "peakpower": 10,
+                        "angle": 22,
+                        "aspect": 0,
+                        "loss": 14
+                    },
+                    {
+                        "latitude": 48.3793,
+                        "longitude": 14.5179,
+                        "peakpower": 2.5,
+                        "angle": 22,
+                        "aspect": -90,
+                        "loss": 14
+                    },
+                    {
+                        "latitude": 48.3793,
+                        "longitude": 14.5179,
+                        "peakpower": 2.5,
+                        "angle": 22,
+                        "aspect": 90,
+                        "loss": 14
+                    }
+                ]
+            }
+        ],
+        "Storages": [
+            {
+                "Name": "Storage 1",
+                "Identifier": "05b9f7fa-693b-41c7-b7f6-a2ecceb80e04",
+                "Latitude": 48.3799,
+                "Longitude": 14.5185,
+                "Address": "none",
+                "Level": 7,
+                "Type": "storage",
+                "Category": "household",
+                "InService": true,
+                "MinimumCapacity": 0,
+                "MaximumCapacity": 0.01,
+                "CapacityUnit": "MWh",
+                "MinimumActivePower": 0,
+                "MaximumActivePower": 1,
+                "MinimumReactivePower": 0,
+                "MaximumReactivePower": 1,
+                "CurrentActivePower": 0,
+                "StateOfCharge": 0
+            }
+        ],
+        "Network": {
+            "Buses": [
+                {
+                    "Identifier": "0bd0ccf2-4b26-44ab-abeb-7e0bf733c143",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "b84d09da-ccc2-4bdc-981b-5440f97ef3d1",
+                    "Voltage": 0.4,
+                    "Category": "grid_connection",
+                    "Type": "grid_connection"
+                },
+                {
+                    "Identifier": "20abea86-67d6-4a9a-ad12-35e7f6a8096a",
+                    "Voltage": 0.4,
+                    "Category": "generator",
+                    "Type": "generation"
+                },
+                {
+                    "Identifier": "d9a35a39-55a4-4204-bf58-e8348fc8ab6b",
+                    "Voltage": 0.4,
+                    "Category": "generator",
+                    "Type": "generation"
+                },
+                {
+                    "Identifier": "05b9f7fa-693b-41c7-b7f6-a2ecceb80e04",
+                    "Voltage": 0.4,
+                    "Category": "storage",
+                    "Type": "storage"
+                }
+            ],
+            "Entities": [
+                {
+                    "Address": "Risc Strasse 0",
+                    "Category": "network",
+                    "Identifier": "b84d09da-ccc2-4bdc-981b-5440f97ef3d1",
+                    "Latitude": 48.3787,
+                    "Longitude": 14.5173,
+                    "Name": "grid connection 1",
+                    "NetworkEntity": "network",
+                    "Type": "network"
+                }
+            ],
+            "Lines": [
+                {
+                    "FromBus": "b84d09da-ccc2-4bdc-981b-5440f97ef3d1",
+                    "ToBus": "0bd0ccf2-4b26-44ab-abeb-7e0bf733c143",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "0bd0ccf2-4b26-44ab-abeb-7e0bf733c143",
+                    "ToBus": "20abea86-67d6-4a9a-ad12-35e7f6a8096a",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "20abea86-67d6-4a9a-ad12-35e7f6a8096a",
+                    "ToBus": "d9a35a39-55a4-4204-bf58-e8348fc8ab6b",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "d9a35a39-55a4-4204-bf58-e8348fc8ab6b",
+                    "ToBus": "05b9f7fa-693b-41c7-b7f6-a2ecceb80e04",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                }
+            ]
+        }
+    }
+}

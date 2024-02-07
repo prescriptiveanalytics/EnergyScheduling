@@ -20,7 +20,21 @@ Usage (see main function at the bottom of this file):
 """
 
 class ConfigurationCreator:
-    def __init__(self, metadata, df_grid_connection, df_household, df_generation, df_producer, df_storage, profile_id_consumer, profile_id_generator):
+    """
+    Class to create a configuration for an energy network scenario.
+    """
+    
+    def __init__(
+        self,
+        metadata: dict,
+        df_grid_connection: pd.DataFrame,
+        df_household: pd.DataFrame,
+        df_generation: pd.DataFrame,
+        df_producer: pd.DataFrame,
+        df_storage: pd.DataFrame,
+        profile_id_consumer: str,
+        profile_id_generator: str
+        ):
         self.metadata = metadata
         self.df_grid = df_grid_connection
         self.df_hh = df_household
@@ -30,8 +44,11 @@ class ConfigurationCreator:
         self.profile_id_con = profile_id_consumer
         self.profile_id_gen = profile_id_generator
 
-    def __get_json(self):
-        # set architecture of json
+
+    # Methods to generate JSON configuration
+    
+    def __get_json(self) -> dict:
+        # Set architecture of json
         return {
             "Scenario": {
                 "Name": self.metadata["name"],
@@ -49,155 +66,151 @@ class ConfigurationCreator:
             }
         }
 
-    def __set_attr_households(self):
-        return {
-            "Level": 7,
-            "Type": "load",
-            "Category": "household",
-            "ProfileIdentifier": self.profile_id_con
-        }
-        
-    def __set_attr_generator(self):
-        return {
-            "Level": 7,
-            "Type": "generator",
-            "Category": "household",
-            "ProfileIdentifier": self.profile_id_gen
-        }
-        
-    def __set_attr_entities(self):
-        return {
-            "Type": "network",
-            "Category": "network",
-            "NetworkEntity": "network"
-        }
-        
-    def __set_attr_bus_hh(self):
+    def __set_attr_bus_hh(self) -> dict:
         return {
             "Voltage": 0.4,
             "Category": "consumer",
             "Type": "load"
         }
         
-    def __set_attr_bus_gen(self):
+    def __set_attr_bus_gen(self) -> dict:
         return {
             "Voltage": 0.4,
             "Category": "generator",
             "Type": "generation"
         }
         
-    def __set_attr_bus_stor(self):
+    def __set_attr_bus_stor(self) -> dict:
         return {
             "Voltage": 0.4,
             "Category": "storage",
             "Type": "storage"
         }
         
-    def __set_attr_bus_grid(self):
+    def __set_attr_bus_grid(self) -> dict:
         return {
             "Voltage": 0.4,
             "Category": "grid_connection",
             "Type": "grid_connection"
         }
         
-    def __set_attr_lines(self):
+    def __set_attr_lines(self) -> dict:
         return {
             "StdType": "NAYY 4x50 SE",
             "LengthKm": 0.1
         }
     
 
-    def generate_config(self):
-        json_str = self.__get_json()
+    def generate_config(self) -> dict:
+        json_dict = self.__get_json()
         
-        # households:
-        # convert each household entry to a dict
+        # Households:
         hh_dict = pd.DataFrame.to_dict(self.df_hh, orient='records')
-        # fill json with values
-        json_str["Scenario"]["Consumers"] = hh_dict
+        json_dict["Scenario"]["Consumers"] = hh_dict
         
-        # generator:
+        # Generator:
         gen_dict = pd.DataFrame.to_dict(self.df_gen, orient='records')
-        json_str["Scenario"]["Generators"] = gen_dict
+        json_dict["Scenario"]["Generators"] = gen_dict
         
-        # producer:
+        # Producer:
         prod_dict = pd.DataFrame.to_dict(self.df_prod, orient='records')
-        json_str["Scenario"]["Producer"] = prod_dict
+        json_dict["Scenario"]["Producer"] = prod_dict
         
-        # storages:
+        # Storages:
         stor_dict = pd.DataFrame.to_dict(self.df_stor, orient='records')
-        json_str["Scenario"]["Storages"] = stor_dict
+        json_dict["Scenario"]["Storages"] = stor_dict
         
-        # grid connections - entities:
+        # Grid connections:
         ent_dict = pd.DataFrame.to_dict(self.df_grid, orient='records')
-        json_str["Scenario"]["Network"]["Entities"] = ent_dict
+        json_dict["Scenario"]["Network"]["Entities"] = ent_dict
         
-        # get ids
+        # Get ids
         id_hh = self.df_hh.Identifier.tolist()
         id_grid = self.df_grid.Identifier.tolist()
         id_gen = self.df_gen.Identifier.tolist()
         id_stor = self.df_stor.Identifier.tolist()
-        # add buses
+        # Add buses
         buses = self.__get_buses(id_hh, id_grid, id_gen, id_stor)
-        # append to json string
-        json_str["Scenario"]["Network"]["Buses"] = buses
+        # Append to json string
+        json_dict["Scenario"]["Network"]["Buses"] = buses
             
-        # add lines
+        # Add lines
         lines = self.__get_lines(id_grid + id_hh + id_gen + id_stor)
-        # append list to json string
-        json_str["Scenario"]["Network"]["Lines"] = lines
-        return json_str
+        # Append list to json string
+        json_dict["Scenario"]["Network"]["Lines"] = lines
         
-    def __get_buses(self, id_hh, id_grid, id_gen, id_stor):
+        return json_dict
+        
+        
+    def __get_buses(self, id_hh: list, id_grid: list, id_gen: list, id_stor: list) -> list:
         buses = []
-        # household bus
+        # Household bus
         for value in id_hh:
             bus_dict = { "Identifier": value }
             bus_dict.update(self.__set_attr_bus_hh())
             buses.append(bus_dict)
-        # grid connection bus
+        # Grid connection bus
         for value in id_grid:
             grid_dict = { "Identifier": value }
             grid_dict.update(self.__set_attr_bus_grid())
             buses.append(grid_dict)
-        # generator bus
+        # Generator bus
         for value in id_gen:
             gen_dict = { "Identifier": value }
             gen_dict.update(self.__set_attr_bus_gen())
             buses.append(gen_dict)
-        # storage bus
+        # Storage bus
         for value in id_stor:
             stor_dict = { "Identifier": value}
             stor_dict.update(self.__set_attr_bus_stor())
             buses.append(stor_dict)
         return buses
 
-    def __get_lines(self, all_ids):
+    def __get_lines(self, all_ids: list) -> list:
         lines = []
-        # create dicts with "from_bus", "to_bus" and set_attr_lines
+        # Create dicts with "from_bus", "to_bus" and its attributes
         for i in range(len(all_ids)-1):
             line_dict = { "FromBus": all_ids[i], "ToBus": all_ids[i+1] }
-            # merge dict with set attributes
+            # Merge dict with set attributes
             line_dict.update(self.__set_attr_lines())
-            # append dict to list
+            # Append dict to list
             lines.append(line_dict)
         return lines
     
+
 class DataFrameCreator:
-    def __init__(self, num_consumer, num_generators, num_storages, num_grid_connections, generator_model, consumer_model, regression_model, lat=48.3787, lon=14.5173):
+    """
+    Class to create DataFrames for various components of the scenario.
+    """
+    
+    def __init__(
+        self,
+        num_consumer: int,
+        num_generators: int,
+        num_storages: int,
+        num_grid_connections: int,
+        generator_model: str,
+        consumer_model: str,
+        producer_model: str,
+        configs: dict,
+        lat: float = 48.3787,
+        lon: float = 14.5173
+        ):
         self.num_consumer = num_consumer
         self.num_generators = num_generators
         self.num_storages = num_storages
         self.num_grid_connections = num_grid_connections
+        self.generator_model = generator_model
+        self.consumer_model = consumer_model
+        self.producer_model = producer_model
         self.address_number = 0
+        self.configs = configs
         self.lat = lat
-        self.lon = lon
+        self.lon = lon        
+        self.df_generator = None
         
-    def to_csv(self, filename, data):
-        with open(file=filename, mode="w") as outfile:
-            outfile.write(data)
         
-    def create_df_grid_connection(self):
+    def create_df_grid_connection(self) -> pd.DataFrame:
         df_grid_connection = pd.DataFrame()
         name = []
         identifier = []
@@ -217,12 +230,12 @@ class DataFrameCreator:
             types.append("network")
             category.append("network")
             network_entity.append("network")
-            # increment location and address 
+            # Increment location and address 
             self.lat += 0.0002
             self.lon += 0.0002
             self.address_number += 1
             
-        # create dataframe
+        # Create dataframe
         df_grid_connection["Address"] = address
         df_grid_connection["Category"] = category
         df_grid_connection["Identifier"] = identifier
@@ -235,7 +248,7 @@ class DataFrameCreator:
         return df_grid_connection
     
     
-    def create_df_household(self):
+    def create_df_household(self) -> pd.DataFrame:
         df_consumer = pd.DataFrame()
         name = []
         identifier = []
@@ -248,12 +261,12 @@ class DataFrameCreator:
         profile_identifier = []
         in_service = []
         
-        # save original latitude
+        # Save original latitude
         orig_lat = self.lat
-        # set divisor to get settlement of houses if amount of households is bigger than 3
+        # Set divisor to get settlement of houses if amount of households is bigger than 3
         divisor = None
         if self.num_consumer > 3:
-            # set highest possible divisor to get amount of house rows
+            # Set highest possible divisor to get amount of house rows
             for x in range(2, self.num_consumer):
                 if self.num_consumer % x == 0:
                     divisor = x
@@ -269,11 +282,11 @@ class DataFrameCreator:
             category.append("household")
             profile_identifier.append(consumer_model)
             in_service.append(True)
-            # increment lat but not lon to create settlement
+            # Increment lat but not lon to create settlement
             if divisor is not None:
                 self.lat += 0.0002
                 if c % divisor == 0:
-                    # increment longitude and reset latitude
+                    # Increment longitude and reset latitude
                     self.lon += 0.0002
                     self.lat = orig_lat
             else:
@@ -281,7 +294,7 @@ class DataFrameCreator:
                 self.lon += 0.0002
             self.address_number += 1
             
-        # create dataframe
+        # Create dataframe
         df_consumer["Address"] = address
         df_consumer["Category"] = category
         df_consumer["Identifier"] = identifier
@@ -296,11 +309,10 @@ class DataFrameCreator:
         return df_consumer
     
 
-    def create_df_generator(self, producer_ids):
-        df_generator = pd.DataFrame()
+    def create_df_generator(self) -> pd.DataFrame:
+        self.df_generator = pd.DataFrame()
         name = []
         identifier = []
-        producer_identifier = []
         latitude = []
         longitude = []
         address = []
@@ -313,37 +325,35 @@ class DataFrameCreator:
         for c in range(1, self.num_generators+1):
             name.append("photovoltaic " + str(c))
             identifier.append(str(uuid.uuid4()))
-            producer_identifier.append(producer_ids[c-1])
             latitude.append(round(self.lat, 4))
             longitude.append(round(self.lon, 4))
             address.append("Risc Strasse " + str(self.address_number))
             level.append(7)
             types.append("generator")
             category.append("household")
-            profile_identifier.append(generator_model)
+            profile_identifier.append(self.generator_model)
             in_service.append(True)
-            # increment lat and lon
+            # Increment lat and lon
             self.lat += 0.0002
             self.lon += 0.0002
             self.address_number += 1
             
-        # create dataframe
-        df_generator["Name"] = name
-        df_generator["Identifier"] = identifier
-        df_generator["ProducerIdentifier"] = producer_identifier
-        df_generator["Latitude"] = latitude
-        df_generator["Longitude"] = longitude
-        df_generator["Address"] = address
-        df_generator["Level"] = level
-        df_generator["Type"] = types
-        df_generator["Category"] = category
-        df_generator["ProfileIdentifier"] = profile_identifier
-        df_generator["InService"] = in_service
+        # Create dataframe
+        self.df_generator["Name"] = name
+        self.df_generator["Identifier"] = identifier
+        self.df_generator["Latitude"] = latitude
+        self.df_generator["Longitude"] = longitude
+        self.df_generator["Address"] = address
+        self.df_generator["Level"] = level
+        self.df_generator["Type"] = types
+        self.df_generator["Category"] = category
+        self.df_generator["ProfileIdentifier"] = profile_identifier
+        self.df_generator["InService"] = in_service
         
-        return df_generator
+        return self.df_generator
 
 
-    def create_df_producer(self):
+    def create_df_producer(self) -> pd.DataFrame:
         df_producer = pd.DataFrame()
         identifier = []
         name = []
@@ -353,18 +363,24 @@ class DataFrameCreator:
         for c in range(self.num_generators):
             name.append("producer " + str(c+1))
             identifier.append(str(uuid.uuid4()))
-            model_identifier.append(regression_model)
-            configuration_entries.append(self.get_configuration_entry(self.lat, self.lon))
-            
+            model_identifier.append(self.producer_model)
+            configuration_entries.append(self.get_configuration_entry(self.df_generator.iloc[[c]]))
+            # Increment lat and lon
+            self.lat += 0.0002
+            self.lon += 0.0002
+        
+        # Create dataframe
         df_producer["Identifier"] = identifier
         df_producer["Name"] = name
         df_producer["ModelIdentifier"] = model_identifier
         df_producer["ConfigurationEntries"] = configuration_entries
+        # Set identifier in generator
+        self.df_generator["ProducerIdentifier"] = identifier
         
         return df_producer
 
 
-    def create_df_storage(self):
+    def create_df_storage(self) -> pd.DataFrame:
         df_storage = pd.DataFrame()
         name = []
         identifier = []
@@ -404,11 +420,11 @@ class DataFrameCreator:
             maximum_reactive_power.append(1)
             current_active_power.append(0)
             state_of_charge.append(0)            
-            # increment lat
+            # Increment lat and lon
             self.lat += 0.0002
             self.lon += 0.0002   
         
-        # create dataframe
+        # Create dataframe
         df_storage["Name"] = name
         df_storage["Identifier"] = identifier
         df_storage["Latitude"] = latitude
@@ -429,50 +445,88 @@ class DataFrameCreator:
         df_storage["StateOfCharge"] = state_of_charge
         
         return df_storage
-                
-    def get_configuration_entry(self, lat, lon):
-        return {
-            "latitude": round(lat, 4),
-            "longitude": round(lon, 4),
-            "peakpower": 10,
-            "angle": 22,
-            "aspect": 0,
-            "loss": 14
-        }
+
+   
+    def get_configuration_entry(self, df_generator: pd.DataFrame) -> dict:
+        config_entries = []
+        # Loop through configurations
+        for params in self.configs.values():
+            config = {
+                # Set lat and lon from generators
+                "latitude": df_generator.iloc[0]["Latitude"],
+                "longitude": df_generator.iloc[0]["Longitude"],
+                "peakpower": params["kwp"],
+                "angle": params["angle"],
+                "aspect": params["aspect"],
+                "loss": 14
+            }
+            config_entries.append(config)
+        return config_entries
+    
+    
+    def save_config_file(self, json_dict: dict) -> None:
+        json_obj = json.dumps(json_dict, indent=4)
+        if not os.path.exists(f"scenarios/{self.num_consumer}_consumer"):
+            os.makedirs(f"scenarios/{self.num_consumer}_consumer")
+        with open(f"scenarios/{self.num_consumer}_consumer/config.json", "w") as of:
+            of.write(json_obj)
     
 
-if __name__ == "__main__":
-    # set models and variables
+if __name__ == "__main__":    
+    # Set models and parameters
     generator_model = "hgb_south_10kwp"
     consumer_model = "two_person_all_working_no_heat"
-    regression_model = "bad_zell_all_aspects.onnx"
-    consumer = 10
-    generators = 1
+    consumer = 1
+    generators = 2
     storages = 1
     grid_conns = 1
+    city = "hagenberg"
     
-    # create DataFrames
-    # if you want to choose another city, add parameters latitude and longitude, default is Hagenberg
-    c = DataFrameCreator(consumer, generators, storages, grid_conns, generator_model, consumer_model, regression_model)    
-    df_grid = c.create_df_grid_connection()
-    df_hh = c.create_df_household()
-    df_prod = c.create_df_producer()
-    df_gen = c.create_df_generator(df_prod["Identifier"].tolist())
-    df_stor = c.create_df_storage()
-    
-    # set metadata for scenario
+    # Set metadata for scenario
     metadata = {
         "name": f"{consumer} Consumer, {generators} Generator, rural",
         "description": "simple test network",
         "version": f"{date.today()}-V1"
     }
     
-    # create configuration file
-    config_creator = ConfigurationCreator(metadata=metadata, df_grid_connection=df_grid, df_household=df_hh, df_generation=df_gen, df_producer=df_prod, df_storage=df_stor, profile_id_consumer=consumer_model, profile_id_generator=generator_model)
-    json_str = config_creator.generate_config()
-    # save json config
-    json_obj = json.dumps(json_str, indent=4)
-    if not os.path.exists(f"scenarios/{consumer}_consumer"):
-        os.makedirs(f"scenarios/{consumer}")
-    with open(f"scenarios/{consumer}_consumer/config.json", "w") as of:
-        of.write(json_obj)
+    # Set configurations - what if multiple generators with different configurations?
+    configurations = {
+        "south": {"aspect": 0, "kwp": 10, "angle": 22},
+        "east": {"aspect": -90, "kwp": 2.5, "angle": 22},
+        "west": {"aspect": 90, "kwp": 2.5, "angle": 22}
+    }
+    producer_model_identifier = f"{city}_" + "_".join([k + "-" + str(v["kwp"]) for k,v in configurations.items()])
+    
+    # Create DataFrames
+    # If you want to choose another city, add parameters "latitude" and "longitude", default is Hagenberg
+    dfc = DataFrameCreator(
+        num_consumer=consumer,
+        num_generators=generators,
+        num_storages=storages,
+        num_grid_connections=grid_conns,
+        generator_model=generator_model,
+        consumer_model=consumer_model,
+        producer_model=producer_model_identifier,
+        configs=configurations
+    )
+    df_grid = dfc.create_df_grid_connection()
+    df_hh = dfc.create_df_household()
+    df_gen = dfc.create_df_generator()
+    df_prod = dfc.create_df_producer()
+    df_stor = dfc.create_df_storage()
+        
+    # Create configuration file
+    cc = ConfigurationCreator(
+        metadata=metadata,
+        df_grid_connection=df_grid,
+        df_household=df_hh,
+        df_generation=df_gen,
+        df_producer=df_prod,
+        df_storage=df_stor,
+        profile_id_consumer=consumer_model,
+        profile_id_generator=generator_model
+    )
+    json_dict = cc.generate_config()
+    
+    # Save json config
+    dfc.save_config_file(json_dict)

@@ -1,0 +1,231 @@
+{
+    "Scenario": {
+        "Name": "5 Consumer, 1 Generator, rural",
+        "Description": "simple test network",
+        "Version": "2024-02-07-V1",
+        "Consumers": [
+            {
+                "Address": "Risc Strasse 1",
+                "Category": "household",
+                "Identifier": "61b9a518-9283-4893-91f6-f42e64e8acd0",
+                "Latitude": 48.3789,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 1",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 2",
+                "Category": "household",
+                "Identifier": "2666fdd7-90e4-4097-a47e-a000393c181f",
+                "Latitude": 48.3791,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 2",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 3",
+                "Category": "household",
+                "Identifier": "ce584e4f-b4f8-4459-9e28-9c95e291f427",
+                "Latitude": 48.3793,
+                "Level": 7,
+                "Longitude": 14.5179,
+                "Name": "Household 3",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 4",
+                "Category": "household",
+                "Identifier": "4019154f-4c1c-42a1-8d9b-aea6e363c0e6",
+                "Latitude": 48.3795,
+                "Level": 7,
+                "Longitude": 14.5181,
+                "Name": "Household 4",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 5",
+                "Category": "household",
+                "Identifier": "3bfb9f8a-291e-454e-8ee9-3c263502f36a",
+                "Latitude": 48.3797,
+                "Level": 7,
+                "Longitude": 14.5183,
+                "Name": "Household 5",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            }
+        ],
+        "Generators": [
+            {
+                "Name": "photovoltaic 1",
+                "Identifier": "cdfd479e-ffa3-4386-a015-def0a7549dc6",
+                "Latitude": 48.3799,
+                "Longitude": 14.5185,
+                "Address": "Risc Strasse 6",
+                "Level": 7,
+                "Type": "generator",
+                "Category": "household",
+                "ProfileIdentifier": "hgb_south_10kwp",
+                "InService": true,
+                "ProducerIdentifier": "e4240680-ce90-4b23-847d-a3a499fbdcf5"
+            }
+        ],
+        "Producer": [
+            {
+                "Identifier": "e4240680-ce90-4b23-847d-a3a499fbdcf5",
+                "Name": "producer 1",
+                "ModelIdentifier": "hagenberg_south-10",
+                "ConfigurationEntries": [
+                    {
+                        "latitude": 48.3799,
+                        "longitude": 14.5185,
+                        "peakpower": 10,
+                        "angle": 22,
+                        "aspect": 0,
+                        "loss": 14
+                    }
+                ]
+            }
+        ],
+        "Storages": [
+            {
+                "Name": "Storage 1",
+                "Identifier": "38074aff-dbb8-4322-8b24-a16f385404cc",
+                "Latitude": 48.3803,
+                "Longitude": 14.5189,
+                "Address": "none",
+                "Level": 7,
+                "Type": "storage",
+                "Category": "household",
+                "InService": true,
+                "MinimumCapacity": 0,
+                "MaximumCapacity": 0.01,
+                "CapacityUnit": "MWh",
+                "MinimumActivePower": 0,
+                "MaximumActivePower": 1,
+                "MinimumReactivePower": 0,
+                "MaximumReactivePower": 1,
+                "CurrentActivePower": 0,
+                "StateOfCharge": 0
+            }
+        ],
+        "Network": {
+            "Buses": [
+                {
+                    "Identifier": "61b9a518-9283-4893-91f6-f42e64e8acd0",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "2666fdd7-90e4-4097-a47e-a000393c181f",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "ce584e4f-b4f8-4459-9e28-9c95e291f427",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "4019154f-4c1c-42a1-8d9b-aea6e363c0e6",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "3bfb9f8a-291e-454e-8ee9-3c263502f36a",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "12372c6b-0a8f-487a-a189-17ccb00c792d",
+                    "Voltage": 0.4,
+                    "Category": "grid_connection",
+                    "Type": "grid_connection"
+                },
+                {
+                    "Identifier": "cdfd479e-ffa3-4386-a015-def0a7549dc6",
+                    "Voltage": 0.4,
+                    "Category": "generator",
+                    "Type": "generation"
+                },
+                {
+                    "Identifier": "38074aff-dbb8-4322-8b24-a16f385404cc",
+                    "Voltage": 0.4,
+                    "Category": "storage",
+                    "Type": "storage"
+                }
+            ],
+            "Entities": [
+                {
+                    "Address": "Risc Strasse 0",
+                    "Category": "network",
+                    "Identifier": "12372c6b-0a8f-487a-a189-17ccb00c792d",
+                    "Latitude": 48.3787,
+                    "Longitude": 14.5173,
+                    "Name": "grid connection 1",
+                    "NetworkEntity": "network",
+                    "Type": "network"
+                }
+            ],
+            "Lines": [
+                {
+                    "FromBus": "12372c6b-0a8f-487a-a189-17ccb00c792d",
+                    "ToBus": "61b9a518-9283-4893-91f6-f42e64e8acd0",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "61b9a518-9283-4893-91f6-f42e64e8acd0",
+                    "ToBus": "2666fdd7-90e4-4097-a47e-a000393c181f",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "2666fdd7-90e4-4097-a47e-a000393c181f",
+                    "ToBus": "ce584e4f-b4f8-4459-9e28-9c95e291f427",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "ce584e4f-b4f8-4459-9e28-9c95e291f427",
+                    "ToBus": "4019154f-4c1c-42a1-8d9b-aea6e363c0e6",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "4019154f-4c1c-42a1-8d9b-aea6e363c0e6",
+                    "ToBus": "3bfb9f8a-291e-454e-8ee9-3c263502f36a",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "3bfb9f8a-291e-454e-8ee9-3c263502f36a",
+                    "ToBus": "cdfd479e-ffa3-4386-a015-def0a7549dc6",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "cdfd479e-ffa3-4386-a015-def0a7549dc6",
+                    "ToBus": "38074aff-dbb8-4322-8b24-a16f385404cc",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                }
+            ]
+        }
+    }
+}

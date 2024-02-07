@@ -1,0 +1,2511 @@
+{
+    "Scenario": {
+        "Name": "100 Consumer, 1 Generator, rural",
+        "Description": "simple test network",
+        "Version": "2024-02-07-V1",
+        "Consumers": [
+            {
+                "Address": "Risc Strasse 1",
+                "Category": "household",
+                "Identifier": "ee676654-2a57-4329-9c04-2e6f56493018",
+                "Latitude": 48.3789,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 1",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 2",
+                "Category": "household",
+                "Identifier": "0cb70bc3-b6c6-4dad-ac30-cb84e5d5c540",
+                "Latitude": 48.3791,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 2",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 3",
+                "Category": "household",
+                "Identifier": "4fc4a550-aa4d-468e-8c29-901aedef6b77",
+                "Latitude": 48.3793,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 3",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 4",
+                "Category": "household",
+                "Identifier": "c063cb5a-6753-4349-b2a2-0b2d4bfaf362",
+                "Latitude": 48.3795,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 4",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 5",
+                "Category": "household",
+                "Identifier": "05e3ce6e-4cbb-4296-904c-aa174d4834e2",
+                "Latitude": 48.3797,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 5",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 6",
+                "Category": "household",
+                "Identifier": "0b5d4991-d8fe-4e5d-85c4-3cb692838c80",
+                "Latitude": 48.3799,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 6",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 7",
+                "Category": "household",
+                "Identifier": "96f34a64-1eb6-4a8b-adac-61feb08ff99c",
+                "Latitude": 48.3801,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 7",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 8",
+                "Category": "household",
+                "Identifier": "447153b6-0685-4d6f-bd6e-61132917c6db",
+                "Latitude": 48.3803,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 8",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 9",
+                "Category": "household",
+                "Identifier": "79b1fed2-23d9-48ab-8722-cf013d347a00",
+                "Latitude": 48.3805,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 9",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 10",
+                "Category": "household",
+                "Identifier": "6b149a50-db31-429f-9c2f-64532c16141e",
+                "Latitude": 48.3807,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 10",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 11",
+                "Category": "household",
+                "Identifier": "366642c5-fa0d-44b5-8799-fbead8c10f74",
+                "Latitude": 48.3809,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 11",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 12",
+                "Category": "household",
+                "Identifier": "b2fb3a2a-8935-4b09-a0d2-7f9174cb76c7",
+                "Latitude": 48.3811,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 12",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 13",
+                "Category": "household",
+                "Identifier": "b42ccc64-13c0-4f8d-9333-98ae283f905a",
+                "Latitude": 48.3813,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 13",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 14",
+                "Category": "household",
+                "Identifier": "d931f0b3-2fd6-493c-b598-a46aa7527072",
+                "Latitude": 48.3815,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 14",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 15",
+                "Category": "household",
+                "Identifier": "613ff220-21a4-4ae0-a249-79342d6dc196",
+                "Latitude": 48.3817,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 15",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 16",
+                "Category": "household",
+                "Identifier": "3d25176b-357e-48ee-8ef9-38cc4b74f3c7",
+                "Latitude": 48.3819,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 16",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 17",
+                "Category": "household",
+                "Identifier": "396079e9-ae4a-43e6-92fa-2e0740fa6190",
+                "Latitude": 48.3821,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 17",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 18",
+                "Category": "household",
+                "Identifier": "43c2cde4-e9e9-4232-94d0-7d15e77f2722",
+                "Latitude": 48.3823,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 18",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 19",
+                "Category": "household",
+                "Identifier": "e68dfd37-3eb9-4c58-a50d-cedd81c9b220",
+                "Latitude": 48.3825,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 19",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 20",
+                "Category": "household",
+                "Identifier": "83f93ae8-007a-4683-83d4-71c462e70ac7",
+                "Latitude": 48.3827,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 20",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 21",
+                "Category": "household",
+                "Identifier": "a23f5792-64a2-4d68-91b4-c52a043f1c7d",
+                "Latitude": 48.3829,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 21",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 22",
+                "Category": "household",
+                "Identifier": "f608ee17-6cfb-4ca3-806c-67386431b71d",
+                "Latitude": 48.3831,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 22",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 23",
+                "Category": "household",
+                "Identifier": "ba5ccb9c-e46e-4670-ab60-b2e79ce302ff",
+                "Latitude": 48.3833,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 23",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 24",
+                "Category": "household",
+                "Identifier": "f2486de2-fd51-4341-9be9-c9bed4831067",
+                "Latitude": 48.3835,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 24",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 25",
+                "Category": "household",
+                "Identifier": "7c1bbc67-3de3-4057-8062-a07725cb2476",
+                "Latitude": 48.3837,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 25",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 26",
+                "Category": "household",
+                "Identifier": "e0c2cdf1-f99e-4f12-b4cf-b04b202fb0ee",
+                "Latitude": 48.3839,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 26",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 27",
+                "Category": "household",
+                "Identifier": "a1d72dc8-1013-4015-897d-57363f8b93ce",
+                "Latitude": 48.3841,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 27",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 28",
+                "Category": "household",
+                "Identifier": "e6c91466-483a-4c72-8ed9-6b3db70a818d",
+                "Latitude": 48.3843,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 28",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 29",
+                "Category": "household",
+                "Identifier": "e8977156-807f-468f-a729-0a50ec84e5b8",
+                "Latitude": 48.3845,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 29",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 30",
+                "Category": "household",
+                "Identifier": "32019084-0b0d-45eb-8e62-2b1ada728c78",
+                "Latitude": 48.3847,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 30",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 31",
+                "Category": "household",
+                "Identifier": "51510b41-0515-4882-a293-ca65d254b695",
+                "Latitude": 48.3849,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 31",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 32",
+                "Category": "household",
+                "Identifier": "0dbb9854-8d4e-497c-90a7-43d1a96e53cd",
+                "Latitude": 48.3851,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 32",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 33",
+                "Category": "household",
+                "Identifier": "767fa6b4-962d-45d6-b8f7-f2da1a461bff",
+                "Latitude": 48.3853,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 33",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 34",
+                "Category": "household",
+                "Identifier": "ae5fcef2-ce09-439f-b2de-66399fd4bec4",
+                "Latitude": 48.3855,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 34",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 35",
+                "Category": "household",
+                "Identifier": "1d7c8e4d-4898-47c7-a25a-d53a4207dfd7",
+                "Latitude": 48.3857,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 35",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 36",
+                "Category": "household",
+                "Identifier": "58da1d90-b136-4c31-a20a-dded6c5fa7d9",
+                "Latitude": 48.3859,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 36",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 37",
+                "Category": "household",
+                "Identifier": "01708c72-16f3-469c-878f-b1c50437c1d7",
+                "Latitude": 48.3861,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 37",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 38",
+                "Category": "household",
+                "Identifier": "a46acecd-7261-46a2-8d94-fc9a199ef5f6",
+                "Latitude": 48.3863,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 38",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 39",
+                "Category": "household",
+                "Identifier": "dbb99f30-e394-4292-ab81-832fecfeed4a",
+                "Latitude": 48.3865,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 39",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 40",
+                "Category": "household",
+                "Identifier": "d6adbc3e-ac57-4f6b-b29d-99830d9e2dd7",
+                "Latitude": 48.3867,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 40",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 41",
+                "Category": "household",
+                "Identifier": "2edea1f2-0b9c-4b9a-90ed-cdf57277d871",
+                "Latitude": 48.3869,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 41",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 42",
+                "Category": "household",
+                "Identifier": "ad4896c5-f842-47f0-9f4e-a6b04f9d0179",
+                "Latitude": 48.3871,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 42",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 43",
+                "Category": "household",
+                "Identifier": "164602b4-400d-47d4-a79c-ac689e0d581e",
+                "Latitude": 48.3873,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 43",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 44",
+                "Category": "household",
+                "Identifier": "0dd2c724-1b37-430e-8d52-b9766c4e868e",
+                "Latitude": 48.3875,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 44",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 45",
+                "Category": "household",
+                "Identifier": "eb29af5c-b955-4349-8acb-f55e4082fcec",
+                "Latitude": 48.3877,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 45",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 46",
+                "Category": "household",
+                "Identifier": "3445fa4f-ce4f-46e3-9f1f-84ae2f6fc352",
+                "Latitude": 48.3879,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 46",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 47",
+                "Category": "household",
+                "Identifier": "b29ae002-2aef-48b2-a45f-ef765ea95b8a",
+                "Latitude": 48.3881,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 47",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 48",
+                "Category": "household",
+                "Identifier": "0ef18695-cb73-42b3-a9f4-9ad23b5882b1",
+                "Latitude": 48.3883,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 48",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 49",
+                "Category": "household",
+                "Identifier": "f957a2f7-b177-455f-899a-a8d3c63c58cb",
+                "Latitude": 48.3885,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 49",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 50",
+                "Category": "household",
+                "Identifier": "3d271ea7-23f4-4cd1-b883-b1deabf7c7e6",
+                "Latitude": 48.3887,
+                "Level": 7,
+                "Longitude": 14.5175,
+                "Name": "Household 50",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 51",
+                "Category": "household",
+                "Identifier": "451f80a6-ebb1-40b3-83dd-b09f160dff1d",
+                "Latitude": 48.3789,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 51",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 52",
+                "Category": "household",
+                "Identifier": "f3dc787c-99e0-45c0-a119-b567de0690c9",
+                "Latitude": 48.3791,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 52",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 53",
+                "Category": "household",
+                "Identifier": "9ea47b61-908f-4c39-a63d-e9ffe5145cb8",
+                "Latitude": 48.3793,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 53",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 54",
+                "Category": "household",
+                "Identifier": "777c1376-cba7-428e-99e8-a5394ff2772d",
+                "Latitude": 48.3795,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 54",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 55",
+                "Category": "household",
+                "Identifier": "488d3f7e-67d2-4664-a10e-9a48b07778b5",
+                "Latitude": 48.3797,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 55",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 56",
+                "Category": "household",
+                "Identifier": "77f316c0-79c6-465e-9961-4c8b2127f07e",
+                "Latitude": 48.3799,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 56",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 57",
+                "Category": "household",
+                "Identifier": "698d0ed0-261f-4468-a10d-901d8312b298",
+                "Latitude": 48.3801,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 57",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 58",
+                "Category": "household",
+                "Identifier": "36ee27ee-9d39-40ab-a645-189d794bff50",
+                "Latitude": 48.3803,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 58",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 59",
+                "Category": "household",
+                "Identifier": "f787a186-98a9-4f8c-8151-8d9a8271ca90",
+                "Latitude": 48.3805,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 59",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 60",
+                "Category": "household",
+                "Identifier": "b7c39c68-527e-40ea-88be-e44168efba20",
+                "Latitude": 48.3807,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 60",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 61",
+                "Category": "household",
+                "Identifier": "2836831f-de19-4c97-bbb2-6e6fbffb8c4e",
+                "Latitude": 48.3809,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 61",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 62",
+                "Category": "household",
+                "Identifier": "b16b9c4e-805d-4f71-b6cf-83b4c48925b3",
+                "Latitude": 48.3811,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 62",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 63",
+                "Category": "household",
+                "Identifier": "3667f4ba-0584-4f17-beb7-6512415e8b06",
+                "Latitude": 48.3813,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 63",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 64",
+                "Category": "household",
+                "Identifier": "710b96e6-58a9-46fa-a5ac-3aeeaff3e45f",
+                "Latitude": 48.3815,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 64",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 65",
+                "Category": "household",
+                "Identifier": "5507e05a-48cf-4c91-9ecc-984967a5f109",
+                "Latitude": 48.3817,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 65",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 66",
+                "Category": "household",
+                "Identifier": "f10b096f-8f69-410d-803d-28c56f0d66de",
+                "Latitude": 48.3819,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 66",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 67",
+                "Category": "household",
+                "Identifier": "f1f8c1ea-4af2-4054-a7c6-944a9fea51f3",
+                "Latitude": 48.3821,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 67",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 68",
+                "Category": "household",
+                "Identifier": "90bedab5-e0da-4af1-845f-5ad6703800e4",
+                "Latitude": 48.3823,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 68",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 69",
+                "Category": "household",
+                "Identifier": "cc7f171d-c825-47ef-ba41-c2de5579d077",
+                "Latitude": 48.3825,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 69",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 70",
+                "Category": "household",
+                "Identifier": "fda3ef67-b7b7-4082-bbe4-00e326d17ae4",
+                "Latitude": 48.3827,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 70",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 71",
+                "Category": "household",
+                "Identifier": "28570332-4d4e-4f84-9b7c-6b3d321c907a",
+                "Latitude": 48.3829,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 71",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 72",
+                "Category": "household",
+                "Identifier": "ddd87069-8290-48bc-a07b-c466c5c84381",
+                "Latitude": 48.3831,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 72",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 73",
+                "Category": "household",
+                "Identifier": "c89aa372-238c-4fce-b0d7-2597a9b9d2e6",
+                "Latitude": 48.3833,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 73",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 74",
+                "Category": "household",
+                "Identifier": "239942e4-396e-4881-9dbe-0c80d82adcca",
+                "Latitude": 48.3835,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 74",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 75",
+                "Category": "household",
+                "Identifier": "8038fd2d-6b4e-4fd3-80cf-4a38b5b778b4",
+                "Latitude": 48.3837,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 75",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 76",
+                "Category": "household",
+                "Identifier": "c8152c0d-2c29-4822-986d-e57627695a7a",
+                "Latitude": 48.3839,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 76",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 77",
+                "Category": "household",
+                "Identifier": "8fea461d-f42f-4bdb-9832-9569b8fa2780",
+                "Latitude": 48.3841,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 77",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 78",
+                "Category": "household",
+                "Identifier": "0a61d272-ad5f-43c0-b880-51c0c2ec6af1",
+                "Latitude": 48.3843,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 78",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 79",
+                "Category": "household",
+                "Identifier": "86d98d60-64fa-4b04-bd9c-8a8bd34df9aa",
+                "Latitude": 48.3845,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 79",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 80",
+                "Category": "household",
+                "Identifier": "efc8d891-a3da-4a08-9f06-daf2b5270493",
+                "Latitude": 48.3847,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 80",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 81",
+                "Category": "household",
+                "Identifier": "19965954-8efb-4135-86ee-0fa5b2cdd41f",
+                "Latitude": 48.3849,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 81",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 82",
+                "Category": "household",
+                "Identifier": "640a5f02-a12a-4d5f-b43d-a163d1af7fe0",
+                "Latitude": 48.3851,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 82",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 83",
+                "Category": "household",
+                "Identifier": "0ceea955-5a91-432b-9056-cd8d20f2010b",
+                "Latitude": 48.3853,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 83",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 84",
+                "Category": "household",
+                "Identifier": "e52fb123-bad1-421b-abb6-ca3d10e85a43",
+                "Latitude": 48.3855,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 84",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 85",
+                "Category": "household",
+                "Identifier": "e326a2b9-e08f-435c-8bd6-9062e4d4a4aa",
+                "Latitude": 48.3857,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 85",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 86",
+                "Category": "household",
+                "Identifier": "1c6ae089-5fb2-4c05-bca0-eafab033ed42",
+                "Latitude": 48.3859,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 86",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 87",
+                "Category": "household",
+                "Identifier": "638db954-a306-4ce8-9cc2-6077d1cab36b",
+                "Latitude": 48.3861,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 87",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 88",
+                "Category": "household",
+                "Identifier": "7be6a872-b3a9-418e-bd5d-caa48a7afeed",
+                "Latitude": 48.3863,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 88",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 89",
+                "Category": "household",
+                "Identifier": "f8eee56c-e371-42d7-b031-af8f1d0591e3",
+                "Latitude": 48.3865,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 89",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 90",
+                "Category": "household",
+                "Identifier": "2750b14b-a576-4aa3-8fdf-0e4a7733e034",
+                "Latitude": 48.3867,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 90",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 91",
+                "Category": "household",
+                "Identifier": "5c320c37-4f31-4905-a1b1-1774cb34f2ef",
+                "Latitude": 48.3869,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 91",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 92",
+                "Category": "household",
+                "Identifier": "5ef222c7-a135-41f7-93f6-c08e88e0e219",
+                "Latitude": 48.3871,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 92",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 93",
+                "Category": "household",
+                "Identifier": "371c5504-8b57-4375-9669-67808b5051f3",
+                "Latitude": 48.3873,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 93",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 94",
+                "Category": "household",
+                "Identifier": "1ce51cbd-adc4-4121-8742-670fe86513c9",
+                "Latitude": 48.3875,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 94",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 95",
+                "Category": "household",
+                "Identifier": "7f150543-f006-481b-a541-1919b0a490b2",
+                "Latitude": 48.3877,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 95",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 96",
+                "Category": "household",
+                "Identifier": "7ad75674-ef8b-4dbf-9b99-0b459f0b0e86",
+                "Latitude": 48.3879,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 96",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 97",
+                "Category": "household",
+                "Identifier": "cc5a1307-381b-4471-9edb-bd6530332458",
+                "Latitude": 48.3881,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 97",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 98",
+                "Category": "household",
+                "Identifier": "18b3a513-4b4f-4dff-b70a-ec8374ea0ddf",
+                "Latitude": 48.3883,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 98",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 99",
+                "Category": "household",
+                "Identifier": "6f97e4c3-2f5b-4631-9e0e-6db209a333f4",
+                "Latitude": 48.3885,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 99",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            },
+            {
+                "Address": "Risc Strasse 100",
+                "Category": "household",
+                "Identifier": "5645e79d-c0c2-44de-8970-6a20d5114530",
+                "Latitude": 48.3887,
+                "Level": 7,
+                "Longitude": 14.5177,
+                "Name": "Household 100",
+                "ProfileIdentifier": "two_person_all_working_no_heat",
+                "Type": "load",
+                "InService": true
+            }
+        ],
+        "Generators": [
+            {
+                "Name": "photovoltaic 1",
+                "Identifier": "c1878cd1-50ed-456c-b13f-a55c98f863d8",
+                "Latitude": 48.3789,
+                "Longitude": 14.5179,
+                "Address": "Risc Strasse 101",
+                "Level": 7,
+                "Type": "generator",
+                "Category": "household",
+                "ProfileIdentifier": "hgb_south_10kwp",
+                "InService": true,
+                "ProducerIdentifier": "fbde13f4-ee46-41e3-ab38-bc7f2025b9aa"
+            }
+        ],
+        "Producer": [
+            {
+                "Identifier": "fbde13f4-ee46-41e3-ab38-bc7f2025b9aa",
+                "Name": "producer 1",
+                "ModelIdentifier": "hagenberg_south-10",
+                "ConfigurationEntries": [
+                    {
+                        "latitude": 48.3789,
+                        "longitude": 14.5179,
+                        "peakpower": 10,
+                        "angle": 22,
+                        "aspect": 0,
+                        "loss": 14
+                    }
+                ]
+            }
+        ],
+        "Storages": [
+            {
+                "Name": "Storage 1",
+                "Identifier": "5aa53c6b-ee5b-4db0-ae9f-f4919a34620b",
+                "Latitude": 48.3793,
+                "Longitude": 14.5183,
+                "Address": "none",
+                "Level": 7,
+                "Type": "storage",
+                "Category": "household",
+                "InService": true,
+                "MinimumCapacity": 0,
+                "MaximumCapacity": 0.01,
+                "CapacityUnit": "MWh",
+                "MinimumActivePower": 0,
+                "MaximumActivePower": 1,
+                "MinimumReactivePower": 0,
+                "MaximumReactivePower": 1,
+                "CurrentActivePower": 0,
+                "StateOfCharge": 0
+            }
+        ],
+        "Network": {
+            "Buses": [
+                {
+                    "Identifier": "ee676654-2a57-4329-9c04-2e6f56493018",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "0cb70bc3-b6c6-4dad-ac30-cb84e5d5c540",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "4fc4a550-aa4d-468e-8c29-901aedef6b77",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "c063cb5a-6753-4349-b2a2-0b2d4bfaf362",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "05e3ce6e-4cbb-4296-904c-aa174d4834e2",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "0b5d4991-d8fe-4e5d-85c4-3cb692838c80",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "96f34a64-1eb6-4a8b-adac-61feb08ff99c",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "447153b6-0685-4d6f-bd6e-61132917c6db",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "79b1fed2-23d9-48ab-8722-cf013d347a00",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "6b149a50-db31-429f-9c2f-64532c16141e",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "366642c5-fa0d-44b5-8799-fbead8c10f74",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "b2fb3a2a-8935-4b09-a0d2-7f9174cb76c7",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "b42ccc64-13c0-4f8d-9333-98ae283f905a",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "d931f0b3-2fd6-493c-b598-a46aa7527072",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "613ff220-21a4-4ae0-a249-79342d6dc196",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "3d25176b-357e-48ee-8ef9-38cc4b74f3c7",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "396079e9-ae4a-43e6-92fa-2e0740fa6190",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "43c2cde4-e9e9-4232-94d0-7d15e77f2722",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "e68dfd37-3eb9-4c58-a50d-cedd81c9b220",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "83f93ae8-007a-4683-83d4-71c462e70ac7",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "a23f5792-64a2-4d68-91b4-c52a043f1c7d",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "f608ee17-6cfb-4ca3-806c-67386431b71d",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "ba5ccb9c-e46e-4670-ab60-b2e79ce302ff",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "f2486de2-fd51-4341-9be9-c9bed4831067",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "7c1bbc67-3de3-4057-8062-a07725cb2476",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "e0c2cdf1-f99e-4f12-b4cf-b04b202fb0ee",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "a1d72dc8-1013-4015-897d-57363f8b93ce",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "e6c91466-483a-4c72-8ed9-6b3db70a818d",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "e8977156-807f-468f-a729-0a50ec84e5b8",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "32019084-0b0d-45eb-8e62-2b1ada728c78",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "51510b41-0515-4882-a293-ca65d254b695",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "0dbb9854-8d4e-497c-90a7-43d1a96e53cd",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "767fa6b4-962d-45d6-b8f7-f2da1a461bff",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "ae5fcef2-ce09-439f-b2de-66399fd4bec4",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "1d7c8e4d-4898-47c7-a25a-d53a4207dfd7",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "58da1d90-b136-4c31-a20a-dded6c5fa7d9",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "01708c72-16f3-469c-878f-b1c50437c1d7",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "a46acecd-7261-46a2-8d94-fc9a199ef5f6",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "dbb99f30-e394-4292-ab81-832fecfeed4a",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "d6adbc3e-ac57-4f6b-b29d-99830d9e2dd7",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "2edea1f2-0b9c-4b9a-90ed-cdf57277d871",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "ad4896c5-f842-47f0-9f4e-a6b04f9d0179",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "164602b4-400d-47d4-a79c-ac689e0d581e",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "0dd2c724-1b37-430e-8d52-b9766c4e868e",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "eb29af5c-b955-4349-8acb-f55e4082fcec",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "3445fa4f-ce4f-46e3-9f1f-84ae2f6fc352",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "b29ae002-2aef-48b2-a45f-ef765ea95b8a",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "0ef18695-cb73-42b3-a9f4-9ad23b5882b1",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "f957a2f7-b177-455f-899a-a8d3c63c58cb",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "3d271ea7-23f4-4cd1-b883-b1deabf7c7e6",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "451f80a6-ebb1-40b3-83dd-b09f160dff1d",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "f3dc787c-99e0-45c0-a119-b567de0690c9",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "9ea47b61-908f-4c39-a63d-e9ffe5145cb8",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "777c1376-cba7-428e-99e8-a5394ff2772d",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "488d3f7e-67d2-4664-a10e-9a48b07778b5",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "77f316c0-79c6-465e-9961-4c8b2127f07e",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "698d0ed0-261f-4468-a10d-901d8312b298",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "36ee27ee-9d39-40ab-a645-189d794bff50",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "f787a186-98a9-4f8c-8151-8d9a8271ca90",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "b7c39c68-527e-40ea-88be-e44168efba20",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "2836831f-de19-4c97-bbb2-6e6fbffb8c4e",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "b16b9c4e-805d-4f71-b6cf-83b4c48925b3",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "3667f4ba-0584-4f17-beb7-6512415e8b06",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "710b96e6-58a9-46fa-a5ac-3aeeaff3e45f",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "5507e05a-48cf-4c91-9ecc-984967a5f109",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "f10b096f-8f69-410d-803d-28c56f0d66de",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "f1f8c1ea-4af2-4054-a7c6-944a9fea51f3",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "90bedab5-e0da-4af1-845f-5ad6703800e4",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "cc7f171d-c825-47ef-ba41-c2de5579d077",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "fda3ef67-b7b7-4082-bbe4-00e326d17ae4",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "28570332-4d4e-4f84-9b7c-6b3d321c907a",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "ddd87069-8290-48bc-a07b-c466c5c84381",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "c89aa372-238c-4fce-b0d7-2597a9b9d2e6",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "239942e4-396e-4881-9dbe-0c80d82adcca",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "8038fd2d-6b4e-4fd3-80cf-4a38b5b778b4",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "c8152c0d-2c29-4822-986d-e57627695a7a",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "8fea461d-f42f-4bdb-9832-9569b8fa2780",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "0a61d272-ad5f-43c0-b880-51c0c2ec6af1",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "86d98d60-64fa-4b04-bd9c-8a8bd34df9aa",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "efc8d891-a3da-4a08-9f06-daf2b5270493",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "19965954-8efb-4135-86ee-0fa5b2cdd41f",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "640a5f02-a12a-4d5f-b43d-a163d1af7fe0",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "0ceea955-5a91-432b-9056-cd8d20f2010b",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "e52fb123-bad1-421b-abb6-ca3d10e85a43",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "e326a2b9-e08f-435c-8bd6-9062e4d4a4aa",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "1c6ae089-5fb2-4c05-bca0-eafab033ed42",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "638db954-a306-4ce8-9cc2-6077d1cab36b",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "7be6a872-b3a9-418e-bd5d-caa48a7afeed",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "f8eee56c-e371-42d7-b031-af8f1d0591e3",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "2750b14b-a576-4aa3-8fdf-0e4a7733e034",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "5c320c37-4f31-4905-a1b1-1774cb34f2ef",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "5ef222c7-a135-41f7-93f6-c08e88e0e219",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "371c5504-8b57-4375-9669-67808b5051f3",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "1ce51cbd-adc4-4121-8742-670fe86513c9",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "7f150543-f006-481b-a541-1919b0a490b2",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "7ad75674-ef8b-4dbf-9b99-0b459f0b0e86",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "cc5a1307-381b-4471-9edb-bd6530332458",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "18b3a513-4b4f-4dff-b70a-ec8374ea0ddf",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "6f97e4c3-2f5b-4631-9e0e-6db209a333f4",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "5645e79d-c0c2-44de-8970-6a20d5114530",
+                    "Voltage": 0.4,
+                    "Category": "consumer",
+                    "Type": "load"
+                },
+                {
+                    "Identifier": "11c48e62-bbb6-4a66-810c-b9db26c40e94",
+                    "Voltage": 0.4,
+                    "Category": "grid_connection",
+                    "Type": "grid_connection"
+                },
+                {
+                    "Identifier": "c1878cd1-50ed-456c-b13f-a55c98f863d8",
+                    "Voltage": 0.4,
+                    "Category": "generator",
+                    "Type": "generation"
+                },
+                {
+                    "Identifier": "5aa53c6b-ee5b-4db0-ae9f-f4919a34620b",
+                    "Voltage": 0.4,
+                    "Category": "storage",
+                    "Type": "storage"
+                }
+            ],
+            "Entities": [
+                {
+                    "Address": "Risc Strasse 0",
+                    "Category": "network",
+                    "Identifier": "11c48e62-bbb6-4a66-810c-b9db26c40e94",
+                    "Latitude": 48.3787,
+                    "Longitude": 14.5173,
+                    "Name": "grid connection 1",
+                    "NetworkEntity": "network",
+                    "Type": "network"
+                }
+            ],
+            "Lines": [
+                {
+                    "FromBus": "11c48e62-bbb6-4a66-810c-b9db26c40e94",
+                    "ToBus": "ee676654-2a57-4329-9c04-2e6f56493018",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "ee676654-2a57-4329-9c04-2e6f56493018",
+                    "ToBus": "0cb70bc3-b6c6-4dad-ac30-cb84e5d5c540",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "0cb70bc3-b6c6-4dad-ac30-cb84e5d5c540",
+                    "ToBus": "4fc4a550-aa4d-468e-8c29-901aedef6b77",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "4fc4a550-aa4d-468e-8c29-901aedef6b77",
+                    "ToBus": "c063cb5a-6753-4349-b2a2-0b2d4bfaf362",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "c063cb5a-6753-4349-b2a2-0b2d4bfaf362",
+                    "ToBus": "05e3ce6e-4cbb-4296-904c-aa174d4834e2",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "05e3ce6e-4cbb-4296-904c-aa174d4834e2",
+                    "ToBus": "0b5d4991-d8fe-4e5d-85c4-3cb692838c80",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "0b5d4991-d8fe-4e5d-85c4-3cb692838c80",
+                    "ToBus": "96f34a64-1eb6-4a8b-adac-61feb08ff99c",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "96f34a64-1eb6-4a8b-adac-61feb08ff99c",
+                    "ToBus": "447153b6-0685-4d6f-bd6e-61132917c6db",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "447153b6-0685-4d6f-bd6e-61132917c6db",
+                    "ToBus": "79b1fed2-23d9-48ab-8722-cf013d347a00",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "79b1fed2-23d9-48ab-8722-cf013d347a00",
+                    "ToBus": "6b149a50-db31-429f-9c2f-64532c16141e",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "6b149a50-db31-429f-9c2f-64532c16141e",
+                    "ToBus": "366642c5-fa0d-44b5-8799-fbead8c10f74",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "366642c5-fa0d-44b5-8799-fbead8c10f74",
+                    "ToBus": "b2fb3a2a-8935-4b09-a0d2-7f9174cb76c7",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "b2fb3a2a-8935-4b09-a0d2-7f9174cb76c7",
+                    "ToBus": "b42ccc64-13c0-4f8d-9333-98ae283f905a",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "b42ccc64-13c0-4f8d-9333-98ae283f905a",
+                    "ToBus": "d931f0b3-2fd6-493c-b598-a46aa7527072",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "d931f0b3-2fd6-493c-b598-a46aa7527072",
+                    "ToBus": "613ff220-21a4-4ae0-a249-79342d6dc196",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "613ff220-21a4-4ae0-a249-79342d6dc196",
+                    "ToBus": "3d25176b-357e-48ee-8ef9-38cc4b74f3c7",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "3d25176b-357e-48ee-8ef9-38cc4b74f3c7",
+                    "ToBus": "396079e9-ae4a-43e6-92fa-2e0740fa6190",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "396079e9-ae4a-43e6-92fa-2e0740fa6190",
+                    "ToBus": "43c2cde4-e9e9-4232-94d0-7d15e77f2722",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "43c2cde4-e9e9-4232-94d0-7d15e77f2722",
+                    "ToBus": "e68dfd37-3eb9-4c58-a50d-cedd81c9b220",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "e68dfd37-3eb9-4c58-a50d-cedd81c9b220",
+                    "ToBus": "83f93ae8-007a-4683-83d4-71c462e70ac7",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "83f93ae8-007a-4683-83d4-71c462e70ac7",
+                    "ToBus": "a23f5792-64a2-4d68-91b4-c52a043f1c7d",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "a23f5792-64a2-4d68-91b4-c52a043f1c7d",
+                    "ToBus": "f608ee17-6cfb-4ca3-806c-67386431b71d",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "f608ee17-6cfb-4ca3-806c-67386431b71d",
+                    "ToBus": "ba5ccb9c-e46e-4670-ab60-b2e79ce302ff",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "ba5ccb9c-e46e-4670-ab60-b2e79ce302ff",
+                    "ToBus": "f2486de2-fd51-4341-9be9-c9bed4831067",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "f2486de2-fd51-4341-9be9-c9bed4831067",
+                    "ToBus": "7c1bbc67-3de3-4057-8062-a07725cb2476",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "7c1bbc67-3de3-4057-8062-a07725cb2476",
+                    "ToBus": "e0c2cdf1-f99e-4f12-b4cf-b04b202fb0ee",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "e0c2cdf1-f99e-4f12-b4cf-b04b202fb0ee",
+                    "ToBus": "a1d72dc8-1013-4015-897d-57363f8b93ce",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "a1d72dc8-1013-4015-897d-57363f8b93ce",
+                    "ToBus": "e6c91466-483a-4c72-8ed9-6b3db70a818d",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "e6c91466-483a-4c72-8ed9-6b3db70a818d",
+                    "ToBus": "e8977156-807f-468f-a729-0a50ec84e5b8",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "e8977156-807f-468f-a729-0a50ec84e5b8",
+                    "ToBus": "32019084-0b0d-45eb-8e62-2b1ada728c78",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "32019084-0b0d-45eb-8e62-2b1ada728c78",
+                    "ToBus": "51510b41-0515-4882-a293-ca65d254b695",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "51510b41-0515-4882-a293-ca65d254b695",
+                    "ToBus": "0dbb9854-8d4e-497c-90a7-43d1a96e53cd",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "0dbb9854-8d4e-497c-90a7-43d1a96e53cd",
+                    "ToBus": "767fa6b4-962d-45d6-b8f7-f2da1a461bff",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "767fa6b4-962d-45d6-b8f7-f2da1a461bff",
+                    "ToBus": "ae5fcef2-ce09-439f-b2de-66399fd4bec4",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "ae5fcef2-ce09-439f-b2de-66399fd4bec4",
+                    "ToBus": "1d7c8e4d-4898-47c7-a25a-d53a4207dfd7",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "1d7c8e4d-4898-47c7-a25a-d53a4207dfd7",
+                    "ToBus": "58da1d90-b136-4c31-a20a-dded6c5fa7d9",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "58da1d90-b136-4c31-a20a-dded6c5fa7d9",
+                    "ToBus": "01708c72-16f3-469c-878f-b1c50437c1d7",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "01708c72-16f3-469c-878f-b1c50437c1d7",
+                    "ToBus": "a46acecd-7261-46a2-8d94-fc9a199ef5f6",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "a46acecd-7261-46a2-8d94-fc9a199ef5f6",
+                    "ToBus": "dbb99f30-e394-4292-ab81-832fecfeed4a",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "dbb99f30-e394-4292-ab81-832fecfeed4a",
+                    "ToBus": "d6adbc3e-ac57-4f6b-b29d-99830d9e2dd7",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "d6adbc3e-ac57-4f6b-b29d-99830d9e2dd7",
+                    "ToBus": "2edea1f2-0b9c-4b9a-90ed-cdf57277d871",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "2edea1f2-0b9c-4b9a-90ed-cdf57277d871",
+                    "ToBus": "ad4896c5-f842-47f0-9f4e-a6b04f9d0179",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "ad4896c5-f842-47f0-9f4e-a6b04f9d0179",
+                    "ToBus": "164602b4-400d-47d4-a79c-ac689e0d581e",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "164602b4-400d-47d4-a79c-ac689e0d581e",
+                    "ToBus": "0dd2c724-1b37-430e-8d52-b9766c4e868e",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "0dd2c724-1b37-430e-8d52-b9766c4e868e",
+                    "ToBus": "eb29af5c-b955-4349-8acb-f55e4082fcec",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "eb29af5c-b955-4349-8acb-f55e4082fcec",
+                    "ToBus": "3445fa4f-ce4f-46e3-9f1f-84ae2f6fc352",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "3445fa4f-ce4f-46e3-9f1f-84ae2f6fc352",
+                    "ToBus": "b29ae002-2aef-48b2-a45f-ef765ea95b8a",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "b29ae002-2aef-48b2-a45f-ef765ea95b8a",
+                    "ToBus": "0ef18695-cb73-42b3-a9f4-9ad23b5882b1",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "0ef18695-cb73-42b3-a9f4-9ad23b5882b1",
+                    "ToBus": "f957a2f7-b177-455f-899a-a8d3c63c58cb",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "f957a2f7-b177-455f-899a-a8d3c63c58cb",
+                    "ToBus": "3d271ea7-23f4-4cd1-b883-b1deabf7c7e6",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "3d271ea7-23f4-4cd1-b883-b1deabf7c7e6",
+                    "ToBus": "451f80a6-ebb1-40b3-83dd-b09f160dff1d",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "451f80a6-ebb1-40b3-83dd-b09f160dff1d",
+                    "ToBus": "f3dc787c-99e0-45c0-a119-b567de0690c9",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "f3dc787c-99e0-45c0-a119-b567de0690c9",
+                    "ToBus": "9ea47b61-908f-4c39-a63d-e9ffe5145cb8",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "9ea47b61-908f-4c39-a63d-e9ffe5145cb8",
+                    "ToBus": "777c1376-cba7-428e-99e8-a5394ff2772d",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "777c1376-cba7-428e-99e8-a5394ff2772d",
+                    "ToBus": "488d3f7e-67d2-4664-a10e-9a48b07778b5",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "488d3f7e-67d2-4664-a10e-9a48b07778b5",
+                    "ToBus": "77f316c0-79c6-465e-9961-4c8b2127f07e",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "77f316c0-79c6-465e-9961-4c8b2127f07e",
+                    "ToBus": "698d0ed0-261f-4468-a10d-901d8312b298",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "698d0ed0-261f-4468-a10d-901d8312b298",
+                    "ToBus": "36ee27ee-9d39-40ab-a645-189d794bff50",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "36ee27ee-9d39-40ab-a645-189d794bff50",
+                    "ToBus": "f787a186-98a9-4f8c-8151-8d9a8271ca90",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "f787a186-98a9-4f8c-8151-8d9a8271ca90",
+                    "ToBus": "b7c39c68-527e-40ea-88be-e44168efba20",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "b7c39c68-527e-40ea-88be-e44168efba20",
+                    "ToBus": "2836831f-de19-4c97-bbb2-6e6fbffb8c4e",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "2836831f-de19-4c97-bbb2-6e6fbffb8c4e",
+                    "ToBus": "b16b9c4e-805d-4f71-b6cf-83b4c48925b3",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "b16b9c4e-805d-4f71-b6cf-83b4c48925b3",
+                    "ToBus": "3667f4ba-0584-4f17-beb7-6512415e8b06",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "3667f4ba-0584-4f17-beb7-6512415e8b06",
+                    "ToBus": "710b96e6-58a9-46fa-a5ac-3aeeaff3e45f",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "710b96e6-58a9-46fa-a5ac-3aeeaff3e45f",
+                    "ToBus": "5507e05a-48cf-4c91-9ecc-984967a5f109",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "5507e05a-48cf-4c91-9ecc-984967a5f109",
+                    "ToBus": "f10b096f-8f69-410d-803d-28c56f0d66de",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "f10b096f-8f69-410d-803d-28c56f0d66de",
+                    "ToBus": "f1f8c1ea-4af2-4054-a7c6-944a9fea51f3",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "f1f8c1ea-4af2-4054-a7c6-944a9fea51f3",
+                    "ToBus": "90bedab5-e0da-4af1-845f-5ad6703800e4",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "90bedab5-e0da-4af1-845f-5ad6703800e4",
+                    "ToBus": "cc7f171d-c825-47ef-ba41-c2de5579d077",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "cc7f171d-c825-47ef-ba41-c2de5579d077",
+                    "ToBus": "fda3ef67-b7b7-4082-bbe4-00e326d17ae4",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "fda3ef67-b7b7-4082-bbe4-00e326d17ae4",
+                    "ToBus": "28570332-4d4e-4f84-9b7c-6b3d321c907a",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "28570332-4d4e-4f84-9b7c-6b3d321c907a",
+                    "ToBus": "ddd87069-8290-48bc-a07b-c466c5c84381",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "ddd87069-8290-48bc-a07b-c466c5c84381",
+                    "ToBus": "c89aa372-238c-4fce-b0d7-2597a9b9d2e6",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "c89aa372-238c-4fce-b0d7-2597a9b9d2e6",
+                    "ToBus": "239942e4-396e-4881-9dbe-0c80d82adcca",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "239942e4-396e-4881-9dbe-0c80d82adcca",
+                    "ToBus": "8038fd2d-6b4e-4fd3-80cf-4a38b5b778b4",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "8038fd2d-6b4e-4fd3-80cf-4a38b5b778b4",
+                    "ToBus": "c8152c0d-2c29-4822-986d-e57627695a7a",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "c8152c0d-2c29-4822-986d-e57627695a7a",
+                    "ToBus": "8fea461d-f42f-4bdb-9832-9569b8fa2780",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "8fea461d-f42f-4bdb-9832-9569b8fa2780",
+                    "ToBus": "0a61d272-ad5f-43c0-b880-51c0c2ec6af1",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "0a61d272-ad5f-43c0-b880-51c0c2ec6af1",
+                    "ToBus": "86d98d60-64fa-4b04-bd9c-8a8bd34df9aa",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "86d98d60-64fa-4b04-bd9c-8a8bd34df9aa",
+                    "ToBus": "efc8d891-a3da-4a08-9f06-daf2b5270493",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "efc8d891-a3da-4a08-9f06-daf2b5270493",
+                    "ToBus": "19965954-8efb-4135-86ee-0fa5b2cdd41f",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "19965954-8efb-4135-86ee-0fa5b2cdd41f",
+                    "ToBus": "640a5f02-a12a-4d5f-b43d-a163d1af7fe0",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "640a5f02-a12a-4d5f-b43d-a163d1af7fe0",
+                    "ToBus": "0ceea955-5a91-432b-9056-cd8d20f2010b",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "0ceea955-5a91-432b-9056-cd8d20f2010b",
+                    "ToBus": "e52fb123-bad1-421b-abb6-ca3d10e85a43",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "e52fb123-bad1-421b-abb6-ca3d10e85a43",
+                    "ToBus": "e326a2b9-e08f-435c-8bd6-9062e4d4a4aa",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "e326a2b9-e08f-435c-8bd6-9062e4d4a4aa",
+                    "ToBus": "1c6ae089-5fb2-4c05-bca0-eafab033ed42",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "1c6ae089-5fb2-4c05-bca0-eafab033ed42",
+                    "ToBus": "638db954-a306-4ce8-9cc2-6077d1cab36b",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "638db954-a306-4ce8-9cc2-6077d1cab36b",
+                    "ToBus": "7be6a872-b3a9-418e-bd5d-caa48a7afeed",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "7be6a872-b3a9-418e-bd5d-caa48a7afeed",
+                    "ToBus": "f8eee56c-e371-42d7-b031-af8f1d0591e3",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "f8eee56c-e371-42d7-b031-af8f1d0591e3",
+                    "ToBus": "2750b14b-a576-4aa3-8fdf-0e4a7733e034",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "2750b14b-a576-4aa3-8fdf-0e4a7733e034",
+                    "ToBus": "5c320c37-4f31-4905-a1b1-1774cb34f2ef",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "5c320c37-4f31-4905-a1b1-1774cb34f2ef",
+                    "ToBus": "5ef222c7-a135-41f7-93f6-c08e88e0e219",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "5ef222c7-a135-41f7-93f6-c08e88e0e219",
+                    "ToBus": "371c5504-8b57-4375-9669-67808b5051f3",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "371c5504-8b57-4375-9669-67808b5051f3",
+                    "ToBus": "1ce51cbd-adc4-4121-8742-670fe86513c9",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "1ce51cbd-adc4-4121-8742-670fe86513c9",
+                    "ToBus": "7f150543-f006-481b-a541-1919b0a490b2",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "7f150543-f006-481b-a541-1919b0a490b2",
+                    "ToBus": "7ad75674-ef8b-4dbf-9b99-0b459f0b0e86",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "7ad75674-ef8b-4dbf-9b99-0b459f0b0e86",
+                    "ToBus": "cc5a1307-381b-4471-9edb-bd6530332458",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "cc5a1307-381b-4471-9edb-bd6530332458",
+                    "ToBus": "18b3a513-4b4f-4dff-b70a-ec8374ea0ddf",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "18b3a513-4b4f-4dff-b70a-ec8374ea0ddf",
+                    "ToBus": "6f97e4c3-2f5b-4631-9e0e-6db209a333f4",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "6f97e4c3-2f5b-4631-9e0e-6db209a333f4",
+                    "ToBus": "5645e79d-c0c2-44de-8970-6a20d5114530",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "5645e79d-c0c2-44de-8970-6a20d5114530",
+                    "ToBus": "c1878cd1-50ed-456c-b13f-a55c98f863d8",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                },
+                {
+                    "FromBus": "c1878cd1-50ed-456c-b13f-a55c98f863d8",
+                    "ToBus": "5aa53c6b-ee5b-4db0-ae9f-f4919a34620b",
+                    "StdType": "NAYY 4x50 SE",
+                    "LengthKm": 0.1
+                }
+            ]
+        }
+    }
+}
