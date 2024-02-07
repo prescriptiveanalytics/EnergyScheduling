@@ -16,6 +16,7 @@ reports/
 *.zip*
 data/
 output/
+scenarios/
 
 # direnv
 .envrc
